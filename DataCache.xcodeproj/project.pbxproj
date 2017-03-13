@@ -14,6 +14,13 @@
 		5C7184D51E76BD4D0000C85A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C7184D41E76BD4D0000C85A /* Assets.xcassets */; };
 		5C7184D81E76BD4D0000C85A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C7184D61E76BD4D0000C85A /* LaunchScreen.storyboard */; };
 		5C7184E31E76BD4D0000C85A /* DataCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7184E21E76BD4D0000C85A /* DataCacheTests.swift */; };
+		5C7184FE1E76BF4C0000C85A /* DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7184FD1E76BF4C0000C85A /* DataCache.swift */; };
+		5C7185061E76BFB30000C85A /* DateFormatter+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7185021E76BFB30000C85A /* DateFormatter+DataCache.swift */; };
+		5C7185071E76BFB30000C85A /* NSAttributeDescription+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7185031E76BFB30000C85A /* NSAttributeDescription+DataCache.swift */; };
+		5C7185081E76BFB30000C85A /* NSEntityDescription+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7185041E76BFB30000C85A /* NSEntityDescription+DataCache.swift */; };
+		5C7185091E76BFB30000C85A /* NSManagedObject+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7185051E76BFB30000C85A /* NSManagedObject+DataCache.swift */; };
+		5C71850B1E76BFD60000C85A /* CamelSnake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71850A1E76BFD60000C85A /* CamelSnake.swift */; };
+		5C71850D1E76BFED0000C85A /* Jsonifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71850C1E76BFED0000C85A /* Jsonifiable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +45,13 @@
 		5C7184DE1E76BD4D0000C85A /* DataCacheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataCacheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C7184E21E76BD4D0000C85A /* DataCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCacheTests.swift; sourceTree = "<group>"; };
 		5C7184E41E76BD4D0000C85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5C7184FD1E76BF4C0000C85A /* DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCache.swift; sourceTree = "<group>"; };
+		5C7185021E76BFB30000C85A /* DateFormatter+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+DataCache.swift"; sourceTree = "<group>"; };
+		5C7185031E76BFB30000C85A /* NSAttributeDescription+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributeDescription+DataCache.swift"; sourceTree = "<group>"; };
+		5C7185041E76BFB30000C85A /* NSEntityDescription+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+DataCache.swift"; sourceTree = "<group>"; };
+		5C7185051E76BFB30000C85A /* NSManagedObject+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+DataCache.swift"; sourceTree = "<group>"; };
+		5C71850A1E76BFD60000C85A /* CamelSnake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CamelSnake.swift; sourceTree = "<group>"; };
+		5C71850C1E76BFED0000C85A /* Jsonifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jsonifiable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,13 +93,11 @@
 		5C7184C91E76BD4D0000C85A /* DataCache */ = {
 			isa = PBXGroup;
 			children = (
-				5C7184CA1E76BD4D0000C85A /* AppDelegate.swift */,
-				5C7184CC1E76BD4D0000C85A /* ViewController.swift */,
-				5C7184CE1E76BD4D0000C85A /* Main.storyboard */,
-				5C7184D41E76BD4D0000C85A /* Assets.xcassets */,
-				5C7184D61E76BD4D0000C85A /* LaunchScreen.storyboard */,
-				5C7184D91E76BD4D0000C85A /* Info.plist */,
-				5C7184D11E76BD4D0000C85A /* DataCache.xcdatamodeld */,
+				5C7184FF1E76BF560000C85A /* Extensions */,
+				5C7185011E76BF680000C85A /* Helpers */,
+				5C7185001E76BF600000C85A /* Protocols */,
+				5C71850E1E76C16C0000C85A /* iOSDemo */,
+				5C7184FD1E76BF4C0000C85A /* DataCache.swift */,
 			);
 			path = DataCache;
 			sourceTree = "<group>";
@@ -97,6 +109,48 @@
 				5C7184E41E76BD4D0000C85A /* Info.plist */,
 			);
 			path = DataCacheTests;
+			sourceTree = "<group>";
+		};
+		5C7184FF1E76BF560000C85A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5C7185021E76BFB30000C85A /* DateFormatter+DataCache.swift */,
+				5C7185031E76BFB30000C85A /* NSAttributeDescription+DataCache.swift */,
+				5C7185041E76BFB30000C85A /* NSEntityDescription+DataCache.swift */,
+				5C7185051E76BFB30000C85A /* NSManagedObject+DataCache.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5C7185001E76BF600000C85A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				5C71850C1E76BFED0000C85A /* Jsonifiable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		5C7185011E76BF680000C85A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				5C71850A1E76BFD60000C85A /* CamelSnake.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		5C71850E1E76C16C0000C85A /* iOSDemo */ = {
+			isa = PBXGroup;
+			children = (
+				5C7184CA1E76BD4D0000C85A /* AppDelegate.swift */,
+				5C7184D41E76BD4D0000C85A /* Assets.xcassets */,
+				5C7184D11E76BD4D0000C85A /* DataCache.xcdatamodeld */,
+				5C7184D91E76BD4D0000C85A /* Info.plist */,
+				5C7184D61E76BD4D0000C85A /* LaunchScreen.storyboard */,
+				5C7184CE1E76BD4D0000C85A /* Main.storyboard */,
+				5C7184CC1E76BD4D0000C85A /* ViewController.swift */,
+			);
+			name = iOSDemo;
+			path = iOSDemo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,7 +258,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C7185091E76BFB30000C85A /* NSManagedObject+DataCache.swift in Sources */,
+				5C7185061E76BFB30000C85A /* DateFormatter+DataCache.swift in Sources */,
+				5C71850D1E76BFED0000C85A /* Jsonifiable.swift in Sources */,
+				5C7185071E76BFB30000C85A /* NSAttributeDescription+DataCache.swift in Sources */,
+				5C7184FE1E76BF4C0000C85A /* DataCache.swift in Sources */,
+				5C7185081E76BFB30000C85A /* NSEntityDescription+DataCache.swift in Sources */,
 				5C7184CD1E76BD4D0000C85A /* ViewController.swift in Sources */,
+				5C71850B1E76BFD60000C85A /* CamelSnake.swift in Sources */,
 				5C7184CB1E76BD4D0000C85A /* AppDelegate.swift in Sources */,
 				5C7184D31E76BD4D0000C85A /* DataCache.xcdatamodeld in Sources */,
 			);
@@ -235,6 +296,7 @@
 				5C7184CF1E76BD4D0000C85A /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		5C7184D61E76BD4D0000C85A /* LaunchScreen.storyboard */ = {
@@ -243,6 +305,7 @@
 				5C7184D71E76BD4D0000C85A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -344,11 +407,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 68M9JL23T5;
-				INFOPLIST_FILE = DataCache/Info.plist;
+				INFOPLIST_FILE = DataCache/iOSDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.DataCache;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -357,11 +422,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 68M9JL23T5;
-				INFOPLIST_FILE = DataCache/Info.plist;
+				INFOPLIST_FILE = DataCache/iOSDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.DataCache;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -414,6 +481,7 @@
 				5C7184E91E76BD4D0000C85A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5C7184EA1E76BD4D0000C85A /* Build configuration list for PBXNativeTarget "DataCacheTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +490,7 @@
 				5C7184EC1E76BD4D0000C85A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
