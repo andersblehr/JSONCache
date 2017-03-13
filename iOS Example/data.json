@@ -1,0 +1,284 @@
+{
+    "albums": [
+        {
+            "band": "Roxy Music",
+            "label": "Island",
+            "name": "Roxy Music",
+            "released": 1972
+        },
+        {
+            "band": "Roxy Music",
+            "label": "Island",
+            "name": "For Your Pleasure",
+            "released": 1973
+        },
+        {
+            "band": "Roxy Music", 
+            "label": "Island", 
+            "name": "Stranded", 
+            "released": 1973
+        }, 
+        {
+            "band": "Roxy Music", 
+            "label": "Island", 
+            "name": "Country Life", 
+            "released": 1974
+        }, 
+        {
+            "band": "Roxy Music", 
+            "label": "Island", 
+            "name": "Siren", 
+            "released": 1975
+        }, 
+        {
+            "band": "Roxy Music", 
+            "label": "Island", 
+            "name": "Viva!", 
+            "released": 1976
+        }, 
+        {
+            "band": "Roxy Music", 
+            "label": "E.G.", 
+            "name": "Manifesto", 
+            "released": 1979
+        }, 
+        {
+            "band": "Roxy Music", 
+            "label": "E.G.", 
+            "name": "Flesh + Blood", 
+            "released": 1980
+        }, 
+        {
+            "band": "Roxy Music", 
+            "label": "E.G.", 
+            "name": "Avalon", 
+            "released": 1982
+        }, 
+        {
+            "band": "Roxy Music",
+            "label": "E.G.",
+            "name": "The High Road",
+            "released": 1983
+        },
+        {
+            "band": "Japan", 
+            "label": "Hansa", 
+            "name": "Adolescent Sex", 
+            "released": 1978
+        }, 
+        {
+            "band": "Japan", 
+            "label": "Hansa", 
+            "name": "Obscure Alternatives", 
+            "released": 1978
+        }, 
+        {
+            "band": "Japan", 
+            "label": "Hansa", 
+            "name": "Quiet Life", 
+            "released": 1979
+        }, 
+        {
+            "band": "Japan", 
+            "label": "Virgin", 
+            "name": "Gentlemen Take Polaroids", 
+            "released": 1980
+        }, 
+        {
+            "band": "Japan", 
+            "label": "Virgin", 
+            "name": "Tin Drum", 
+            "released": 1981
+        }, 
+        {
+            "band": "Japan", 
+            "label": "Virgin", 
+            "name": "Oil on Canvas", 
+            "released": 1983
+        }, 
+        {
+            "band": "Japan", 
+            "label": "Virgin", 
+            "released_as": "Rain Tree Crow", 
+            "name": "Rain Tree Crow", 
+            "released": 1991
+        }
+    ],
+    "bands": [
+        {
+            "formed": 1972, 
+            "hiatus": "1976-1978", 
+            "name": "Roxy Music", 
+            "disbanded": 1982
+        }, 
+        {
+            "other_names": "Rain Tree Crow", 
+            "formed": 1974, 
+            "hiatus": "1982-1990", 
+            "name": "Japan", 
+            "disbanded": 1991
+        }
+    ],
+    "band_members": [
+        {
+            "id": "Bryan Ferry in Roxy Music",
+            "band": "Roxy Music", 
+            "musician": "Bryan Ferry", 
+            "instruments": "Lead vocals, keyboards, guitar",
+            "joined": 1972, 
+            "left": 1983
+        }, 
+        {
+            "id": "Phil Manzanera in Roxy Music",
+            "band": "Roxy Music",
+            "musician": "Phil Manzanera", 
+            "instruments": "Guitar",
+            "joined": 1972, 
+            "left": 1983
+        }, 
+        {
+            "id": "Andy Mackay in Roxy Music",
+            "band": "Roxy Music",
+            "musician": "Andy Mackay", 
+            "instruments": "Sax, oboe",
+            "joined": 1972, 
+            "left": 1983
+        }, 
+        {
+            "id": "Paul Thompson in Roxy Music",
+            "band": "Roxy Music",
+            "musician": "Paul Thompson", 
+            "instruments": "Drums",
+            "joined": 1972, 
+            "left": 1979
+        }, 
+        {
+            "id": "Brian Eno in Roxy Music",
+            "band": "Roxy Music",
+            "musician": "Brian Eno", 
+            "instruments": "Synth, keyboards",
+            "joined": 1972, 
+            "left": 1973
+        }, 
+        {
+            "id": "Graham Simpson in Roxy Music",
+            "band": "Roxy Music",
+            "musician": "Graham Simpson", 
+            "instruments": "Bass",
+            "joined": 1972, 
+            "left": 1972
+        }, 
+        {
+            "id": "Eddie Jobson in Roxy Music",
+            "band": "Roxy Music",
+            "musician": "Eddie Jobson", 
+            "instruments": "Keyboards, violin",
+            "joined": 1973, 
+            "left": 1975
+        }, 
+        {
+            "id": "David Sylvian in Japan",
+            "band": "Japan", 
+            "musician": "David Sylvian", 
+            "instruments": "Lead vocals, keyboards, guitar",
+            "joined": 1978, 
+            "left": 1991
+        }, 
+        {
+            "id": "Mick Karn in Japan",
+            "band": "Japan",
+            "musician": "Mick Karn", 
+            "instruments": "Bass, sax, vocals",
+            "joined": 1978, 
+            "left": 1991
+        }, 
+        {
+            "id": "Steve Jansen in Japan",
+            "band": "Japan",
+            "musician": "Steve Jansen", 
+            "instruments": "Drums",
+            "joined": 1978, 
+            "left": 1991
+        }, 
+        {
+            "id": "Richard Barbieri in Japan",
+            "band": "Japan",
+            "musician": "Richard Barbieri", 
+            "instruments": "Keyboards",
+            "joined": 1978, 
+            "left": 1991
+        }, 
+        {
+            "id": "Rob Dean in Japan",
+            "band": "Japan",
+            "musician": "Rob Dean", 
+            "instruments": "Guitar",
+            "joined": 1978, 
+            "left": 1981
+        }
+    ],
+    "musicians": [
+        {
+            "born": 1945, 
+            "name": "Bryan Ferry", 
+            "instruments": "Vocals, keyboards, guitar"
+        }, 
+        {
+            "born": 1951, 
+            "name": "Phil Manzanera", 
+            "instruments": "Guitar, vocals, bass, keyboards"
+        }, 
+        {
+            "born": 1946, 
+            "name": "Andy Mackay", 
+            "instruments": "Sax, oboe, keyboards, violin, vocals"
+        }, 
+        {
+            "born": 1951, 
+            "name": "Paul Thompson", 
+            "instruments": "Drums, guitar"
+        }, 
+        {
+            "born": 1948, 
+            "name": "Brian Eno", 
+            "instruments": "Synth, keyboards, vocals, sax, guitar, bass"
+        }, 
+        {
+            "born": 1943, 
+            "name": "Graham Simpson", 
+            "instruments": "Guitar, bass"
+        }, 
+        {
+            "born": 1955, 
+            "name": "Eddie Jobson", 
+            "instruments": "Violin, keyboards, vocals"
+        }, 
+        {
+            "born": 1958, 
+            "name": "David Sylvian", 
+            "instruments": "Vocals, guitar, keyboards"
+        }, 
+        {
+            "born": 1958, 
+            "name": "Mick Karn", 
+            "dead": 2011, 
+            "instruments": "Bass, keyboards, sax, clarinet, oboe, keyboards"
+        }, 
+        {
+            "born": 1959, 
+            "name": "Steve Jansen", 
+            "instruments": "Drums, keyboards, vocals"
+        }, 
+        {
+            "born": 1957, 
+            "name": "Richard Barbieri", 
+            "instruments": "Keyboards"
+        }, 
+        {
+            "born": 1955, 
+            "name": "Rob Dean", 
+            "instruments": "Guitar, vocals"
+        }
+    ]
+}
+    

@@ -1,5 +1,6 @@
 //
 //  CamelSnake.swift
+//  DataCache
 //
 //  Created by Anders Blehr on 09/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.

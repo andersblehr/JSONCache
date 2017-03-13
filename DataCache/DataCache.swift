@@ -1,5 +1,6 @@
 //
 //  DataCache.swift
+//  DataCache
 //
 //  Created by Anders Blehr on 07/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.
@@ -73,29 +74,29 @@ internal struct DataCache {
         for (entityName, dictionaries) in stagedDictionariesByEntityName {
             for dictionary in dictionaries {
                 let identifierName = NSEntityDescription.entity(forEntityName: entityName, in: context)!.identifierName!
-                let objectId = dictionary[identifierName] as! String
+                let objectId = dictionary[identifierName] as! AnyHashable
                 
                 var object = try fetchObject(ofType: entityName, withId: objectId)
                 if object == nil {
                     object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
-                    objectsById[objectId] = object
-                    dictionariesById[objectId] = dictionary
+                    objectsByEntityAndId["\(entityName).\(objectId)"] = object
+                    dictionariesByEntityAndId["\(entityName).\(objectId)"] = dictionary
                 }
                 
                 object!.setAttributes(fromDictionary: dictionary)
             }
         }
         
-        for (objectId, object) in objectsById {
+        for (objectEntityAndId, object) in objectsByEntityAndId {
             for (relationshipName, relationship) in object.entity.relationshipsByName {
                 if !relationship.isToMany {
-                    let dictionary = dictionariesById[objectId]!
+                    let dictionary = dictionariesByEntityAndId[objectEntityAndId]!
                     let destinationId = dictionary[relationshipName] as! AnyHashable
+                    let destinationEntityName = relationship.destinationEntity!.name!
                     
-                    if let destinationObject = objectsById[destinationId] {
+                    if let destinationObject = objectsByEntityAndId["\(destinationEntityName).\(destinationId)"] {
                         object.setValue(destinationObject, forKey: relationshipName)
                     } else {
-                        let destinationEntityName = relationship.destinationEntity!.name!
                         if let destinationObject = try DataCache.cache.fetchObject(ofType: destinationEntityName, withId: destinationId) {
                             object.setValue(destinationObject, forKey: relationshipName)
                         }
@@ -107,8 +108,8 @@ internal struct DataCache {
         try save()
         
         stagedDictionariesByEntityName.removeAll()
-        dictionariesById.removeAll()
-        objectsById.removeAll()
+        dictionariesByEntityAndId.removeAll()
+        objectsByEntityAndId.removeAll()
     }
     
     
@@ -151,8 +152,8 @@ internal struct DataCache {
     // MARK: - Private implementation details
     
     private var stagedDictionariesByEntityName = [String: [[String: Any]]]()
-    private var dictionariesById = [AnyHashable: [String: Any]]()
-    private var objectsById = [AnyHashable: NSManagedObject]()
+    private var dictionariesByEntityAndId = [AnyHashable: [String: Any]]()
+    private var objectsByEntityAndId = [AnyHashable: NSManagedObject]()
     
     
     private init() {  }
