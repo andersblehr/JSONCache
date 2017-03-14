@@ -11,13 +11,13 @@ import Foundation
 
 protocol Jsonifiable {
     
-    func toDictionary(withCasing casing: CamelSnake.Casing) -> [String: Any]
+    func toJSONDictionary() -> [String: Any]
 }
 
 
 extension Jsonifiable {
     
-    func toDictionary(withCasing casing: CamelSnake.Casing = .snake_case) -> [String: Any] {
+    func toJSONDictionary() -> [String: Any] {
         
         var dictionary = [String: Any]()
         let isStruct = !(type(of:self) is AnyClass)
@@ -32,6 +32,6 @@ extension Jsonifiable {
             }
         }
         
-        return casing == .camelCase ? dictionary : CamelSnake.convert(dictionary: dictionary, toCase: .snake_case)
+        return JSONConverter.convert(.toJSON, dictionary: dictionary)
     }
 }

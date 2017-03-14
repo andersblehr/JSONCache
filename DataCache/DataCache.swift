@@ -49,20 +49,17 @@ internal struct DataCache {
     
     // MARK: - Loading JSON dictionaries into Core Data
     
-    internal mutating func stageChanges(withDictionary dictionary: [String: Any], forEntityWithName entityName: String, casing: CamelSnake.Casing = .snake_case) {
+    internal mutating func stageChanges(withDictionary dictionary: [String: Any], forEntityWithName entityName: String) {
         
-        stageChanges(withDictionaries: [dictionary], forEntityWithName: entityName, casing: casing)
+        stageChanges(withDictionaries: [dictionary], forEntityWithName: entityName)
     }
     
     
-    internal mutating func stageChanges(withDictionaries dictionaries: [[String: Any]], forEntityWithName entityName: String, casing: CamelSnake.Casing = .snake_case) {
+    internal mutating func stageChanges(withDictionaries dictionaries: [[String: Any]], forEntityWithName entityName: String) {
         
         var stagedDictionaries = [[String: Any]]()
-        
         for dictionary in dictionaries {
-            let camelCaseDictionary = casing == .camelCase ? dictionary : CamelSnake.convert(dictionary: dictionary, toCase: .camelCase, qualifier: entityName)
-            
-            stagedDictionaries.append(camelCaseDictionary)
+            stagedDictionaries.append(JSONConverter.convert(.fromJSON, dictionary: dictionary, qualifier: entityName))
         }
         
         stagedDictionariesByEntityName[entityName] = stagedDictionaries

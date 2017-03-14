@@ -38,6 +38,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let bandMembers = jsonObject["band_members"] as! [[String: Any]]
             let musicians = jsonObject["musicians"] as! [[String: Any]]
             
+            JSONConverter.casing = .snake_case
+            JSONConverter.dateFormat = .iso8601WithSeparators
+            
             DataCache.cache.modelName = "DataCache"
             DataCache.cache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
             DataCache.cache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
@@ -93,12 +96,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell = tableView.dequeueReusableCell(withIdentifier: "member")
             cell.textLabel!.text = "\(musician.name!): \(member.instruments!)"
             cell.detailTextLabel!.text = "\(member.joined)-\(member.left) \(musician.dead != 0 ? "(died \(musician.dead))" : "")"
+            cell.isUserInteractionEnabled = false
         } else {
             let album = albumResultsController.object(at: indexPath)
             
             cell = tableView.dequeueReusableCell(withIdentifier: "album")
             cell.textLabel!.text = album.name!
             cell.detailTextLabel!.text = "\(album.label!) \(album.released)\(album.releasedAs != nil ? ". Released as \(album.releasedAs!)" : "")"
+            cell.isUserInteractionEnabled = false
         }
         
         return cell

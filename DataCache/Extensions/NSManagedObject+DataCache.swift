@@ -28,7 +28,7 @@ extension NSManagedObject: Jsonifiable {
         for (attributeName, attribute) in self.entity.attributesByName {
             if let value = dictionary[attributeName] {
                 if attribute.attributeType == .dateAttributeType {
-                    self.setValue(DateFormatter.dateTime(from: value as! String), forKey: attributeName)
+                    self.setValue(Date(fromJSONValue: value), forKey: attributeName)
                 } else {
                     self.setValue(value, forKey: attributeName)
                 }
@@ -39,13 +39,17 @@ extension NSManagedObject: Jsonifiable {
     
     // MARK: - Jsonifiable conformance
     
-    internal func toDictionary(withCasing casing: CamelSnake.Casing = .snake_case) -> [String: Any] {
+    internal func toJSONDictionary() -> [String: Any] {
         
         var dictionary = [String: Any]()
         
-        for (attributeName, _) in self.entity.attributesByName {
+        for (attributeName, attribute) in self.entity.attributesByName {
             if let value = self.value(forKey: attributeName) {
-                dictionary[attributeName] = value
+                if attribute.attributeType == .dateAttributeType {
+                    dictionary[attributeName] = (value as! Date).toJSONValue()
+                } else {
+                    dictionary[attributeName] = value
+                }
             }
         }
         
@@ -65,6 +69,6 @@ extension NSManagedObject: Jsonifiable {
             }
         }
         
-        return casing == .camelCase ? dictionary : CamelSnake.convert(dictionary: dictionary, toCase: .snake_case)
+        return JSONConverter.convert(.toJSON, dictionary: dictionary)
     }
 }
