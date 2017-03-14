@@ -7,7 +7,7 @@
                 <entry key="DC.isIdentifier" value="true"/>
             </userInfo>
         </attribute>
-        <attribute name="released" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="released" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="releasedAs" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="band" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Band" inverseName="albums" inverseEntity="Band" syncable="YES"/>
     </entity>
@@ -44,9 +44,9 @@
         <relationship name="bands" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BandMember" inverseName="musician" inverseEntity="BandMember" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Band" positionX="-63" positionY="-18" width="128" height="150"/>
-        <element name="Musician" positionX="-54" positionY="27" width="128" height="120"/>
-        <element name="BandMember" positionX="-36" positionY="54" width="128" height="135"/>
         <element name="Album" positionX="-18" positionY="90" width="128" height="120"/>
+        <element name="Band" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="BandMember" positionX="-36" positionY="54" width="128" height="135"/>
+        <element name="Musician" positionX="-54" positionY="27" width="128" height="120"/>
     </elements>
 </model>

@@ -99,10 +99,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.isUserInteractionEnabled = false
         } else {
             let album = albumResultsController.object(at: indexPath)
+            let dateFormatter = DateFormatter()
+            dateFormatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+            dateFormatter.dateFormat = "MMMM yyyy"
             
             cell = tableView.dequeueReusableCell(withIdentifier: "album")
             cell.textLabel!.text = album.name!
-            cell.detailTextLabel!.text = "\(album.label!) \(album.released)\(album.releasedAs != nil ? ". Released as \(album.releasedAs!)" : "")"
+            cell.detailTextLabel!.text = "\(dateFormatter.string(from: album.released as! Date)) (\(album.label!))\(album.releasedAs != nil ? ". Released as \(album.releasedAs!)" : "")"
             cell.isUserInteractionEnabled = false
         }
         

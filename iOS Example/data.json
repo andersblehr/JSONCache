@@ -4,104 +4,104 @@
             "band": "Roxy Music",
             "label": "Island",
             "name": "Roxy Music",
-            "released": 1972
+            "released": "1972-06-16T00:00:00Z"
         },
         {
             "band": "Roxy Music",
             "label": "Island",
             "name": "For Your Pleasure",
-            "released": 1973
+            "released": "1973-03-23T00:00:00Z"
         },
         {
             "band": "Roxy Music", 
             "label": "Island", 
             "name": "Stranded", 
-            "released": 1973
+            "released": "1973-11-01T00:00:00Z"
         }, 
         {
             "band": "Roxy Music", 
             "label": "Island", 
             "name": "Country Life", 
-            "released": 1974
+            "released": "1974-11-15T00:00:00Z"
         }, 
         {
             "band": "Roxy Music", 
             "label": "Island", 
             "name": "Siren", 
-            "released": 1975
+            "released": "1975-10-24T00:00:00Z"
         }, 
         {
             "band": "Roxy Music", 
             "label": "Island", 
             "name": "Viva!", 
-            "released": 1976
+            "released": "1976-08-01T00:00:00Z"
         }, 
         {
             "band": "Roxy Music", 
             "label": "E.G.", 
             "name": "Manifesto", 
-            "released": 1979
+            "released": "1979-03-16T00:00:00Z"
         }, 
         {
             "band": "Roxy Music", 
             "label": "E.G.", 
             "name": "Flesh + Blood", 
-            "released": 1980
+            "released": "1980-05-23T00:00:00Z"
         }, 
         {
             "band": "Roxy Music", 
             "label": "E.G.", 
             "name": "Avalon", 
-            "released": 1982
+            "released": "1982-06-01T00:00:00Z"
         }, 
         {
             "band": "Roxy Music",
             "label": "E.G.",
             "name": "The High Road",
-            "released": 1983
+            "released": "1982-08-30T00:00:00Z"
         },
         {
             "band": "Japan", 
             "label": "Hansa", 
             "name": "Adolescent Sex", 
-            "released": 1978
+            "released": "1978-03-01T00:00:00Z"
         }, 
         {
             "band": "Japan", 
             "label": "Hansa", 
             "name": "Obscure Alternatives", 
-            "released": 1978
-        }, 
+            "released": "1978-10-01T00:00:00Z"
+        },
         {
             "band": "Japan", 
             "label": "Hansa", 
             "name": "Quiet Life", 
-            "released": 1979
-        }, 
+            "released": "1979-12-01T00:00:00Z"
+        },
         {
             "band": "Japan", 
             "label": "Virgin", 
             "name": "Gentlemen Take Polaroids", 
-            "released": 1980
+            "released": "1980-10-24T00:00:00Z"
         }, 
         {
             "band": "Japan", 
             "label": "Virgin", 
             "name": "Tin Drum", 
-            "released": 1981
+            "released": "1981-11-13T00:00:00Z"
         }, 
         {
             "band": "Japan", 
             "label": "Virgin", 
             "name": "Oil on Canvas", 
-            "released": 1983
+            "released": "1983-06-01T00:00:00Z"
         }, 
         {
             "band": "Japan", 
             "label": "Virgin", 
             "released_as": "Rain Tree Crow", 
             "name": "Rain Tree Crow", 
-            "released": 1991
+            "released": "1991-04-08T00:00:00Z"
         }
     ],
     "bands": [
@@ -114,7 +114,7 @@
         {
             "other_names": "Rain Tree Crow", 
             "formed": 1974, 
-            "hiatus": "1982-1990", 
+            "hiatus": "1982-1989",
             "name": "Japan", 
             "disbanded": 1991
         }
