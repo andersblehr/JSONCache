@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         
         do {
-            try DataCache.cache.save()
+            try DataCache.save()
         } catch let error as NSError {
             print("Error saving context: \(error.description)")
         }

@@ -12,12 +12,11 @@ import Foundation
 
 internal struct DataCache {
     
-    internal static var cache = DataCache()
-    internal var modelName: String! = nil
-    internal lazy var context: NSManagedObjectContext! = {
+    internal static var modelName: String! = nil
+    internal static var context: NSManagedObjectContext! = {
         
         if #available(iOS 10.0, *) {
-            let persistentContainer = NSPersistentContainer(name: self.modelName)
+            let persistentContainer = NSPersistentContainer(name: modelName)
             persistentContainer.loadPersistentStores { (_, error) in
                 
                 guard error == nil else {
@@ -27,11 +26,11 @@ internal struct DataCache {
             
             return persistentContainer.viewContext
         } else {
-            let modelURL = Bundle.main.url(forResource: self.modelName, withExtension: "momd")!
+            let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd")!
             let model = NSManagedObjectModel(contentsOf: modelURL)!
             let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
             let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
-            let persistentStoreURL = documentDirectoryURL.appendingPathComponent("\(self.modelName).sqlite")
+            let persistentStoreURL = documentDirectoryURL.appendingPathComponent("\(modelName).sqlite")
             
             do {
                 try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: persistentStoreURL, options: [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true])
@@ -49,13 +48,13 @@ internal struct DataCache {
     
     // MARK: - Loading JSON dictionaries into Core Data
     
-    internal mutating func stageChanges(withDictionary dictionary: [String: Any], forEntityWithName entityName: String) {
+    internal static func stageChanges(withDictionary dictionary: [String: Any], forEntityWithName entityName: String) {
         
         stageChanges(withDictionaries: [dictionary], forEntityWithName: entityName)
     }
     
     
-    internal mutating func stageChanges(withDictionaries dictionaries: [[String: Any]], forEntityWithName entityName: String) {
+    internal static func stageChanges(withDictionaries dictionaries: [[String: Any]], forEntityWithName entityName: String) {
         
         var stagedDictionaries = [[String: Any]]()
         for dictionary in dictionaries {
@@ -66,7 +65,7 @@ internal struct DataCache {
     }
     
     
-    internal mutating func applyChanges() throws {
+    internal static func applyChanges() throws {
         
         for (entityName, dictionaries) in stagedDictionariesByEntityName {
             for dictionary in dictionaries {
@@ -94,7 +93,7 @@ internal struct DataCache {
                     if let destinationObject = objectsByEntityAndId["\(destinationEntityName).\(destinationId)"] {
                         object.setValue(destinationObject, forKey: relationshipName)
                     } else {
-                        if let destinationObject = try DataCache.cache.fetchObject(ofType: destinationEntityName, withId: destinationId) {
+                        if let destinationObject = try fetchObject(ofType: destinationEntityName, withId: destinationId) {
                             object.setValue(destinationObject, forKey: relationshipName)
                         }
                     }
@@ -112,7 +111,7 @@ internal struct DataCache {
     
     // MARK: - General Core Data interaction
     
-    internal mutating func save() throws {
+    internal static func save() throws {
         
         if context.hasChanges {
             do {
@@ -126,7 +125,7 @@ internal struct DataCache {
     }
     
     
-    internal mutating func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable) throws -> ResultType? {
+    internal static func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable) throws -> ResultType? {
         
         let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)!
         let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
@@ -136,7 +135,7 @@ internal struct DataCache {
     }
     
     
-    internal mutating func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable]) throws -> [ResultType] {
+    internal static func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable]) throws -> [ResultType] {
         
         let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)!
         let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
@@ -148,9 +147,9 @@ internal struct DataCache {
     
     // MARK: - Private implementation details
     
-    private var stagedDictionariesByEntityName = [String: [[String: Any]]]()
-    private var dictionariesByEntityAndId = [AnyHashable: [String: Any]]()
-    private var objectsByEntityAndId = [AnyHashable: NSManagedObject]()
+    private static var stagedDictionariesByEntityName = [String: [[String: Any]]]()
+    private static var dictionariesByEntityAndId = [AnyHashable: [String: Any]]()
+    private static var objectsByEntityAndId = [AnyHashable: NSManagedObject]()
     
     
     private init() {  }

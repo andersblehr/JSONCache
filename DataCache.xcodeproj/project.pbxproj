@@ -80,9 +80,9 @@
 			isa = PBXGroup;
 			children = (
 				5C7184C91E76BD4D0000C85A /* DataCache */,
+				5C71850E1E76C16C0000C85A /* iOS Example */,
 				5C7184E11E76BD4D0000C85A /* DataCacheTests */,
 				5C7184C81E76BD4D0000C85A /* Products */,
-				5C71850E1E76C16C0000C85A /* iOS Example */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,9 +99,9 @@
 			isa = PBXGroup;
 			children = (
 				5C7184FF1E76BF560000C85A /* Extensions */,
-				5C7185011E76BF680000C85A /* JSON */,
 				5C7185001E76BF600000C85A /* Protocols */,
 				5C7184FD1E76BF4C0000C85A /* DataCache.swift */,
+				5C71850A1E76BFD60000C85A /* JSONConverter.swift */,
 			);
 			path = DataCache;
 			sourceTree = "<group>";
@@ -133,14 +133,6 @@
 				5C71850C1E76BFED0000C85A /* Jsonifiable.swift */,
 			);
 			path = Protocols;
-			sourceTree = "<group>";
-		};
-		5C7185011E76BF680000C85A /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				5C71850A1E76BFD60000C85A /* JSONConverter.swift */,
-			);
-			path = JSON;
 			sourceTree = "<group>";
 		};
 		5C71850E1E76C16C0000C85A /* iOS Example */ = {

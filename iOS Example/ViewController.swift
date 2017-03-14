@@ -41,12 +41,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             JSONConverter.casing = .snake_case
             JSONConverter.dateFormat = .iso8601WithSeparators
             
-            DataCache.cache.modelName = "DataCache"
-            DataCache.cache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
-            DataCache.cache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
-            DataCache.cache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
-            DataCache.cache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
-            try DataCache.cache.applyChanges()
+            DataCache.modelName = "DataCache"
+            DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
+            DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
+            DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
+            DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
+            try DataCache.applyChanges()
             
             try bandResultsController.performFetch()
         } catch  {
@@ -150,21 +150,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let fetchRequest = NSFetchRequest<Band>(entityName: "Band")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.cache.context, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
     private lazy var memberResultsController: NSFetchedResultsController<BandMember> = {
         let fetchRequest = NSFetchRequest<BandMember>(entityName: "BandMember")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "musician.name", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.cache.context, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
     private lazy var albumResultsController: NSFetchedResultsController<Album> = {
         let fetchRequest = NSFetchRequest<Album>(entityName: "Album")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "released", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.cache.context, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
 }
 
