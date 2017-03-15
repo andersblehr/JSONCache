@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C4954E01E7961F900B866AF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4954DF1E7961F900B866AF /* Result.swift */; };
 		5C7184CB1E76BD4D0000C85A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7184CA1E76BD4D0000C85A /* AppDelegate.swift */; };
 		5C7184CD1E76BD4D0000C85A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7184CC1E76BD4D0000C85A /* ViewController.swift */; };
 		5C7184D01E76BD4D0000C85A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C7184CE1E76BD4D0000C85A /* Main.storyboard */; };
@@ -20,8 +21,8 @@
 		5C7185081E76BFB30000C85A /* NSEntityDescription+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7185041E76BFB30000C85A /* NSEntityDescription+DataCache.swift */; };
 		5C7185091E76BFB30000C85A /* NSManagedObject+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7185051E76BFB30000C85A /* NSManagedObject+DataCache.swift */; };
 		5C71850B1E76BFD60000C85A /* JSONConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71850A1E76BFD60000C85A /* JSONConverter.swift */; };
-		5C71850D1E76BFED0000C85A /* Jsonifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71850C1E76BFED0000C85A /* Jsonifiable.swift */; };
-		5C7185101E76DC030000C85A /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C71850F1E76DC030000C85A /* data.json */; };
+		5C71850D1E76BFED0000C85A /* JSONifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71850C1E76BFED0000C85A /* JSONifiable.swift */; };
+		5C7185101E76DC030000C85A /* bands.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C71850F1E76DC030000C85A /* bands.json */; };
 		5C7185121E77DCC00000C85A /* Date+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7185111E77DCC00000C85A /* Date+DataCache.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5C4954DF1E7961F900B866AF /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		5C7184C71E76BD4D0000C85A /* DataCache.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataCache.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C7184CA1E76BD4D0000C85A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5C7184CC1E76BD4D0000C85A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,8 +55,8 @@
 		5C7185041E76BFB30000C85A /* NSEntityDescription+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+DataCache.swift"; sourceTree = "<group>"; };
 		5C7185051E76BFB30000C85A /* NSManagedObject+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+DataCache.swift"; sourceTree = "<group>"; };
 		5C71850A1E76BFD60000C85A /* JSONConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONConverter.swift; sourceTree = "<group>"; };
-		5C71850C1E76BFED0000C85A /* Jsonifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jsonifiable.swift; sourceTree = "<group>"; };
-		5C71850F1E76DC030000C85A /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		5C71850C1E76BFED0000C85A /* JSONifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONifiable.swift; path = Protocols/JSONifiable.swift; sourceTree = "<group>"; };
+		5C71850F1E76DC030000C85A /* bands.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bands.json; sourceTree = "<group>"; };
 		5C7185111E77DCC00000C85A /* Date+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+DataCache.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,9 +101,10 @@
 			isa = PBXGroup;
 			children = (
 				5C7184FF1E76BF560000C85A /* Extensions */,
-				5C7185001E76BF600000C85A /* Protocols */,
 				5C7184FD1E76BF4C0000C85A /* DataCache.swift */,
 				5C71850A1E76BFD60000C85A /* JSONConverter.swift */,
+				5C71850C1E76BFED0000C85A /* JSONifiable.swift */,
+				5C4954DF1E7961F900B866AF /* Result.swift */,
 			);
 			path = DataCache;
 			sourceTree = "<group>";
@@ -127,14 +130,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		5C7185001E76BF600000C85A /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				5C71850C1E76BFED0000C85A /* Jsonifiable.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
 		5C71850E1E76C16C0000C85A /* iOS Example */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,7 +138,7 @@
 				5C7184CC1E76BD4D0000C85A /* ViewController.swift */,
 				5C7184CE1E76BD4D0000C85A /* Main.storyboard */,
 				5C7184D61E76BD4D0000C85A /* LaunchScreen.storyboard */,
-				5C71850F1E76DC030000C85A /* data.json */,
+				5C71850F1E76DC030000C85A /* bands.json */,
 				5C7184D41E76BD4D0000C85A /* Assets.xcassets */,
 				5C7184D91E76BD4D0000C85A /* Info.plist */,
 			);
@@ -238,7 +233,7 @@
 				5C7184D81E76BD4D0000C85A /* LaunchScreen.storyboard in Resources */,
 				5C7184D51E76BD4D0000C85A /* Assets.xcassets in Resources */,
 				5C7184D01E76BD4D0000C85A /* Main.storyboard in Resources */,
-				5C7185101E76DC030000C85A /* data.json in Resources */,
+				5C7185101E76DC030000C85A /* bands.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,9 +254,10 @@
 				5C7185091E76BFB30000C85A /* NSManagedObject+DataCache.swift in Sources */,
 				5C7185121E77DCC00000C85A /* Date+DataCache.swift in Sources */,
 				5C7185061E76BFB30000C85A /* DateFormatter+DataCache.swift in Sources */,
-				5C71850D1E76BFED0000C85A /* Jsonifiable.swift in Sources */,
+				5C71850D1E76BFED0000C85A /* JSONifiable.swift in Sources */,
 				5C7185071E76BFB30000C85A /* NSAttributeDescription+DataCache.swift in Sources */,
 				5C7184FE1E76BF4C0000C85A /* DataCache.swift in Sources */,
+				5C4954E01E7961F900B866AF /* Result.swift in Sources */,
 				5C7185081E76BFB30000C85A /* NSEntityDescription+DataCache.swift in Sources */,
 				5C7184CD1E76BD4D0000C85A /* ViewController.swift in Sources */,
 				5C71850B1E76BFD60000C85A /* JSONConverter.swift in Sources */,

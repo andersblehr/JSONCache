@@ -10,9 +10,9 @@ import CoreData
 import Foundation
 
 
-extension NSManagedObject: Jsonifiable {
+extension NSManagedObject: JSONifiable {
     
-    internal var identifier: AnyHashable? {
+    public var identifier: AnyHashable? {
         get {
             if let identifierName = self.entity.identifierName {
                 return self.value(forKey: identifierName) as? AnyHashable
@@ -23,7 +23,7 @@ extension NSManagedObject: Jsonifiable {
     }
     
     
-    internal func setAttributes(fromDictionary dictionary: [String: Any]) {
+    public func setAttributes(fromDictionary dictionary: [String: Any]) {
         
         for (attributeName, attribute) in self.entity.attributesByName {
             if let value = dictionary[attributeName] {
@@ -39,7 +39,7 @@ extension NSManagedObject: Jsonifiable {
     
     // MARK: - Jsonifiable conformance
     
-    internal func toJSONDictionary() -> [String: Any] {
+    public func toJSONDictionary() -> [String: Any] {
         
         var dictionary = [String: Any]()
         

@@ -9,29 +9,29 @@
 import Foundation
 
 
-internal struct JSONConverter {
+public struct JSONConverter {
     
-    internal enum Direction {
+    public enum Direction {
         case fromJSON
         case toJSON
     }
     
-    internal enum Casing {
+    public enum Casing {
         case camelCase
         case snake_case
     }
     
-    internal enum DateFormat {
+    public enum DateFormat {
         case iso8601WithSeparators
         case iso8601WithoutSeparators
         case timeIntervalSince1970
     }
     
-    internal static var casing: Casing = .camelCase
-    internal static var dateFormat: DateFormat = .iso8601WithSeparators
+    public static var casing: Casing = .camelCase
+    public static var dateFormat: DateFormat = .iso8601WithSeparators
     
     
-    internal static func convert(_ direction: Direction, dictionary: [String: Any], qualifier: String? = nil) -> [String: Any] {
+    public static func convert(_ direction: Direction, dictionary: [String: Any], qualifier: String? = nil) -> [String: Any] {
         
         if casing == .camelCase {
             return dictionary
@@ -46,7 +46,7 @@ internal struct JSONConverter {
     }
     
     
-    internal static func convert(_ direction: Direction, string: String, qualifier: String? = nil) -> String {
+    public static func convert(_ direction: Direction, string: String, qualifier: String? = nil) -> String {
         
         if casing == .camelCase {
             return string

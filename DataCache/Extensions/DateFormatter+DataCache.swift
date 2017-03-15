@@ -9,15 +9,15 @@
 import Foundation
 
 
-internal extension DateFormatter {
+public extension DateFormatter {
     
-    internal static func date(fromISO8601String string: String) -> Date? {
+    public static func date(fromISO8601String string: String) -> Date? {
         
         return iso8601DateFormatter.date(from: string)
     }
     
     
-    internal static func iso8601String(from date: Date) -> String {
+    public static func iso8601String(from date: Date) -> String {
         
         return iso8601DateFormatter.string(from: date)
     }

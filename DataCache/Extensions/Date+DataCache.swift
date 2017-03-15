@@ -9,9 +9,9 @@
 import Foundation
 
 
-internal extension Date {
+public extension Date {
     
-    internal init(fromJSONValue value: Any) {
+    public init(fromJSONValue value: Any) {
         
         switch JSONConverter.dateFormat {
         case .iso8601WithSeparators, .iso8601WithoutSeparators:
@@ -30,7 +30,7 @@ internal extension Date {
     }
     
     
-    internal func toJSONValue() -> Any {
+    public func toJSONValue() -> Any {
         
         switch JSONConverter.dateFormat {
         case .iso8601WithSeparators, .iso8601WithoutSeparators:

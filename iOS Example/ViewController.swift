@@ -29,7 +29,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             memberTableView.dataSource = self
             albumTableView.dataSource = self
             
-            let filePath = Bundle.main.path(forResource: "data", ofType: "json")
+            let filePath = Bundle.main.path(forResource: "bands", ofType: "json")
             let fileData = try Data(contentsOf: URL(fileURLWithPath: filePath!))
             let jsonObject = try JSONSerialization.jsonObject(with: fileData) as! [String: Any]
             
@@ -46,9 +46,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
             DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
             DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
-            try DataCache.applyChanges()
-            
-            try bandResultsController.performFetch()
+            DataCache.applyChanges { (result) in
+
+                switch result {
+                case .success():
+                    do {
+                        try self.bandResultsController.performFetch()
+                        self.bandTableView.reloadData()
+                    } catch {
+                        print("An error occurred: \(error)")
+                    }
+                case .failure(let error):
+                    print("An error occurred: \(error)")
+                }
+            }
         } catch  {
             print("An error occurred: \(error)")
         }
@@ -59,7 +70,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        if tableView == bandTableView || selectedBand != nil {
+        if (tableView == bandTableView && bandResultsController.sections != nil) || selectedBand != nil {
             return 1
         }
         
@@ -153,21 +164,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let fetchRequest = NSFetchRequest<Band>(entityName: "Band")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.context, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
     private lazy var memberResultsController: NSFetchedResultsController<BandMember> = {
         let fetchRequest = NSFetchRequest<BandMember>(entityName: "BandMember")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "musician.name", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.context, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
     private lazy var albumResultsController: NSFetchedResultsController<Album> = {
         let fetchRequest = NSFetchRequest<Album>(entityName: "Album")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "released", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.context, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
     }()
 }
 

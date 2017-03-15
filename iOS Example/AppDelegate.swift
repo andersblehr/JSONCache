@@ -43,10 +43,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         
-        do {
-            try DataCache.save()
-        } catch let error as NSError {
-            print("Error saving context: \(error.description)")
+        switch DataCache.save() {
+        case .success():
+            break
+        case .failure(let error):
+            print("Error saving context: \(error)")
         }
     }
 }

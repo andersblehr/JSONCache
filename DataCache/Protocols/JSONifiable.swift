@@ -1,5 +1,5 @@
 //
-//  Jsonifiable.swift
+//  JSONifiable.swift
 //  DataCache
 //
 //  Created by Anders Blehr on 12/03/2017.
@@ -9,15 +9,15 @@
 import Foundation
 
 
-protocol Jsonifiable {
+public protocol JSONifiable {
     
     func toJSONDictionary() -> [String: Any]
 }
 
 
-extension Jsonifiable {
+public extension JSONifiable {
     
-    func toJSONDictionary() -> [String: Any] {
+    public func toJSONDictionary() -> [String: Any] {
         
         var dictionary = [String: Any]()
         let isStruct = !(type(of:self) is AnyClass)

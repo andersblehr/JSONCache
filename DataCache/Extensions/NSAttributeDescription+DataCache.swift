@@ -10,9 +10,9 @@ import CoreData
 import Foundation
 
 
-internal extension NSAttributeDescription {
+public extension NSAttributeDescription {
     
-    internal var isIdentifier: Bool {
+    public var isIdentifier: Bool {
         get {
             if let identifierFlag = self.userInfo!["DC.isIdentifier"] as? String {
                 return ["true", "yes"].contains(identifierFlag.lowercased())

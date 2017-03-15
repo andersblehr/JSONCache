@@ -10,9 +10,9 @@ import CoreData
 import Foundation
 
 
-internal extension NSEntityDescription {
+public extension NSEntityDescription {
 
-    internal var identifierName: String? {
+    public var identifierName: String? {
         get {
             for (attributeName, attribute) in self.attributesByName {
                 if attributeName == "id" || attribute.isIdentifier {
