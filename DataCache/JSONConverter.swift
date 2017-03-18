@@ -63,7 +63,8 @@ public struct JSONConverter {
                 
                 return convertedString
             } else if string == "description" && qualifier != nil {
-                return qualifier!.lowercased() + "Description"
+                var qualifier = qualifier!
+                return String(qualifier.remove(at: qualifier.startIndex)).lowercased() + qualifier + "Description"
             } else {
                 return string
             }

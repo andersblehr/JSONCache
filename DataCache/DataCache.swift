@@ -14,7 +14,7 @@ public enum BootstrapError: Error {
     case unsupportedPersistentStoreType(String)
     case modelNotFound(String)
     case modelInitializationError(URL)
-    case mainContextNotAvailable
+    case managedObjectContextNotAvailable
 }
 
 public enum Result<T> {
@@ -107,7 +107,7 @@ public struct DataCache {
     public static func applyChanges(completion: @escaping (_ result: Result<Void>) -> Void) {
         
         guard mainContext != nil else {
-            DispatchQueue.main.async { completion(Result.failure(BootstrapError.mainContextNotAvailable)) }
+            DispatchQueue.main.async { completion(Result.failure(BootstrapError.managedObjectContextNotAvailable)) }
             return
         }
         
@@ -120,7 +120,7 @@ public struct DataCache {
                     let identifierName = NSEntityDescription.entity(forEntityName: entityName, in: backgroundContext)!.identifierName!
                     let objectId = dictionary[identifierName] as! AnyHashable
                     
-                    switch fetchObject(ofType: entityName, withId: objectId) {
+                    switch fetchObject(ofType: entityName, withId: objectId, in: backgroundContext) {
                     case .success(var object):
                         if object == nil {
                             object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: backgroundContext)
@@ -145,7 +145,7 @@ public struct DataCache {
                         if let destinationObject = objectsByEntityAndId["\(destinationEntityName).\(destinationId)"] {
                             object.setValue(destinationObject, forKey: relationshipName)
                         } else {
-                            switch fetchObject(ofType: destinationEntityName, withId: destinationId) {
+                            switch fetchObject(ofType: destinationEntityName, withId: destinationId, in: backgroundContext) {
                             case .success(let destinationObject):
                                 if let destinationObject = destinationObject {
                                     object.setValue(destinationObject, forKey: relationshipName)
@@ -179,7 +179,7 @@ public struct DataCache {
     }
     
     
-    // MARK: - General Core Data interaction
+    // MARK: - Core Data interaction
     
     public static func save(context: NSManagedObjectContext = mainContext) -> Result<Void> {
         
@@ -196,14 +196,18 @@ public struct DataCache {
     }
     
     
-    public static func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable) -> Result<ResultType?> {
+    public static func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable, in context: NSManagedObjectContext? = mainContext) -> Result<ResultType?> {
         
-        let entity = NSEntityDescription.entity(forEntityName: entityName, in: mainContext)!
+        guard context != nil else {
+            return Result.failure(BootstrapError.managedObjectContextNotAvailable)
+        }
+        
+        let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!)!
         let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
         fetchRequest.predicate = NSPredicate(format: "%K == %@", entity.identifierName!, identifier as CVarArg)
         
         do {
-            let object = try mainContext.fetch(fetchRequest).first
+            let object = try context!.fetch(fetchRequest).first
             return Result.success(object)
         } catch {
             return Result.failure(error)
@@ -211,15 +215,19 @@ public struct DataCache {
     }
     
     
-    public static func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable]) -> Result<[ResultType]> {
+    public static func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable], in context: NSManagedObjectContext? = mainContext) -> Result<[ResultType]> {
         
-        let entity = NSEntityDescription.entity(forEntityName: entityName, in: mainContext)!
+        guard context != nil else {
+            return Result.failure(BootstrapError.managedObjectContextNotAvailable)
+        }
+        
+        let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!)!
         let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
         fetchRequest.predicate = NSPredicate(format: "%K IN %@", entity.identifierName!, identifiers)
         
         do {
-            let objects = try mainContext.fetch(fetchRequest).first
-            return Result.success(objects as! [ResultType])
+            let objects = try context!.fetch(fetchRequest)
+            return Result.success(objects)
         } catch {
             return Result.failure(error)
         }

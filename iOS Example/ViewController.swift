@@ -24,53 +24,49 @@ class ViewController: UIViewController {
         
         super.viewDidLoad()
         
-        do {
-            bandTableView.dataSource = self
-            bandTableView.delegate = self
-            bandDescriptionLabel.text = nil
-            memberTableView.dataSource = self
-            albumTableView.dataSource = self
+        bandTableView.dataSource = self
+        bandTableView.delegate = self
+        bandDescriptionLabel.text = nil
+        memberTableView.dataSource = self
+        albumTableView.dataSource = self
+        
+        let filePath = Bundle.main.path(forResource: "bands", ofType: "json")
+        let fileData = try! Data(contentsOf: URL(fileURLWithPath: filePath!))
+        let jsonObject = try! JSONSerialization.jsonObject(with: fileData) as! [String: Any]
+        
+        let albums = jsonObject["albums"] as! [[String: Any]]
+        let bands = jsonObject["bands"] as! [[String: Any]]
+        let bandMembers = jsonObject["band_members"] as! [[String: Any]]
+        let musicians = jsonObject["musicians"] as! [[String: Any]]
+        
+        JSONConverter.casing = .snake_case
+        JSONConverter.dateFormat = .iso8601WithSeparators
+        
+        DataCache.bootstrap(withModelName: "DataCache", inMemory: true) { (result) in
             
-            let filePath = Bundle.main.path(forResource: "bands", ofType: "json")
-            let fileData = try Data(contentsOf: URL(fileURLWithPath: filePath!))
-            let jsonObject = try JSONSerialization.jsonObject(with: fileData) as! [String: Any]
-            
-            let albums = jsonObject["albums"] as! [[String: Any]]
-            let bands = jsonObject["bands"] as! [[String: Any]]
-            let bandMembers = jsonObject["band_members"] as! [[String: Any]]
-            let musicians = jsonObject["musicians"] as! [[String: Any]]
-            
-            JSONConverter.casing = .snake_case
-            JSONConverter.dateFormat = .iso8601WithSeparators
-            
-            DataCache.bootstrap(withModelName: "DataCache", inMemory: true) { (result) in
-                
-                switch result {
-                case .success:
-                    DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
-                    DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
-                    DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
-                    DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
-                    DataCache.applyChanges { (result) in
-                        
-                        switch result {
-                        case .success:
-                            do {
-                                try self.bandResultsController.performFetch()
-                                self.bandTableView.reloadData()
-                            } catch {
-                                print("An error occurred: \(error)")
-                            }
-                        case .failure(let error):
+            switch result {
+            case .success:
+                DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
+                DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
+                DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
+                DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
+                DataCache.applyChanges { (result) in
+                    
+                    switch result {
+                    case .success:
+                        do {
+                            try self.bandResultsController.performFetch()
+                            self.bandTableView.reloadData()
+                        } catch {
                             print("An error occurred: \(error)")
                         }
+                    case .failure(let error):
+                        print("An error occurred: \(error)")
                     }
-                case .failure(let error):
-                    print("An error occurred: \(error)")
                 }
+            case .failure(let error):
+                print("An error occurred: \(error)")
             }
-        } catch  {
-            print("An error occurred: \(error)")
         }
     }
     
@@ -143,8 +139,8 @@ extension ViewController: UITableViewDataSource {
             let musician = member.musician!
             
             cell = tableView.dequeueReusableCell(withIdentifier: "member")
-            cell.textLabel!.text = "\(musician.name!): \(member.instruments!)"
-            cell.detailTextLabel!.text = "\(member.joined)-\(member.left) \(musician.dead != 0 ? "(died \(musician.dead))" : "")"
+            cell.textLabel!.text = "\(musician.name!) \(musician.dead != 0 ? "(died \(musician.dead))" : "")"
+            cell.detailTextLabel!.text = "\(member.instruments!) (\(member.joined)-\(member.left))"
             cell.isUserInteractionEnabled = false
         } else {
             let album = albumResultsController.object(at: indexPath)
