@@ -106,17 +106,19 @@
     ],
     "bands": [
         {
-            "formed": 1972, 
+            "formed": 1971,
             "hiatus": "1976-1978", 
             "name": "Roxy Music", 
-            "disbanded": 1982
+            "disbanded": 1982,
+            "description": "Somehow, in a landscape dominated by Led Zeppelin at one end and The Osmonds at the other, Roxy Music managed to reach the Top 10 with a heady mixture of futurism, retro rock'n'roll, camp, funny noises, silly outfits, art techniques, film references and oboe solos."
         }, 
         {
             "other_names": "Rain Tree Crow", 
             "formed": 1974, 
             "hiatus": "1982-1989",
             "name": "Japan", 
-            "disbanded": 1991
+            "disbanded": 1991,
+            "description": "Initially a glam-inspired group, Japan developed their sound and androgynous style to incorporate electronic music and foreign influences, eventually becoming an influence on the UK's early-1980s New Romantic scene."
         }
     ],
     "band_members": [
@@ -125,7 +127,7 @@
             "band": "Roxy Music", 
             "musician": "Bryan Ferry", 
             "instruments": "Lead vocals, keyboards, guitar",
-            "joined": 1972, 
+            "joined": 1971,
             "left": 1982
         }, 
         {
@@ -133,7 +135,7 @@
             "band": "Roxy Music",
             "musician": "Phil Manzanera", 
             "instruments": "Guitar",
-            "joined": 1972, 
+            "joined": 1971,
             "left": 1982
         }, 
         {
@@ -141,7 +143,7 @@
             "band": "Roxy Music",
             "musician": "Andy Mackay", 
             "instruments": "Sax, oboe",
-            "joined": 1972, 
+            "joined": 1971,
             "left": 1982
         }, 
         {
@@ -149,7 +151,7 @@
             "band": "Roxy Music",
             "musician": "Paul Thompson", 
             "instruments": "Drums",
-            "joined": 1972, 
+            "joined": 1971,
             "left": 1979
         }, 
         {
@@ -157,7 +159,7 @@
             "band": "Roxy Music",
             "musician": "Brian Eno", 
             "instruments": "Synth, keyboards",
-            "joined": 1972, 
+            "joined": 1971,
             "left": 1973
         }, 
         {
@@ -165,7 +167,7 @@
             "band": "Roxy Music",
             "musician": "Graham Simpson", 
             "instruments": "Bass",
-            "joined": 1972, 
+            "joined": 1971,
             "left": 1972
         }, 
         {
@@ -174,14 +176,14 @@
             "musician": "Eddie Jobson", 
             "instruments": "Keyboards, violin",
             "joined": 1973, 
-            "left": 1975
+            "left": 1976
         }, 
         {
             "id": "David Sylvian in Japan",
             "band": "Japan", 
             "musician": "David Sylvian", 
             "instruments": "Lead vocals, keyboards, guitar",
-            "joined": 1978, 
+            "joined": 1974,
             "left": 1991
         }, 
         {
@@ -189,7 +191,7 @@
             "band": "Japan",
             "musician": "Mick Karn", 
             "instruments": "Bass, sax, vocals",
-            "joined": 1978, 
+            "joined": 1974,
             "left": 1991
         }, 
         {
@@ -197,7 +199,7 @@
             "band": "Japan",
             "musician": "Steve Jansen", 
             "instruments": "Drums",
-            "joined": 1978, 
+            "joined": 1974,
             "left": 1991
         }, 
         {
@@ -205,7 +207,7 @@
             "band": "Japan",
             "musician": "Richard Barbieri", 
             "instruments": "Keyboards",
-            "joined": 1978, 
+            "joined": 1974,
             "left": 1991
         }, 
         {
@@ -213,7 +215,7 @@
             "band": "Japan",
             "musician": "Rob Dean", 
             "instruments": "Guitar",
-            "joined": 1978, 
+            "joined": 1974,
             "left": 1981
         }
     ],

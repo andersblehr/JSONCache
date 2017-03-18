@@ -13,13 +13,12 @@ import Foundation
 extension NSManagedObject: JSONifiable {
     
     public var identifier: AnyHashable? {
-        get {
-            if let identifierName = self.entity.identifierName {
-                return self.value(forKey: identifierName) as? AnyHashable
-            }
-            
-            return nil
+        
+        if let identifierName = self.entity.identifierName {
+            return self.value(forKey: identifierName) as? AnyHashable
         }
+        
+        return nil
     }
     
     

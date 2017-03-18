@@ -31,13 +31,12 @@ public extension DateFormatter {
     }
     
     private static var iso8601DateFormatter: DateFormatter {
-        get {
-            let dateFormatter = DateFormatter()
-            dateFormatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
-            dateFormatter.dateFormat = (JSONConverter.dateFormat == .iso8601WithSeparators ? ISO8601Format.withSeparators : ISO8601Format.withoutSeparators).rawValue
-            dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-            
-            return dateFormatter
-        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+        dateFormatter.dateFormat = (JSONConverter.dateFormat == .iso8601WithSeparators ? ISO8601Format.withSeparators : ISO8601Format.withoutSeparators).rawValue
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        
+        return dateFormatter
     }
 }

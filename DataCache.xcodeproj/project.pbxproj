@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5C4954E01E7961F900B866AF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4954DF1E7961F900B866AF /* Result.swift */; };
 		5C7184CB1E76BD4D0000C85A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7184CA1E76BD4D0000C85A /* AppDelegate.swift */; };
 		5C7184CD1E76BD4D0000C85A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7184CC1E76BD4D0000C85A /* ViewController.swift */; };
 		5C7184D01E76BD4D0000C85A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C7184CE1E76BD4D0000C85A /* Main.storyboard */; };
@@ -37,7 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5C4954DF1E7961F900B866AF /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		5C7184C71E76BD4D0000C85A /* DataCache.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataCache.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C7184CA1E76BD4D0000C85A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5C7184CC1E76BD4D0000C85A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -104,7 +102,6 @@
 				5C7184FD1E76BF4C0000C85A /* DataCache.swift */,
 				5C71850A1E76BFD60000C85A /* JSONConverter.swift */,
 				5C71850C1E76BFED0000C85A /* JSONifiable.swift */,
-				5C4954DF1E7961F900B866AF /* Result.swift */,
 			);
 			path = DataCache;
 			sourceTree = "<group>";
@@ -257,7 +254,6 @@
 				5C71850D1E76BFED0000C85A /* JSONifiable.swift in Sources */,
 				5C7185071E76BFB30000C85A /* NSAttributeDescription+DataCache.swift in Sources */,
 				5C7184FE1E76BF4C0000C85A /* DataCache.swift in Sources */,
-				5C4954E01E7961F900B866AF /* Result.swift in Sources */,
 				5C7185081E76BFB30000C85A /* NSEntityDescription+DataCache.swift in Sources */,
 				5C7184CD1E76BD4D0000C85A /* ViewController.swift in Sources */,
 				5C71850B1E76BFD60000C85A /* JSONConverter.swift in Sources */,

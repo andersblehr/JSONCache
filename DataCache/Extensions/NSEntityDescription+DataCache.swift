@@ -13,14 +13,13 @@ import Foundation
 public extension NSEntityDescription {
 
     public var identifierName: String? {
-        get {
-            for (attributeName, attribute) in self.attributesByName {
-                if attributeName == "id" || attribute.isIdentifier {
-                    return attributeName
-                }
+        
+        for (attributeName, attribute) in self.attributesByName {
+            if attributeName == "id" || attribute.isIdentifier {
+                return attributeName
             }
-            
-            return nil
         }
+        
+        return nil
     }
 }

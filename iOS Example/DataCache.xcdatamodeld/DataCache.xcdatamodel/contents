@@ -12,6 +12,7 @@
         <relationship name="band" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Band" inverseName="albums" inverseEntity="Band" syncable="YES"/>
     </entity>
     <entity name="Band" representedClassName="Band" syncable="YES" codeGenerationType="class">
+        <attribute name="bandDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="disbanded" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="formed" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="hiatus" optional="YES" attributeType="String" syncable="YES"/>
@@ -45,7 +46,7 @@
     </entity>
     <elements>
         <element name="Album" positionX="-18" positionY="90" width="128" height="120"/>
-        <element name="Band" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="Band" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="BandMember" positionX="-36" positionY="54" width="128" height="135"/>
         <element name="Musician" positionX="-54" positionY="27" width="128" height="120"/>
     </elements>

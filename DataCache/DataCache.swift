@@ -10,40 +10,79 @@ import CoreData
 import Foundation
 
 
+public enum BootstrapError: Error {
+    case unsupportedPersistentStoreType(String)
+    case modelNotFound(String)
+    case modelInitializationError(URL)
+    case mainContextNotAvailable
+}
+
+public enum Result<T> {
+    case success(T)
+    case failure(Error)
+}
+
+
 public struct DataCache {
     
-    public static var modelName: String! = nil
-    public static var mainContext: NSManagedObjectContext! = {
+    public static var mainContext: NSManagedObjectContext! = nil
+    
+    
+    // MARK: - Bootstrapping the Core Data stack
+    
+    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, completion: @escaping (_ result: Result<Void>) -> Void) {
+
+        let persistentStoreType = inMemory ? NSInMemoryStoreType : NSSQLiteStoreType
         
         if #available(iOS 10.0, *) {
+            let persistentStoreDescription = NSPersistentStoreDescription()
+            persistentStoreDescription.type = persistentStoreType
+            
             let persistentContainer = NSPersistentContainer(name: modelName)
+            persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
             persistentContainer.loadPersistentStores { (_, error) in
                 
                 guard error == nil else {
+                    DispatchQueue.main.async { completion(Result.failure(error!)) }
                     return
                 }
+                
+                mainContext = persistentContainer.viewContext
+                
+                DispatchQueue.main.async { completion(Result.success()) }
+            }
+        } else {
+            guard [NSSQLiteStoreType, NSInMemoryStoreType].contains(persistentStoreType) else {
+                DispatchQueue.main.async { completion(Result.failure(BootstrapError.unsupportedPersistentStoreType(persistentStoreType))) }
+                return
             }
             
-            return persistentContainer.viewContext
-        } else {
-            let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd")!
-            let model = NSManagedObjectModel(contentsOf: modelURL)!
-            let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-            let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
+            guard let managedObjectModelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
+                DispatchQueue.main.async { completion(Result.failure(BootstrapError.modelNotFound(modelName))) }
+                return
+            }
+            
+            guard let managedObjectModel = NSManagedObjectModel(contentsOf: managedObjectModelURL) else {
+                DispatchQueue.main.async { completion(Result.failure(BootstrapError.modelInitializationError(managedObjectModelURL))) }
+                return
+            }
+            
+            let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+            let documentDirectoryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last!
             let persistentStoreURL = documentDirectoryURL.appendingPathComponent("\(modelName).sqlite")
             
             do {
-                try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: persistentStoreURL, options: [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true])
+                try persistentStoreCoordinator.addPersistentStore(ofType: persistentStoreType, configurationName: nil, at: persistentStoreURL, options: [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true])
                 
-                let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-                managedObjectContext.persistentStoreCoordinator = persistentStoreCoordinator
+                mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+                mainContext.persistentStoreCoordinator = persistentStoreCoordinator
                 
-                return managedObjectContext
+                DispatchQueue.main.async { completion(Result.success()) }
             } catch {
-                return nil
+                DispatchQueue.main.async { completion(Result.failure(error)) }
             }
         }
-    }()
+    }
     
     
     // MARK: - Loading JSON dictionaries into Core Data
@@ -67,6 +106,11 @@ public struct DataCache {
     
     public static func applyChanges(completion: @escaping (_ result: Result<Void>) -> Void) {
         
+        guard mainContext != nil else {
+            DispatchQueue.main.async { completion(Result.failure(BootstrapError.mainContextNotAvailable)) }
+            return
+        }
+        
         let backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         backgroundContext.parent = mainContext
         backgroundContext.perform {
@@ -86,7 +130,7 @@ public struct DataCache {
                         
                         object!.setAttributes(fromDictionary: dictionary)
                     case .failure(let error):
-                        completion(Result.failure(error))
+                        DispatchQueue.main.async { completion(Result.failure(error)) }
                     }
                 }
             }
@@ -107,7 +151,7 @@ public struct DataCache {
                                     object.setValue(destinationObject, forKey: relationshipName)
                                 }
                             case .failure(let error):
-                                completion(Result.failure(error))
+                                DispatchQueue.main.async { completion(Result.failure(error)) }
                             }
                         }
                     }
@@ -115,13 +159,13 @@ public struct DataCache {
             }
             
             switch save(context: backgroundContext) {
-            case .success():
+            case .success:
                 mainContext.performAndWait {
                     switch save() {
-                    case .success():
-                        completion(Result.success())
+                    case .success:
+                        DispatchQueue.main.async { completion(Result.success()) }
                     case .failure(let error):
-                        completion(Result.failure(error))
+                        DispatchQueue.main.async { completion(Result.failure(error)) }
                     }
                     
                     stagedDictionariesByEntityName.removeAll()
@@ -129,7 +173,7 @@ public struct DataCache {
                     objectsByEntityAndId.removeAll()
                 }
             case .failure(let error):
-                completion(Result.failure(error))
+                DispatchQueue.main.async { completion(Result.failure(error)) }
             }
         }
     }

@@ -10,9 +10,10 @@ import CoreData
 import UIKit
 
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var bandTableView: SelfSizingTableView!
+    @IBOutlet weak var bandDescriptionLabel: UILabel!
     @IBOutlet weak var memberTableView: SelfSizingTableView!
     @IBOutlet weak var albumTableView: SelfSizingTableView!
     
@@ -26,6 +27,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         do {
             bandTableView.dataSource = self
             bandTableView.delegate = self
+            bandDescriptionLabel.text = nil
             memberTableView.dataSource = self
             albumTableView.dataSource = self
             
@@ -41,20 +43,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             JSONConverter.casing = .snake_case
             JSONConverter.dateFormat = .iso8601WithSeparators
             
-            DataCache.modelName = "DataCache"
-            DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
-            DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
-            DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
-            DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
-            DataCache.applyChanges { (result) in
-
+            DataCache.bootstrap(withModelName: "DataCache", inMemory: true) { (result) in
+                
                 switch result {
-                case .success():
-                    do {
-                        try self.bandResultsController.performFetch()
-                        self.bandTableView.reloadData()
-                    } catch {
-                        print("An error occurred: \(error)")
+                case .success:
+                    DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
+                    DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
+                    DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
+                    DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
+                    DataCache.applyChanges { (result) in
+                        
+                        switch result {
+                        case .success:
+                            do {
+                                try self.bandResultsController.performFetch()
+                                self.bandTableView.reloadData()
+                            } catch {
+                                print("An error occurred: \(error)")
+                            }
+                        case .failure(let error):
+                            print("An error occurred: \(error)")
+                        }
                     }
                 case .failure(let error):
                     print("An error occurred: \(error)")
@@ -66,7 +75,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-    // MARK: - UITableViewDataSource conformance
+    // MARK: - Private implementation details
+    
+    fileprivate var selectedBand: Band! = nil
+    
+    fileprivate lazy var bandResultsController: NSFetchedResultsController<Band> = {
+        let fetchRequest = NSFetchRequest<Band>(entityName: "Band")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+    }()
+    
+    fileprivate lazy var memberResultsController: NSFetchedResultsController<BandMember> = {
+        let fetchRequest = NSFetchRequest<BandMember>(entityName: "BandMember")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "musician.name", ascending: true)]
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+    }()
+    
+    fileprivate lazy var albumResultsController: NSFetchedResultsController<Album> = {
+        let fetchRequest = NSFetchRequest<Album>(entityName: "Album")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "released", ascending: true)]
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+    }()
+}
+
+
+// MARK: - UITableViewDataSource conformance
+
+extension ViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
@@ -134,13 +172,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             return "Albums"
         }
     }
+}
     
-    
-    // MARK: - UITableViewDelegate conformance
+
+// MARK: - UITableViewDelegate conformance
+
+extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         selectedBand = bandResultsController.object(at: indexPath)
+        bandDescriptionLabel.text = selectedBand.bandDescription
         
         do {
             memberResultsController.fetchRequest.predicate = NSPredicate(format: "%K == %@", "band", selectedBand!)
@@ -154,43 +196,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             print("An error occurred: \(error)")
         }
     }
-    
-    
-    // MARK: - Private implementation details
-    
-    private var selectedBand: Band! = nil
-    
-    private lazy var bandResultsController: NSFetchedResultsController<Band> = {
-        let fetchRequest = NSFetchRequest<Band>(entityName: "Band")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
-    }()
-    
-    private lazy var memberResultsController: NSFetchedResultsController<BandMember> = {
-        let fetchRequest = NSFetchRequest<BandMember>(entityName: "BandMember")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "musician.name", ascending: true)]
-        
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
-    }()
-    
-    private lazy var albumResultsController: NSFetchedResultsController<Album> = {
-        let fetchRequest = NSFetchRequest<Album>(entityName: "Album")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "released", ascending: true)]
-        
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
-    }()
 }
 
+
+// MARK: - Self sizing table view
 
 class SelfSizingTableView: UITableView {
     
     override var contentSize:CGSize { didSet { self.invalidateIntrinsicContentSize() } }
     override var intrinsicContentSize: CGSize {
-        get {
-            self.layoutIfNeeded()
-            
-            return CGSize(width: UIViewNoIntrinsicMetric, height: contentSize.height)
-        }
+        
+        self.layoutIfNeeded()
+        
+        return CGSize(width: UIViewNoIntrinsicMetric, height: contentSize.height)
     }
 }

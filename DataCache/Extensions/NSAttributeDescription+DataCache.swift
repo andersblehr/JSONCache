@@ -13,12 +13,11 @@ import Foundation
 public extension NSAttributeDescription {
     
     public var isIdentifier: Bool {
-        get {
-            if let identifierFlag = self.userInfo!["DC.isIdentifier"] as? String {
-                return ["true", "yes"].contains(identifierFlag.lowercased())
-            }
-            
-            return false
+        
+        if let identifierFlag = self.userInfo!["DC.isIdentifier"] as? String {
+            return ["true", "yes"].contains(identifierFlag.lowercased())
         }
+        
+        return false
     }
 }
