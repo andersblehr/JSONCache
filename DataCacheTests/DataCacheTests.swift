@@ -165,9 +165,10 @@ class DataCacheTests: XCTestCase {
                         switch DataCache.fetchObject(ofType: "Band", withId: "Roxy Music") {
                         case .success(let roxyMusic):
                             XCTAssertNotNil(roxyMusic)
-                            XCTAssertEqual((roxyMusic as! Band).formed, 1971)
-                            XCTAssertEqual((roxyMusic as! Band).members!.count, 7)
-                            XCTAssertEqual((roxyMusic as! Band).albums!.count, 10)
+                            let roxyMusic = roxyMusic as! Band
+                            XCTAssertEqual(roxyMusic.formed, 1971)
+                            XCTAssertEqual(roxyMusic.members!.count, 7)
+                            XCTAssertEqual(roxyMusic.albums!.count, 10)
                             
                             expectation.fulfill()
                         case .failure(let error):
@@ -200,8 +201,9 @@ class DataCacheTests: XCTestCase {
                     case .success:
                         switch DataCache.fetchObject(ofType: "Band", withId: "Japan") {
                         case .success(let japan):
-                            XCTAssertEqual((japan as! Band).name!, "Japan")
-                            XCTAssertEqual((japan as! Band).albums!.count, 7)
+                            let japan = japan as! Band
+                            XCTAssertEqual(japan.name!, "Japan")
+                            XCTAssertEqual(japan.albums!.count, 7)
                             
                             let newAlbum = ["name": "Assemblage", "band": "Japan", "released": "1981-09-01T00:00:00Z", "label": "Hansa"]
                             
@@ -213,9 +215,10 @@ class DataCacheTests: XCTestCase {
                                     switch DataCache.fetchObject(ofType: "Album", withId: "Assemblage") {
                                     case .success(let assemblage):
                                         XCTAssertNotNil(assemblage)
-                                        XCTAssertEqual((assemblage as! Album).name, "Assemblage")
-                                        XCTAssertEqual((assemblage as! Album).band!.name, "Japan")
-                                        XCTAssertEqual((japan as! Band).albums!.count, 8)
+                                        let assemblage = assemblage as! Album
+                                        XCTAssertEqual(assemblage.name, "Assemblage")
+                                        XCTAssertEqual(assemblage.band!.name, "Japan")
+                                        XCTAssertEqual(japan.albums!.count, 8)
                                         
                                         expectation.fulfill()
                                     case .failure(let error):

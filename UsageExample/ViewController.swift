@@ -36,10 +36,10 @@ class ViewController: UIViewController {
         let fileData = try! Data(contentsOf: URL(fileURLWithPath: filePath!))
         let jsonObject = try! JSONSerialization.jsonObject(with: fileData) as! [String: Any]
         
-        let albums = jsonObject["albums"] as! [[String: Any]]
         let bands = jsonObject["bands"] as! [[String: Any]]
         let bandMembers = jsonObject["band_members"] as! [[String: Any]]
         let musicians = jsonObject["musicians"] as! [[String: Any]]
+        let albums = jsonObject["albums"] as! [[String: Any]]
         
         JSONConverter.casing = .snake_case
         JSONConverter.dateFormat = .iso8601WithSeparators
@@ -48,10 +48,10 @@ class ViewController: UIViewController {
             
             switch result {
             case .success:
-                DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
                 DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
                 DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
                 DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
+                DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
                 DataCache.applyChanges { (result) in
                     
                     switch result {
