@@ -77,7 +77,7 @@ let bandMembers = jsonObject["band_members"] as! [[String: Any]]
 let musicians = jsonObject["musicians"] as! [[String: Any]]
 let albums = jsonObject["albums"] as! [[String: Any]]
         
-Jsonconverter.casing = .snake_case
+JSONConverter.casing = .snake_case
 JSONConverter.dateFormat = .iso8601WithSeparators
         
 DataCache.bootstrap(withModelName: "Bands") { result in
@@ -146,9 +146,9 @@ switch DataCache.fetchObject(ofType: "Band", withId: "Japan") {
 
 To create and persist new objects to the backend, you can either
 create the `NSManagedObject` instance first and then use it to
-generate JSON for the backend, or – if you prefer to not cache locally
-until the record is safely persisted on the backend – you can generate
-JSON from any `struct` that adopts the `JSONifiable` protocol:
+generate JSON for the backend, or if you prefer to wait until the
+record is safely persisted on the backend, you can generate JSON from
+any `struct` that adopts the `JSONifiable` protocol:
 
 ```swift
 struct BandInfo: JSONifiable {
