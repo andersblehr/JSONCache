@@ -31,11 +31,11 @@ public struct DataCache {
     
     // MARK: - Bootstrapping the Core Data stack
     
-    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, completion: @escaping (_ result: Result<Void>) -> Void) {
-
+    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = Bundle.main, completion: @escaping (_ result: Result<Void>) -> Void) {
+        
         let persistentStoreType = inMemory ? NSInMemoryStoreType : NSSQLiteStoreType
         
-        guard let managedObjectModelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
+        guard let managedObjectModelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
             DispatchQueue.main.async { completion(Result.failure(DataCacheError.modelNotFound(modelName))) }
             return
         }

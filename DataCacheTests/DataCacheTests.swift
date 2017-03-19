@@ -13,6 +13,8 @@ import XCTest
 class DataCacheTests: XCTestCase {
     
     var inMemory = true
+    var bundle: Bundle! = nil
+    
     var albums: [[String: Any]]! = nil
     var bands: [[String: Any]]! = nil
     var bandMembers: [[String: Any]]! = nil
@@ -23,7 +25,9 @@ class DataCacheTests: XCTestCase {
         
         super.setUp()
         
-        let filePath = Bundle.main.path(forResource: "bands", ofType: "json")
+        bundle = Bundle(for: type(of: self))
+        
+        let filePath = bundle.path(forResource: "bands", ofType: "json")
         let fileData = try! Data(contentsOf: URL(fileURLWithPath: filePath!))
         let jsonObject = try! JSONSerialization.jsonObject(with: fileData) as! [String: Any]
         
@@ -99,7 +103,7 @@ class DataCacheTests: XCTestCase {
             var hiatus: Int?
             var otherNames: String?
         }
-
+        
         let u2Dictionary = BandInfo(name: "U2", bandDescription: "Dublin boys", formed: 1976, disbanded: nil, hiatus: nil, otherNames: "Passengers").toJSONDictionary()
         XCTAssert(JSONSerialization.isValidJSONObject(u2Dictionary))
         XCTAssertEqual(u2Dictionary["name"] as! String, "U2")
@@ -109,7 +113,7 @@ class DataCacheTests: XCTestCase {
         
         let jsonFromManagedObjectExpectation = self.expectation(description: "JSON dictionary from NSManagedObject")
         
-        DataCache.bootstrap(withModelName: "DataCache", inMemory: inMemory) { (result) in
+        DataCache.bootstrap(withModelName: "DataCacheTests", inMemory: inMemory, bundle: bundle) { (result) in
             
             switch result {
             case .success:
@@ -150,12 +154,12 @@ class DataCacheTests: XCTestCase {
         
         let expectation = self.expectation(description: "JSON loading")
         
-        DataCache.bootstrap(withModelName: "DataCache", inMemory: inMemory) { (result) in
+        DataCache.bootstrap(withModelName: "DataCacheTests", inMemory: inMemory, bundle: bundle) { (result) in
             
             switch result {
             case .success:
                 self.loadJSONTestData { (result) in
-
+                    
                     switch result {
                     case .success:
                         switch DataCache.fetchObject(ofType: "Band", withId: "Roxy Music") {
@@ -186,8 +190,8 @@ class DataCacheTests: XCTestCase {
         
         let expectation = self.expectation(description: "JSON merging")
         
-        DataCache.bootstrap(withModelName: "DataCache", inMemory: inMemory) { (result: Result) in
-
+        DataCache.bootstrap(withModelName: "DataCacheTests", inMemory: inMemory, bundle: bundle) { (result: Result) in
+            
             switch result {
             case .success:
                 self.loadJSONTestData { (result) in
@@ -238,11 +242,11 @@ class DataCacheTests: XCTestCase {
     
     
     func testFetchConvenienceMethods() {
-
+        
         let fetchSingleObjectExpectation = self.expectation(description: "Fetch single object by id")
         let fetchMultipleObjectsExpectation = self.expectation(description: "Fetch multiple objects by id")
         
-        DataCache.bootstrap(withModelName: "DataCache", inMemory: inMemory) { (result) in
+        DataCache.bootstrap(withModelName: "DataCacheTests", inMemory: inMemory, bundle: bundle) { (result) in
             
             switch result {
             case .success:
@@ -290,10 +294,10 @@ class DataCacheTests: XCTestCase {
     
     
     func testFailureScenarios() {
-    
+        
         let modelNotFoundExpectation = self.expectation(description: "Model file does not exist")
         
-        DataCache.bootstrap(withModelName: "NoModel", inMemory: inMemory) { (result) in
+        DataCache.bootstrap(withModelName: "NoModel", inMemory: inMemory, bundle: bundle) { (result) in
             
             switch result {
             case .success:
@@ -303,7 +307,7 @@ class DataCacheTests: XCTestCase {
                 case .modelNotFound:
                     modelNotFoundExpectation.fulfill()
                     
-                    DataCache.bootstrap(withModelName: "DataCache", inMemory: self.inMemory){ (result) in
+                    DataCache.bootstrap(withModelName: "DataCacheTests", inMemory: self.inMemory, bundle: self.bundle){ (result) in
                         
                         switch result {
                         case .success:

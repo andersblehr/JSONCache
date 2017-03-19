@@ -11,7 +11,7 @@ import Foundation
 
 
 public extension NSEntityDescription {
-
+    
     public var identifierName: String? {
         
         for (attributeName, attribute) in self.attributesByName {

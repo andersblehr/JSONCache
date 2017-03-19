@@ -9,15 +9,25 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>UsageExample.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>5C7184C61E76BD4D0000C85A</key>
+		<key>5CA96C481E7EBF300086BA87</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5C7184DD1E76BD4D0000C85A</key>
+		<key>5CA96C511E7EBF300086BA87</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5CA96C7F1E7ED6B10086BA87</key>
 		<dict>
 			<key>primary</key>
 			<true/>
