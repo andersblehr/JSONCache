@@ -10,11 +10,12 @@ import CoreData
 import Foundation
 
 
-public enum BootstrapError: Error {
+public enum DataCacheError: Error {
     case unsupportedPersistentStoreType(String)
     case modelNotFound(String)
     case modelInitializationError(URL)
     case managedObjectContextNotAvailable
+    case noSuchEntity(String)
 }
 
 public enum Result<T> {
@@ -34,11 +35,21 @@ public struct DataCache {
 
         let persistentStoreType = inMemory ? NSInMemoryStoreType : NSSQLiteStoreType
         
+        guard let managedObjectModelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
+            DispatchQueue.main.async { completion(Result.failure(DataCacheError.modelNotFound(modelName))) }
+            return
+        }
+        
+        guard let managedObjectModel = NSManagedObjectModel(contentsOf: managedObjectModelURL) else {
+            DispatchQueue.main.async { completion(Result.failure(DataCacheError.modelInitializationError(managedObjectModelURL))) }
+            return
+        }
+        
         if #available(iOS 10.0, *) {
             let persistentStoreDescription = NSPersistentStoreDescription()
             persistentStoreDescription.type = persistentStoreType
             
-            let persistentContainer = NSPersistentContainer(name: modelName)
+            let persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: managedObjectModel)
             persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
             persistentContainer.loadPersistentStores { (_, error) in
                 
@@ -52,24 +63,9 @@ public struct DataCache {
                 DispatchQueue.main.async { completion(Result.success()) }
             }
         } else {
-            guard [NSSQLiteStoreType, NSInMemoryStoreType].contains(persistentStoreType) else {
-                DispatchQueue.main.async { completion(Result.failure(BootstrapError.unsupportedPersistentStoreType(persistentStoreType))) }
-                return
-            }
-            
-            guard let managedObjectModelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
-                DispatchQueue.main.async { completion(Result.failure(BootstrapError.modelNotFound(modelName))) }
-                return
-            }
-            
-            guard let managedObjectModel = NSManagedObjectModel(contentsOf: managedObjectModelURL) else {
-                DispatchQueue.main.async { completion(Result.failure(BootstrapError.modelInitializationError(managedObjectModelURL))) }
-                return
-            }
-            
             let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-            let documentDirectoryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last!
-            let persistentStoreURL = documentDirectoryURL.appendingPathComponent("\(modelName).sqlite")
+            let libraryDirectoryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last!
+            let persistentStoreURL = libraryDirectoryURL.appendingPathComponent("\(modelName).sqlite")
             
             do {
                 try persistentStoreCoordinator.addPersistentStore(ofType: persistentStoreType, configurationName: nil, at: persistentStoreURL, options: [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true])
@@ -107,7 +103,7 @@ public struct DataCache {
     public static func applyChanges(completion: @escaping (_ result: Result<Void>) -> Void) {
         
         guard mainContext != nil else {
-            DispatchQueue.main.async { completion(Result.failure(BootstrapError.managedObjectContextNotAvailable)) }
+            DispatchQueue.main.async { completion(Result.failure(DataCacheError.managedObjectContextNotAvailable)) }
             return
         }
         
@@ -199,18 +195,21 @@ public struct DataCache {
     public static func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable, in context: NSManagedObjectContext? = mainContext) -> Result<ResultType?> {
         
         guard context != nil else {
-            return Result.failure(BootstrapError.managedObjectContextNotAvailable)
+            return Result.failure(DataCacheError.managedObjectContextNotAvailable)
         }
         
-        let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!)!
-        let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
-        fetchRequest.predicate = NSPredicate(format: "%K == %@", entity.identifierName!, identifier as CVarArg)
-        
-        do {
-            let object = try context!.fetch(fetchRequest).first
-            return Result.success(object)
-        } catch {
-            return Result.failure(error)
+        if let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!) {
+            let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
+            fetchRequest.predicate = NSPredicate(format: "%K == %@", entity.identifierName!, identifier as CVarArg)
+            
+            do {
+                let object = try context!.fetch(fetchRequest).first
+                return Result.success(object)
+            } catch {
+                return Result.failure(error)
+            }
+        } else {
+            return Result.failure(DataCacheError.noSuchEntity(entityName))
         }
     }
     
@@ -218,18 +217,21 @@ public struct DataCache {
     public static func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable], in context: NSManagedObjectContext? = mainContext) -> Result<[ResultType]> {
         
         guard context != nil else {
-            return Result.failure(BootstrapError.managedObjectContextNotAvailable)
+            return Result.failure(DataCacheError.managedObjectContextNotAvailable)
         }
         
-        let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!)!
-        let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
-        fetchRequest.predicate = NSPredicate(format: "%K IN %@", entity.identifierName!, identifiers)
-        
-        do {
-            let objects = try context!.fetch(fetchRequest)
-            return Result.success(objects)
-        } catch {
-            return Result.failure(error)
+        if let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!) {
+            let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
+            fetchRequest.predicate = NSPredicate(format: "%K IN %@", entity.identifierName!, identifiers)
+            
+            do {
+                let objects = try context!.fetch(fetchRequest)
+                return Result.success(objects)
+            } catch {
+                return Result.failure(error)
+            }
+        } else {
+            return Result.failure(DataCacheError.noSuchEntity(entityName))
         }
     }
     

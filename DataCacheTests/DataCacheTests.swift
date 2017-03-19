@@ -6,13 +6,13 @@
 //  Copyright © 2017 Anders Blehr. All rights reserved.
 //
 
-import CoreData
 import XCTest
 @testable import DataCache
 
 
 class DataCacheTests: XCTestCase {
     
+    var inMemory = true
     var albums: [[String: Any]]! = nil
     var bands: [[String: Any]]! = nil
     var bandMembers: [[String: Any]]! = nil
@@ -31,6 +31,9 @@ class DataCacheTests: XCTestCase {
         musicians = jsonObject["musicians"] as! [[String: Any]]
         bandMembers = jsonObject["band_members"] as! [[String: Any]]
         albums = jsonObject["albums"] as! [[String: Any]]
+        
+        JSONConverter.casing = .snake_case
+        JSONConverter.dateFormat = .iso8601WithSeparators
     }
     
     
@@ -88,7 +91,25 @@ class DataCacheTests: XCTestCase {
     
     func testJSONGeneration() {
         
-        DataCache.bootstrap(withModelName: "DataCache", inMemory: true) { (result) in
+        struct BandInfo: JSONifiable {
+            var name: String
+            var bandDescription: String
+            var formed: Int
+            var disbanded: Int?
+            var hiatus: Int?
+            var otherNames: String?
+        }
+
+        let u2Dictionary = BandInfo(name: "U2", bandDescription: "Dublin boys", formed: 1976, disbanded: nil, hiatus: nil, otherNames: "Passengers").toJSONDictionary()
+        XCTAssert(JSONSerialization.isValidJSONObject(u2Dictionary))
+        XCTAssertEqual(u2Dictionary["name"] as! String, "U2")
+        XCTAssertEqual(u2Dictionary["description"] as! String, "Dublin boys")
+        XCTAssertEqual(u2Dictionary["formed"] as! Int, 1976)
+        XCTAssertEqual(u2Dictionary["other_names"] as! String, "Passengers")
+        
+        let jsonFromManagedObjectExpectation = self.expectation(description: "JSON dictionary from NSManagedObject")
+        
+        DataCache.bootstrap(withModelName: "DataCache", inMemory: inMemory) { (result) in
             
             switch result {
             case .success:
@@ -96,16 +117,21 @@ class DataCacheTests: XCTestCase {
                     
                     switch result {
                     case .success:
-                        switch DataCache.fetchObject(ofType: "Album", withId: "Stranded") {
-                        case .success(let stranded):
-                            XCTAssertNotNil(stranded)
+                        switch DataCache.fetchObject(ofType: "Album", withId: "Rain Tree Crow") {
+                        case .success(let rainTreeCrow):
+                            XCTAssertNotNil(rainTreeCrow)
                             
-                            let strandedDictionary = stranded!.toJSONDictionary()
-                            XCTAssertEqual(strandedDictionary["name"] as! String, "Stranded")
-                            XCTAssertEqual(strandedDictionary["band"] as! String, "Roxy Music")
-                            XCTAssertEqual(strandedDictionary["released"] as! String, "1973-11-01T00:00:00Z")
+                            let rainTreeCrowDictionary = rainTreeCrow!.toJSONDictionary()
+                            XCTAssert(JSONSerialization.isValidJSONObject(rainTreeCrowDictionary))
+                            XCTAssertEqual(rainTreeCrowDictionary["name"] as! String, "Rain Tree Crow")
+                            XCTAssertEqual(rainTreeCrowDictionary["band"] as! String, "Japan")
+                            XCTAssertEqual(rainTreeCrowDictionary["released"] as! String, "1991-04-08T00:00:00Z")
+                            XCTAssertEqual(rainTreeCrowDictionary["label"] as! String, "Virgin")
+                            XCTAssertEqual(rainTreeCrowDictionary["released_as"] as! String, "Rain Tree Crow")
+                            
+                            jsonFromManagedObjectExpectation.fulfill()
                         case .failure(let error):
-                            XCTFail("Fetching 'Roxy Music' failed with error: \(error)")
+                            XCTFail("Fetching 'Stranded' failed with error: \(error)")
                         }
                     case .failure(let error):
                         XCTFail("Loading JSON failed with error: \(error)")
@@ -115,17 +141,16 @@ class DataCacheTests: XCTestCase {
                 XCTFail("Bootstrap failed with error: \(error)")
             }
         }
+        
+        self.waitForExpectations(timeout: 5.0)
     }
     
     
     func testJSONLoading() {
         
-        let expectation = self.expectation(description: "stageChanges() + applyChanges()")
+        let expectation = self.expectation(description: "JSON loading")
         
-        JSONConverter.casing = .snake_case
-        JSONConverter.dateFormat = .iso8601WithSeparators
-        
-        DataCache.bootstrap(withModelName: "DataCache", inMemory: true) { (result) in
+        DataCache.bootstrap(withModelName: "DataCache", inMemory: inMemory) { (result) in
             
             switch result {
             case .success:
@@ -159,9 +184,9 @@ class DataCacheTests: XCTestCase {
     
     func testJSONMerging() {
         
-        let expectation = self.expectation(description: "stageChanges() + applyChanges()")
+        let expectation = self.expectation(description: "JSON merging")
         
-        DataCache.bootstrap(withModelName: "DataCache", inMemory: true) { (result: Result) in
+        DataCache.bootstrap(withModelName: "DataCache", inMemory: inMemory) { (result: Result) in
 
             switch result {
             case .success:
@@ -169,26 +194,35 @@ class DataCacheTests: XCTestCase {
                     
                     switch result {
                     case .success:
-                        let assemblageDictionary = ["name": "Assemblage", "band": "Japan", "released": "1981-09-01T00:00:00Z", "label": "Hansa"]
-                        
-                        DataCache.stageChanges(withDictionary: assemblageDictionary, forEntityWithName: "Album")
-                        DataCache.applyChanges { (result) in
-                            switch result {
-                            case .success:
-                                switch DataCache.fetchObject(ofType: "Album", withId: "Assemblage") {
-                                case .success(let assemblage):
-                                    XCTAssertNotNil(assemblage)
-                                    XCTAssertEqual((assemblage as! Album).name, "Assemblage")
-                                    XCTAssertEqual((assemblage as! Album).band!.name, "Japan")
-                                    XCTAssertEqual((assemblage as! Album).band!.albums!.count, 8)
-                                    
-                                    expectation.fulfill()
+                        switch DataCache.fetchObject(ofType: "Band", withId: "Japan") {
+                        case .success(let japan):
+                            XCTAssertEqual((japan as! Band).name!, "Japan")
+                            XCTAssertEqual((japan as! Band).albums!.count, 7)
+                            
+                            let newAlbum = ["name": "Assemblage", "band": "Japan", "released": "1981-09-01T00:00:00Z", "label": "Hansa"]
+                            
+                            DataCache.stageChanges(withDictionary: newAlbum, forEntityWithName: "Album")
+                            DataCache.applyChanges { (result) in
+                                
+                                switch result {
+                                case .success:
+                                    switch DataCache.fetchObject(ofType: "Album", withId: "Assemblage") {
+                                    case .success(let assemblage):
+                                        XCTAssertNotNil(assemblage)
+                                        XCTAssertEqual((assemblage as! Album).name, "Assemblage")
+                                        XCTAssertEqual((assemblage as! Album).band!.name, "Japan")
+                                        XCTAssertEqual((japan as! Band).albums!.count, 8)
+                                        
+                                        expectation.fulfill()
+                                    case .failure(let error):
+                                        XCTFail("Fetching 'Assemblage' failed with error \(error)")
+                                    }
                                 case .failure(let error):
-                                    XCTFail("Fetching 'Assemblage' failed with error \(error)")
+                                    XCTFail("Loading 'Assemblage' JSON failed with error: \(error)")
                                 }
-                            case .failure(let error):
-                                XCTFail("Loading 'Assemblage' JSON failed with error: \(error)")
                             }
+                        case .failure(let error):
+                            XCTFail("Fetching 'Japan' failed with error \(error)")
                         }
                     case .failure(let error):
                         XCTFail("Loading JSON failed with error: \(error)")
@@ -203,9 +237,12 @@ class DataCacheTests: XCTestCase {
     }
     
     
-    func testFetchByIds() {
+    func testFetchConvenienceMethods() {
 
-        DataCache.bootstrap(withModelName: "DataCache", inMemory: true) { (result) in
+        let fetchSingleObjectExpectation = self.expectation(description: "Fetch single object by id")
+        let fetchMultipleObjectsExpectation = self.expectation(description: "Fetch multiple objects by id")
+        
+        DataCache.bootstrap(withModelName: "DataCache", inMemory: inMemory) { (result) in
             
             switch result {
             case .success:
@@ -213,14 +250,29 @@ class DataCacheTests: XCTestCase {
                     
                     switch result {
                     case .success:
+                        switch DataCache.fetchObject(ofType: "Album", withId: "Stranded") {
+                        case .success(let stranded):
+                            let stranded = stranded as! Album
+                            XCTAssertEqual(stranded.name!, "Stranded")
+                            XCTAssertEqual(stranded.band!.name!, "Roxy Music")
+                            XCTAssertEqual(stranded.released as! Date, Date(fromJSONValue: "1973-11-01T00:00:00Z"))
+                            XCTAssertEqual(stranded.label!, "Island")
+                            
+                            fetchSingleObjectExpectation.fulfill()
+                        case .failure(let error):
+                            XCTFail("Fetching 'Stranded' failed with error: \(error)")
+                        }
+                        
                         switch DataCache.fetchObjects(ofType: "Musician", withIds: ["Bryan Ferry", "Brian Eno", "David Sylvian", "Mick Karn", "Phil Manzanera", "Steve Jansen"]) {
                         case .success(let musicians):
-                            XCTAssertNotNil(musicians.filter({ ($0 as! Musician).name == "Bryan Ferry" }).count == 1)
-                            XCTAssertNotNil(musicians.filter({ ($0 as! Musician).name == "Brian Eno" }).count == 1)
-                            XCTAssertNotNil(musicians.filter({ ($0 as! Musician).name == "David Sylvian" }).count == 1)
-                            XCTAssertNotNil(musicians.filter({ ($0 as! Musician).name == "Bryan Mick Karn" }).count == 1)
-                            XCTAssertNotNil(musicians.filter({ ($0 as! Musician).name == "Phil Manzanera" }).count == 1)
-                            XCTAssertNotNil(musicians.filter({ ($0 as! Musician).name == "Steve Jansen" }).count == 1)
+                            XCTAssert(musicians.filter({ ($0 as! Musician).name == "Bryan Ferry" }).count == 1)
+                            XCTAssert(musicians.filter({ ($0 as! Musician).name == "Brian Eno" }).count == 1)
+                            XCTAssert(musicians.filter({ ($0 as! Musician).name == "David Sylvian" }).count == 1)
+                            XCTAssert(musicians.filter({ ($0 as! Musician).name == "Mick Karn" }).count == 1)
+                            XCTAssert(musicians.filter({ ($0 as! Musician).name == "Phil Manzanera" }).count == 1)
+                            XCTAssert(musicians.filter({ ($0 as! Musician).name == "Steve Jansen" }).count == 1)
+                            
+                            fetchMultipleObjectsExpectation.fulfill()
                         case .failure(let error):
                             XCTFail("Fetching musicians failed with error: \(error)")
                         }
@@ -232,25 +284,62 @@ class DataCacheTests: XCTestCase {
                 XCTFail("Bootstrap failed with error: \(error)")
             }
         }
+        
+        self.waitForExpectations(timeout: 5.0)
     }
     
     
     func testFailureScenarios() {
     
-        DataCache.bootstrap(withModelName: "NoModel") { (result) in
+        let modelNotFoundExpectation = self.expectation(description: "Model file does not exist")
+        
+        DataCache.bootstrap(withModelName: "NoModel", inMemory: inMemory) { (result) in
             
             switch result {
             case .success:
-                XCTFail("Bootstrapping non-existing model succeeded. This should not happen.")
+                XCTFail("Bootstrapping non-existent model succeeded. This should not happen.")
             case .failure(let error):
-                switch error as! BootstrapError {
+                switch error as! DataCacheError {
                 case .modelNotFound:
-                    break
+                    modelNotFoundExpectation.fulfill()
+                    
+                    DataCache.bootstrap(withModelName: "DataCache", inMemory: self.inMemory){ (result) in
+                        
+                        switch result {
+                        case .success:
+                            
+                            let objectNotFoundExpectation = self.expectation(description: "Object does not exist")
+                            switch DataCache.fetchObject(ofType: "Band", withId: "U2") {
+                            case .success(let band):
+                                XCTAssertNil(band)
+                                objectNotFoundExpectation.fulfill()
+                            case .failure(let error):
+                                XCTFail("Unexpected error: \(error)")
+                            }
+                            
+                            let noSuchEntityExpectation = self.expectation(description: "Entity does not exist")
+                            switch DataCache.fetchObject(ofType: "Artist", withId: "Bryan Ferry") {
+                            case .success:
+                                XCTFail("Fetching object with non-existent entity succeeded. This should not happen.")
+                            case .failure(let error):
+                                switch error as! DataCacheError {
+                                case .noSuchEntity:
+                                    noSuchEntityExpectation.fulfill()
+                                default:
+                                    XCTFail("Unexpected error: \(error)")
+                                }
+                            }
+                        case .failure(let error):
+                            XCTFail("Unexpected error: \(error)")
+                        }
+                    }
                 default:
                     XCTFail("Unexpected error: \(error)")
                 }
             }
         }
+        
+        self.waitForExpectations(timeout: 5.0)
     }
     
     
