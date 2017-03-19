@@ -45,7 +45,7 @@ class DataCacheTests: XCTestCase {
         
         super.tearDown()
         
-        DataCache.mainContext.reset()
+        DataCache.mainContext?.reset()
     }
     
     
