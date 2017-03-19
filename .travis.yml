@@ -6,8 +6,8 @@ branches:
     
 osx_image: xcode8.2
 xcode_project: DataCache.xcodeproj
-xcode_scheme: DataCacheTests
+xcode_scheme: DataCache
 xcode_sdk: iphonesimulator10.2
 
 script:
-- xcodebuild clean build test -project DataCache.xcodeproj -scheme DataCacheTests
+- xcodebuild clean build test -project DataCache.xcodeproj -scheme DataCache
