@@ -43,7 +43,7 @@
 		5C7184D21E76BD4D0000C85A /* DataCache.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataCache.xcdatamodel; sourceTree = "<group>"; };
 		5C7184D41E76BD4D0000C85A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C7184D71E76BD4D0000C85A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		5C7184D91E76BD4D0000C85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5C7184D91E76BD4D0000C85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "iOS Example/Info.plist"; sourceTree = "<group>"; };
 		5C7184DE1E76BD4D0000C85A /* DataCacheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataCacheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C7184E21E76BD4D0000C85A /* DataCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCacheTests.swift; sourceTree = "<group>"; };
 		5C7184E41E76BD4D0000C85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,7 +53,7 @@
 		5C7185041E76BFB30000C85A /* NSEntityDescription+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+DataCache.swift"; sourceTree = "<group>"; };
 		5C7185051E76BFB30000C85A /* NSManagedObject+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+DataCache.swift"; sourceTree = "<group>"; };
 		5C71850A1E76BFD60000C85A /* JSONConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONConverter.swift; sourceTree = "<group>"; };
-		5C71850C1E76BFED0000C85A /* JSONifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONifiable.swift; path = Protocols/JSONifiable.swift; sourceTree = "<group>"; };
+		5C71850C1E76BFED0000C85A /* JSONifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONifiable.swift; sourceTree = "<group>"; };
 		5C71850F1E76DC030000C85A /* bands.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bands.json; sourceTree = "<group>"; };
 		5C7185111E77DCC00000C85A /* Date+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+DataCache.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,6 +81,7 @@
 			children = (
 				5C7184C91E76BD4D0000C85A /* DataCache */,
 				5C71850E1E76C16C0000C85A /* iOS Example */,
+				5C7184D91E76BD4D0000C85A /* Info.plist */,
 				5C7184E11E76BD4D0000C85A /* DataCacheTests */,
 				5C7184C81E76BD4D0000C85A /* Products */,
 			);
@@ -130,14 +131,13 @@
 		5C71850E1E76C16C0000C85A /* iOS Example */ = {
 			isa = PBXGroup;
 			children = (
-				5C7184D11E76BD4D0000C85A /* DataCache.xcdatamodeld */,
 				5C7184CA1E76BD4D0000C85A /* AppDelegate.swift */,
-				5C7184CC1E76BD4D0000C85A /* ViewController.swift */,
-				5C7184CE1E76BD4D0000C85A /* Main.storyboard */,
-				5C7184D61E76BD4D0000C85A /* LaunchScreen.storyboard */,
-				5C71850F1E76DC030000C85A /* bands.json */,
 				5C7184D41E76BD4D0000C85A /* Assets.xcassets */,
-				5C7184D91E76BD4D0000C85A /* Info.plist */,
+				5C7184D11E76BD4D0000C85A /* DataCache.xcdatamodeld */,
+				5C7184D61E76BD4D0000C85A /* LaunchScreen.storyboard */,
+				5C7184CE1E76BD4D0000C85A /* Main.storyboard */,
+				5C7184CC1E76BD4D0000C85A /* ViewController.swift */,
+				5C71850F1E76DC030000C85A /* bands.json */,
 			);
 			path = "iOS Example";
 			sourceTree = "<group>";
