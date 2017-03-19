@@ -1,7 +1,7 @@
 language: objective-c
-osx_image: xcode8.2
+osx_image: xcode8.1
 branches:
   only:
   - master
 script:
-- xcodebuild test -workspace DataCache.xcodeproj/project.xcworkspace -scheme DataCache -destination "platform=iOS Simulator,name=iPhone 7,OS=10.2"
+- xcodebuild test -workspace DataCache.xcodeproj/project.xcworkspace -scheme DataCache -destination "platform=iOS Simulator,name=iPhone 7 Plus,OS=10.1"
