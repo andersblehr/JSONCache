@@ -1,6 +1,6 @@
-# DataCache
+# JSONCache
 
-DataCache is a thin layer on top of Core Data that seamlessly
+JSONCache is a thin layer on top of Core Data that seamlessly
 consumes, caches and produces JSON data.
 
 - Automatic mapping between `camelCase` and `snake_case`.
@@ -86,7 +86,7 @@ And with only a few lines of code, the JSON data is safely persisted
 in Core Data on your device, relationships and all:
 
 ```swift
-import DataCache
+import JSONCache
 
 ...
 
@@ -99,14 +99,14 @@ let albums = jsonObject["albums"] as! [[String: Any]]
 JSONConverter.casing = .snake_case
 JSONConverter.dateFormat = .iso8601WithSeparators
         
-DataCache.bootstrap(withModelName: "Bands") { result in
+JSONCache.bootstrap(withModelName: "Bands") { result in
   switch result {
   case .success:
-    DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
-    DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
-    DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
-    DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
-    DataCache.applyChanges { result in
+    JSONCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
+    JSONCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
+    JSONCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
+    JSONCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
+    JSONCache.applyChanges { result in
       switch result {
       case .success:
         print("Data all nicely tucked in")
@@ -125,8 +125,8 @@ If you receive additional data at a later stage it's even simpler:
 ```swift
 let albums = jsonObject["albums"] as! [[String: Any]]
 
-DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
-DataCache.applyChanges { result in
+JSONCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
+JSONCache.applyChanges { result in
   switch result {
   case .success:
     print("Data all nicely tucked in")
@@ -142,7 +142,7 @@ If your app allows producing as well as consuming data, you can
 generate JSON directly from `NSManagedObject` instances:
 
 ```swift
-switch DataCache.fetchObject(ofType: "Band", withId: "Japan") {
+switch JSONCache.fetchObject(ofType: "Band", withId: "Japan") {
   case .success(let japan):
     var japan = japan as! Band
     japan.otherNames = "Rain Tree Crow"
@@ -150,7 +150,7 @@ switch DataCache.fetchObject(ofType: "Band", withId: "Japan") {
     ServerProxy.update(band: japan.toJSONDictionary()) { result in
       switch result {
       case .success:
-        switch DataCache.save() {
+        switch JSONCache.save() {
           case .success:
             print("Japan as Rain Tree Crow all nicely tucked in")
           case .failure(let error):
@@ -186,10 +186,10 @@ let u2Info = BandInfo(name: "U2", bandDescription: "Dublin boys", formed: 1976, 
 ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
   switch result {
   case .success:
-    u2 = NSEntityDescription.insertNewObject(forEntityName: "Band" into: DataCache.mainContext)!
+    u2 = NSEntityDescription.insertNewObject(forEntityName: "Band" into: JSONCache.mainContext)!
     u2.setAttributes(fromDictionary: u2Info)
     
-    switch DataCache.save() {
+    switch JSONCache.save() {
     case .success:
       print("U2 all nicely tucked in")
     case .failure(let error)
@@ -206,7 +206,7 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
 
 Before JSON data is loaded into Core Data, any necessary case
 conversion is performed on the attribute names. The
-`JSONConverter.casing` configuration parameter tells DataCache whether
+`JSONConverter.casing` configuration parameter tells JSONCache whether
 to expect `.snake_case` or `.camelCase` in the JSON data. Case
 conversion is only done if the JSON casing is `.snake_case`:
 
@@ -221,7 +221,7 @@ Similarly, when producing JSON:
 
 ### Date conversion
 
-DataCache supports the following JSON date formats:
+JSONCache supports the following JSON date formats:
 
 - ISO 8601 with separators: `2000-08-22T13:28:00Z`
 - ISO 8601 without separators: `20000822T132800Z`
@@ -229,11 +229,11 @@ DataCache supports the following JSON date formats:
   `966950880.0`
 
 Use the `JSONConverter.dateFormat` configuration parameter to tell
-DataCache which format to expect and/or produce.
+JSONCache which format to expect and/or produce.
 
 ### Relationship mapping
 
-For DataCache to automatically map relationships, two things must be
+For JSONCache to automatically map relationships, two things must be
 in place:
 
 1. A primary key for each entity that takes part in a relationship.
@@ -247,7 +247,7 @@ example above).
 
 #### Entity primary key
 
-For DataCache to automatically map relationships, you must mark the
+For JSONCache to automatically map relationships, you must mark the
 primary key of each entity in your Core Data model. You do this in
 either of two ways:
 
@@ -273,7 +273,7 @@ named `DC.isIdentifier` and setting it to `true`._
 Consider the following JSON records:
 
 **Musician**
-```
+```json
 {
   "name": "Mick Karn",  <- Primary key
   "born": 1958,
@@ -283,7 +283,7 @@ Consider the following JSON records:
 ```
 
 **BandMember**
-```
+```json
 {
   "id": "Mick Karn in Japan",  <- Primary key
   "musician": "Mick Karn",     <- Foreign key
@@ -295,7 +295,7 @@ Consider the following JSON records:
 ```
 
 **Band**
-```
+```json
 {
   "name": "Japan",  <- Primary key
   "formed": 1974,
@@ -307,7 +307,7 @@ Consider the following JSON records:
 ```
 
 **Album**
-```
+```json
 {
   "name": "Tin Drum",
   "band": "Japan",  <- Foreign key
@@ -317,27 +317,27 @@ Consider the following JSON records:
 ```
 
 The foreign keys in the JSON data correspond to `toOne` relationships
-in Core Data. DataCache retrieves the `NSRelationshipDescription` for
+in Core Data. JSONCache retrieves the `NSRelationshipDescription` for
 each relationship, uses this to obtain the class of the target object,
 looks it up using the foreign key from the JSON dictionary, and
 establishes the relationship.
 
 ## Installation
 
-You can install DataCache using either
+You can install JSONCache using either
 [CocoaPods](http://cocoapods.org/) or
 [Carthage](https://github.com/Carthage/Carthage).
 
 ### CocoaPods
 
 ```
-pod 'DataCache', '~> 1'
+pod 'JSONCache'
 ```
 
 ### Carthage
 
 ```
-github "andersblehr/DataCache" ~> 1.0
+github "andersblehr/JSONCache" ~> 1.0
 ```
 
 ### Compatibility
@@ -349,5 +349,5 @@ Support for other Apple platforms is in the works.
 
 ## License
 
-DataCache is released under the MIT license. See the
+JSONCache is released under the MIT license. See the
 [LICENSE](LICENSE) file for details.
