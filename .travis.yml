@@ -8,7 +8,7 @@ env:
   - watchOS= DST='platform=watchOS Simulator,name=Apple Watch - 38mm' ACTION=build
 
 script:
-  - set -o pipefail && xcodebuild -scheme PromiseKit -destination "$DST" $ACTION | xcpretty
+  - set -o pipefail && xcodebuild -scheme JSONCache -destination "$DST" $ACTION | xcpretty
 
 #branches:
 #  only:
