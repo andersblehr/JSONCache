@@ -96,8 +96,8 @@ let bandMembers = jsonObject["band_members"] as! [[String: Any]]
 let musicians = jsonObject["musicians"] as! [[String: Any]]
 let albums = jsonObject["albums"] as! [[String: Any]]
         
-JSONConverter.casing = .snake_case
-JSONConverter.dateFormat = .iso8601WithSeparators
+JSONCache.casing = .snake_case
+JSONCache.dateFormat = .iso8601WithSeparators
         
 JSONCache.bootstrap(withModelName: "Bands") { result in
   switch result {
@@ -206,7 +206,7 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
 
 Before JSON data is loaded into Core Data, any necessary case
 conversion is performed on the attribute names. The
-`JSONConverter.casing` configuration parameter tells JSONCache whether
+`JSONCache.casing` configuration parameter tells JSONCache whether
 to expect `.snake_case` or `.camelCase` in the JSON data. Case
 conversion is only done if the JSON casing is `.snake_case`:
 
@@ -228,7 +228,7 @@ JSONCache supports the following JSON date formats:
 - Seconds since 00:00 on 1 Jan 1970 as a double precision value:
   `966950880.0`
 
-Use the `JSONConverter.dateFormat` configuration parameter to tell
+Use the `JSONCache.dateFormat` configuration parameter to tell
 JSONCache which format to expect and/or produce.
 
 ### Relationship mapping
