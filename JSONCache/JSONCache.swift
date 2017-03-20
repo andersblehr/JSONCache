@@ -1,6 +1,6 @@
 //
-//  DataCache.swift
-//  DataCache
+//  JSONCache.swift
+//  JSONCache
 //
 //  Created by Anders Blehr on 07/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.
@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 
-public enum DataCacheError: Error {
+public enum JSONCacheError: Error {
     case unsupportedPersistentStoreType(String)
     case modelNotFound(String)
     case modelInitializationError(URL)
@@ -24,8 +24,21 @@ public enum Result<T> {
 }
 
 
-public struct DataCache {
+public struct JSONCache {
     
+    public enum Casing {
+        case camelCase
+        case snake_case
+    }
+    
+    public enum DateFormat {
+        case iso8601WithSeparators
+        case iso8601WithoutSeparators
+        case timeIntervalSince1970
+    }
+    
+    public static var casing: Casing = .camelCase
+    public static var dateFormat: DateFormat = .iso8601WithSeparators
     public static var mainContext: NSManagedObjectContext! = nil
     
     
@@ -36,12 +49,12 @@ public struct DataCache {
         let persistentStoreType = inMemory ? NSInMemoryStoreType : NSSQLiteStoreType
         
         guard let managedObjectModelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
-            DispatchQueue.main.async { completion(Result.failure(DataCacheError.modelNotFound(modelName))) }
+            DispatchQueue.main.async { completion(Result.failure(JSONCacheError.modelNotFound(modelName))) }
             return
         }
         
         guard let managedObjectModel = NSManagedObjectModel(contentsOf: managedObjectModelURL) else {
-            DispatchQueue.main.async { completion(Result.failure(DataCacheError.modelInitializationError(managedObjectModelURL))) }
+            DispatchQueue.main.async { completion(Result.failure(JSONCacheError.modelInitializationError(managedObjectModelURL))) }
             return
         }
         
@@ -103,7 +116,7 @@ public struct DataCache {
     public static func applyChanges(completion: @escaping (_ result: Result<Void>) -> Void) {
         
         guard mainContext != nil else {
-            DispatchQueue.main.async { completion(Result.failure(DataCacheError.managedObjectContextNotAvailable)) }
+            DispatchQueue.main.async { completion(Result.failure(JSONCacheError.managedObjectContextNotAvailable)) }
             return
         }
         
@@ -195,7 +208,7 @@ public struct DataCache {
     public static func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable, in context: NSManagedObjectContext? = mainContext) -> Result<ResultType?> {
         
         guard context != nil else {
-            return Result.failure(DataCacheError.managedObjectContextNotAvailable)
+            return Result.failure(JSONCacheError.managedObjectContextNotAvailable)
         }
         
         if let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!) {
@@ -209,7 +222,7 @@ public struct DataCache {
                 return Result.failure(error)
             }
         } else {
-            return Result.failure(DataCacheError.noSuchEntity(entityName))
+            return Result.failure(JSONCacheError.noSuchEntity(entityName))
         }
     }
     
@@ -217,7 +230,7 @@ public struct DataCache {
     public static func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable], in context: NSManagedObjectContext? = mainContext) -> Result<[ResultType]> {
         
         guard context != nil else {
-            return Result.failure(DataCacheError.managedObjectContextNotAvailable)
+            return Result.failure(JSONCacheError.managedObjectContextNotAvailable)
         }
         
         if let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!) {
@@ -231,7 +244,7 @@ public struct DataCache {
                 return Result.failure(error)
             }
         } else {
-            return Result.failure(DataCacheError.noSuchEntity(entityName))
+            return Result.failure(JSONCacheError.noSuchEntity(entityName))
         }
     }
     

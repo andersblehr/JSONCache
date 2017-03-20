@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  DataCache
+//  JSONCache
 //
 //  Created by Anders Blehr on 13/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.
@@ -9,7 +9,7 @@
 import CoreData
 import UIKit
 
-import DataCache
+import JSONCache
 
 
 class ViewController: UIViewController {
@@ -41,18 +41,18 @@ class ViewController: UIViewController {
         let musicians = jsonObject["musicians"] as! [[String: Any]]
         let albums = jsonObject["albums"] as! [[String: Any]]
         
-        JSONConverter.casing = .snake_case
-        JSONConverter.dateFormat = .iso8601WithSeparators
+        JSONCache.casing = .snake_case
+        JSONCache.dateFormat = .iso8601WithSeparators
         
-        DataCache.bootstrap(withModelName: "DataCacheTests", inMemory: true) { (result) in
+        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: true) { (result) in
             
             switch result {
             case .success:
-                DataCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
-                DataCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
-                DataCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
-                DataCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
-                DataCache.applyChanges { (result) in
+                JSONCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
+                JSONCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
+                JSONCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
+                JSONCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
+                JSONCache.applyChanges { (result) in
                     
                     switch result {
                     case .success:
@@ -81,21 +81,21 @@ class ViewController: UIViewController {
         let fetchRequest = NSFetchRequest<Band>(entityName: "Band")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: JSONCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
     fileprivate lazy var memberResultsController: NSFetchedResultsController<BandMember> = {
         let fetchRequest = NSFetchRequest<BandMember>(entityName: "BandMember")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "musician.name", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: JSONCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
     }()
     
     fileprivate lazy var albumResultsController: NSFetchedResultsController<Album> = {
         let fetchRequest = NSFetchRequest<Album>(entityName: "Album")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "released", ascending: true)]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: JSONCache.mainContext, sectionNameKeyPath: nil, cacheName: nil)
     }()
 }
 

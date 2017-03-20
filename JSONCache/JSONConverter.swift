@@ -1,6 +1,6 @@
 //
 //  JSONConverter.swift
-//  DataCache
+//  JSONCache
 //
 //  Created by Anders Blehr on 09/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.
@@ -16,24 +16,10 @@ public struct JSONConverter {
         case toJSON
     }
     
-    public enum Casing {
-        case camelCase
-        case snake_case
-    }
-    
-    public enum DateFormat {
-        case iso8601WithSeparators
-        case iso8601WithoutSeparators
-        case timeIntervalSince1970
-    }
-    
-    public static var casing: Casing = .camelCase
-    public static var dateFormat: DateFormat = .iso8601WithSeparators
-    
     
     public static func convert(_ direction: Direction, dictionary: [String: Any], qualifier: String? = nil) -> [String: Any] {
         
-        if casing == .camelCase {
+        if JSONCache.casing == .camelCase {
             return dictionary
         }
         
@@ -48,7 +34,7 @@ public struct JSONConverter {
     
     public static func convert(_ direction: Direction, string: String, qualifier: String? = nil) -> String {
         
-        if casing == .camelCase {
+        if JSONCache.casing == .camelCase {
             return string
         }
         

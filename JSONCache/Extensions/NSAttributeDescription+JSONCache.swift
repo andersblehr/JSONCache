@@ -1,6 +1,6 @@
 //
-//  NSAttributeDescription+DataCache.swift
-//  DataCache
+//  NSAttributeDescription+JSONCache.swift
+//  JSONCache
 //
 //  Created by Anders Blehr on 12/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.

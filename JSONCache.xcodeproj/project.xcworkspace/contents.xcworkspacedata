@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:DataCache.xcodeproj">
+      location = "self:/Users/ablehr/Developer/Apps/JSONCache/JSONCache.xcodeproj">
    </FileRef>
 </Workspace>

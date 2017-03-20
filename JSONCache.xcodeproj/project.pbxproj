@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5CA96C531E7EBF300086BA87 /* DataCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA96C491E7EBF300086BA87 /* DataCache.framework */; };
-		5CA96C581E7EBF300086BA87 /* DataCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C571E7EBF300086BA87 /* DataCacheTests.swift */; };
-		5CA96C5A1E7EBF300086BA87 /* DataCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA96C4C1E7EBF300086BA87 /* DataCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CA96C641E7EBFDA0086BA87 /* DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C631E7EBFDA0086BA87 /* DataCache.swift */; };
+		5CA96C531E7EBF300086BA87 /* JSONCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA96C491E7EBF300086BA87 /* JSONCache.framework */; };
+		5CA96C581E7EBF300086BA87 /* JSONCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C571E7EBF300086BA87 /* JSONCacheTests.swift */; };
+		5CA96C5A1E7EBF300086BA87 /* JSONCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA96C4C1E7EBF300086BA87 /* JSONCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5CA96C641E7EBFDA0086BA87 /* JSONCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C631E7EBFDA0086BA87 /* JSONCache.swift */; };
 		5CA96C661E7EC0200086BA87 /* JSONConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C651E7EC0200086BA87 /* JSONConverter.swift */; };
 		5CA96C681E7EC0440086BA87 /* JSONifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C671E7EC0440086BA87 /* JSONifiable.swift */; };
-		5CA96C6B1E7EC0820086BA87 /* Date+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C6A1E7EC0820086BA87 /* Date+DataCache.swift */; };
-		5CA96C6D1E7EC09C0086BA87 /* DateFormatter+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C6C1E7EC09C0086BA87 /* DateFormatter+DataCache.swift */; };
-		5CA96C6F1E7EC0B90086BA87 /* NSAttributeDescription+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C6E1E7EC0B90086BA87 /* NSAttributeDescription+DataCache.swift */; };
-		5CA96C711E7EC0D20086BA87 /* NSEntityDescription+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C701E7EC0D20086BA87 /* NSEntityDescription+DataCache.swift */; };
-		5CA96C731E7EC0EC0086BA87 /* NSManagedObject+DataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C721E7EC0EC0086BA87 /* NSManagedObject+DataCache.swift */; };
-		5CA96C761E7EC2850086BA87 /* DataCacheTests.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C741E7EC2850086BA87 /* DataCacheTests.xcdatamodeld */; };
+		5CA96C6B1E7EC0820086BA87 /* Date+JSONCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C6A1E7EC0820086BA87 /* Date+JSONCache.swift */; };
+		5CA96C6D1E7EC09C0086BA87 /* DateFormatter+JSONCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C6C1E7EC09C0086BA87 /* DateFormatter+JSONCache.swift */; };
+		5CA96C6F1E7EC0B90086BA87 /* NSAttributeDescription+JSONCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C6E1E7EC0B90086BA87 /* NSAttributeDescription+JSONCache.swift */; };
+		5CA96C711E7EC0D20086BA87 /* NSEntityDescription+JSONCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C701E7EC0D20086BA87 /* NSEntityDescription+JSONCache.swift */; };
+		5CA96C731E7EC0EC0086BA87 /* NSManagedObject+JSONCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C721E7EC0EC0086BA87 /* NSManagedObject+JSONCache.swift */; };
+		5CA96C761E7EC2850086BA87 /* JSONCacheTests.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C741E7EC2850086BA87 /* JSONCacheTests.xcdatamodeld */; };
 		5CA96C7A1E7EC3090086BA87 /* bands.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CA96C791E7EC3090086BA87 /* bands.json */; };
 		5CA96C831E7ED6B10086BA87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C821E7ED6B10086BA87 /* AppDelegate.swift */; };
 		5CA96C851E7ED6B10086BA87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C841E7ED6B10086BA87 /* ViewController.swift */; };
@@ -26,7 +26,7 @@
 		5CA96C8D1E7ED6B10086BA87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CA96C8C1E7ED6B10086BA87 /* Assets.xcassets */; };
 		5CA96C901E7ED6B10086BA87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CA96C8E1E7ED6B10086BA87 /* LaunchScreen.storyboard */; };
 		5CA96C991E7ED9430086BA87 /* bands.json in Resources */ = {isa = PBXBuildFile; fileRef = 5CA96C981E7ED9430086BA87 /* bands.json */; };
-		5CA96C9C1E7ED9B00086BA87 /* DataCacheTests.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C9A1E7ED9B00086BA87 /* DataCacheTests.xcdatamodeld */; };
+		5CA96C9C1E7ED9B00086BA87 /* JSONCacheTests.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C9A1E7ED9B00086BA87 /* JSONCacheTests.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,21 +40,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5CA96C491E7EBF300086BA87 /* DataCache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DataCache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CA96C4C1E7EBF300086BA87 /* DataCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataCache.h; sourceTree = "<group>"; };
+		5CA96C491E7EBF300086BA87 /* JSONCache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSONCache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CA96C4C1E7EBF300086BA87 /* JSONCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONCache.h; sourceTree = "<group>"; };
 		5CA96C4D1E7EBF300086BA87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5CA96C521E7EBF300086BA87 /* DataCacheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataCacheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CA96C571E7EBF300086BA87 /* DataCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCacheTests.swift; sourceTree = "<group>"; };
+		5CA96C521E7EBF300086BA87 /* JSONCacheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONCacheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CA96C571E7EBF300086BA87 /* JSONCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCacheTests.swift; sourceTree = "<group>"; };
 		5CA96C591E7EBF300086BA87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5CA96C631E7EBFDA0086BA87 /* DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCache.swift; sourceTree = "<group>"; };
+		5CA96C631E7EBFDA0086BA87 /* JSONCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCache.swift; sourceTree = "<group>"; };
 		5CA96C651E7EC0200086BA87 /* JSONConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONConverter.swift; sourceTree = "<group>"; };
 		5CA96C671E7EC0440086BA87 /* JSONifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONifiable.swift; sourceTree = "<group>"; };
-		5CA96C6A1E7EC0820086BA87 /* Date+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+DataCache.swift"; sourceTree = "<group>"; };
-		5CA96C6C1E7EC09C0086BA87 /* DateFormatter+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+DataCache.swift"; sourceTree = "<group>"; };
-		5CA96C6E1E7EC0B90086BA87 /* NSAttributeDescription+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributeDescription+DataCache.swift"; sourceTree = "<group>"; };
-		5CA96C701E7EC0D20086BA87 /* NSEntityDescription+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+DataCache.swift"; sourceTree = "<group>"; };
-		5CA96C721E7EC0EC0086BA87 /* NSManagedObject+DataCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+DataCache.swift"; sourceTree = "<group>"; };
-		5CA96C751E7EC2850086BA87 /* DataCacheTests.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataCacheTests.xcdatamodel; sourceTree = "<group>"; };
+		5CA96C6A1E7EC0820086BA87 /* Date+JSONCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+JSONCache.swift"; sourceTree = "<group>"; };
+		5CA96C6C1E7EC09C0086BA87 /* DateFormatter+JSONCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+JSONCache.swift"; sourceTree = "<group>"; };
+		5CA96C6E1E7EC0B90086BA87 /* NSAttributeDescription+JSONCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributeDescription+JSONCache.swift"; sourceTree = "<group>"; };
+		5CA96C701E7EC0D20086BA87 /* NSEntityDescription+JSONCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+JSONCache.swift"; sourceTree = "<group>"; };
+		5CA96C721E7EC0EC0086BA87 /* NSManagedObject+JSONCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+JSONCache.swift"; sourceTree = "<group>"; };
+		5CA96C751E7EC2850086BA87 /* JSONCacheTests.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JSONCacheTests.xcdatamodel; sourceTree = "<group>"; };
 		5CA96C791E7EC3090086BA87 /* bands.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bands.json; sourceTree = "<group>"; };
 		5CA96C801E7ED6B10086BA87 /* UsageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UsageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA96C821E7ED6B10086BA87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 		5CA96C8F1E7ED6B10086BA87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5CA96C911E7ED6B10086BA87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CA96C981E7ED9430086BA87 /* bands.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bands.json; sourceTree = "<group>"; };
-		5CA96C9B1E7ED9B00086BA87 /* DataCacheTests.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataCacheTests.xcdatamodel; sourceTree = "<group>"; };
+		5CA96C9B1E7ED9B00086BA87 /* JSONCacheTests.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JSONCacheTests.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CA96C531E7EBF300086BA87 /* DataCache.framework in Frameworks */,
+				5CA96C531E7EBF300086BA87 /* JSONCache.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,8 +96,8 @@
 		5CA96C3F1E7EBF300086BA87 = {
 			isa = PBXGroup;
 			children = (
-				5CA96C4B1E7EBF300086BA87 /* DataCache */,
-				5CA96C561E7EBF300086BA87 /* DataCacheTests */,
+				5CA96C4B1E7EBF300086BA87 /* JSONCache */,
+				5CA96C561E7EBF300086BA87 /* JSONCacheTests */,
 				5CA96C811E7ED6B10086BA87 /* UsageExample */,
 				5CA96C4A1E7EBF300086BA87 /* Products */,
 			);
@@ -106,60 +106,60 @@
 		5CA96C4A1E7EBF300086BA87 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5CA96C491E7EBF300086BA87 /* DataCache.framework */,
-				5CA96C521E7EBF300086BA87 /* DataCacheTests.xctest */,
+				5CA96C491E7EBF300086BA87 /* JSONCache.framework */,
+				5CA96C521E7EBF300086BA87 /* JSONCacheTests.xctest */,
 				5CA96C801E7ED6B10086BA87 /* UsageExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5CA96C4B1E7EBF300086BA87 /* DataCache */ = {
+		5CA96C4B1E7EBF300086BA87 /* JSONCache */ = {
 			isa = PBXGroup;
 			children = (
 				5CA96C691E7EC0640086BA87 /* Extensions */,
-				5CA96C4C1E7EBF300086BA87 /* DataCache.h */,
-				5CA96C631E7EBFDA0086BA87 /* DataCache.swift */,
+				5CA96C4C1E7EBF300086BA87 /* JSONCache.h */,
+				5CA96C631E7EBFDA0086BA87 /* JSONCache.swift */,
 				5CA96C651E7EC0200086BA87 /* JSONConverter.swift */,
 				5CA96C671E7EC0440086BA87 /* JSONifiable.swift */,
 				5CA96C4D1E7EBF300086BA87 /* Info.plist */,
 			);
-			path = DataCache;
+			path = JSONCache;
 			sourceTree = "<group>";
 		};
-		5CA96C561E7EBF300086BA87 /* DataCacheTests */ = {
+		5CA96C561E7EBF300086BA87 /* JSONCacheTests */ = {
 			isa = PBXGroup;
 			children = (
+				5CA96C571E7EBF300086BA87 /* JSONCacheTests.swift */,
+				5CA96C741E7EC2850086BA87 /* JSONCacheTests.xcdatamodeld */,
 				5CA96C791E7EC3090086BA87 /* bands.json */,
-				5CA96C741E7EC2850086BA87 /* DataCacheTests.xcdatamodeld */,
-				5CA96C571E7EBF300086BA87 /* DataCacheTests.swift */,
 				5CA96C591E7EBF300086BA87 /* Info.plist */,
 			);
-			path = DataCacheTests;
+			path = JSONCacheTests;
 			sourceTree = "<group>";
 		};
 		5CA96C691E7EC0640086BA87 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				5CA96C6A1E7EC0820086BA87 /* Date+DataCache.swift */,
-				5CA96C6C1E7EC09C0086BA87 /* DateFormatter+DataCache.swift */,
-				5CA96C6E1E7EC0B90086BA87 /* NSAttributeDescription+DataCache.swift */,
-				5CA96C701E7EC0D20086BA87 /* NSEntityDescription+DataCache.swift */,
-				5CA96C721E7EC0EC0086BA87 /* NSManagedObject+DataCache.swift */,
+				5CA96C6A1E7EC0820086BA87 /* Date+JSONCache.swift */,
+				5CA96C6C1E7EC09C0086BA87 /* DateFormatter+JSONCache.swift */,
+				5CA96C6E1E7EC0B90086BA87 /* NSAttributeDescription+JSONCache.swift */,
+				5CA96C701E7EC0D20086BA87 /* NSEntityDescription+JSONCache.swift */,
+				5CA96C721E7EC0EC0086BA87 /* NSManagedObject+JSONCache.swift */,
 			);
-			name = Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		5CA96C811E7ED6B10086BA87 /* UsageExample */ = {
 			isa = PBXGroup;
 			children = (
-				5CA96C981E7ED9430086BA87 /* bands.json */,
-				5CA96C9A1E7ED9B00086BA87 /* DataCacheTests.xcdatamodeld */,
 				5CA96C821E7ED6B10086BA87 /* AppDelegate.swift */,
-				5CA96C841E7ED6B10086BA87 /* ViewController.swift */,
-				5CA96C861E7ED6B10086BA87 /* Main.storyboard */,
-				5CA96C8E1E7ED6B10086BA87 /* LaunchScreen.storyboard */,
 				5CA96C8C1E7ED6B10086BA87 /* Assets.xcassets */,
 				5CA96C911E7ED6B10086BA87 /* Info.plist */,
+				5CA96C9A1E7ED9B00086BA87 /* JSONCacheTests.xcdatamodeld */,
+				5CA96C8E1E7ED6B10086BA87 /* LaunchScreen.storyboard */,
+				5CA96C861E7ED6B10086BA87 /* Main.storyboard */,
+				5CA96C841E7ED6B10086BA87 /* ViewController.swift */,
+				5CA96C981E7ED9430086BA87 /* bands.json */,
 			);
 			path = UsageExample;
 			sourceTree = "<group>";
@@ -171,16 +171,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CA96C5A1E7EBF300086BA87 /* DataCache.h in Headers */,
+				5CA96C5A1E7EBF300086BA87 /* JSONCache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5CA96C481E7EBF300086BA87 /* DataCache */ = {
+		5CA96C481E7EBF300086BA87 /* JSONCache */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5CA96C5D1E7EBF300086BA87 /* Build configuration list for PBXNativeTarget "DataCache" */;
+			buildConfigurationList = 5CA96C5D1E7EBF300086BA87 /* Build configuration list for PBXNativeTarget "JSONCache" */;
 			buildPhases = (
 				5CA96C441E7EBF300086BA87 /* Sources */,
 				5CA96C451E7EBF300086BA87 /* Frameworks */,
@@ -191,14 +191,14 @@
 			);
 			dependencies = (
 			);
-			name = DataCache;
-			productName = DataCache;
-			productReference = 5CA96C491E7EBF300086BA87 /* DataCache.framework */;
+			name = JSONCache;
+			productName = JSONCache;
+			productReference = 5CA96C491E7EBF300086BA87 /* JSONCache.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		5CA96C511E7EBF300086BA87 /* DataCacheTests */ = {
+		5CA96C511E7EBF300086BA87 /* JSONCacheTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5CA96C601E7EBF300086BA87 /* Build configuration list for PBXNativeTarget "DataCacheTests" */;
+			buildConfigurationList = 5CA96C601E7EBF300086BA87 /* Build configuration list for PBXNativeTarget "JSONCacheTests" */;
 			buildPhases = (
 				5CA96C4E1E7EBF300086BA87 /* Sources */,
 				5CA96C4F1E7EBF300086BA87 /* Frameworks */,
@@ -209,9 +209,9 @@
 			dependencies = (
 				5CA96C551E7EBF300086BA87 /* PBXTargetDependency */,
 			);
-			name = DataCacheTests;
-			productName = DataCacheTests;
-			productReference = 5CA96C521E7EBF300086BA87 /* DataCacheTests.xctest */;
+			name = JSONCacheTests;
+			productName = JSONCacheTests;
+			productReference = 5CA96C521E7EBF300086BA87 /* JSONCacheTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		5CA96C7F1E7ED6B10086BA87 /* UsageExample */ = {
@@ -259,7 +259,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5CA96C431E7EBF300086BA87 /* Build configuration list for PBXProject "DataCache" */;
+			buildConfigurationList = 5CA96C431E7EBF300086BA87 /* Build configuration list for PBXProject "JSONCache" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -272,8 +272,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5CA96C481E7EBF300086BA87 /* DataCache */,
-				5CA96C511E7EBF300086BA87 /* DataCacheTests */,
+				5CA96C481E7EBF300086BA87 /* JSONCache */,
+				5CA96C511E7EBF300086BA87 /* JSONCacheTests */,
 				5CA96C7F1E7ED6B10086BA87 /* UsageExample */,
 			);
 		};
@@ -313,14 +313,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CA96C731E7EC0EC0086BA87 /* NSManagedObject+DataCache.swift in Sources */,
-				5CA96C6D1E7EC09C0086BA87 /* DateFormatter+DataCache.swift in Sources */,
-				5CA96C6F1E7EC0B90086BA87 /* NSAttributeDescription+DataCache.swift in Sources */,
+				5CA96C731E7EC0EC0086BA87 /* NSManagedObject+JSONCache.swift in Sources */,
+				5CA96C6D1E7EC09C0086BA87 /* DateFormatter+JSONCache.swift in Sources */,
+				5CA96C6F1E7EC0B90086BA87 /* NSAttributeDescription+JSONCache.swift in Sources */,
 				5CA96C661E7EC0200086BA87 /* JSONConverter.swift in Sources */,
-				5CA96C711E7EC0D20086BA87 /* NSEntityDescription+DataCache.swift in Sources */,
+				5CA96C711E7EC0D20086BA87 /* NSEntityDescription+JSONCache.swift in Sources */,
 				5CA96C681E7EC0440086BA87 /* JSONifiable.swift in Sources */,
-				5CA96C6B1E7EC0820086BA87 /* Date+DataCache.swift in Sources */,
-				5CA96C641E7EBFDA0086BA87 /* DataCache.swift in Sources */,
+				5CA96C6B1E7EC0820086BA87 /* Date+JSONCache.swift in Sources */,
+				5CA96C641E7EBFDA0086BA87 /* JSONCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,8 +328,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CA96C761E7EC2850086BA87 /* DataCacheTests.xcdatamodeld in Sources */,
-				5CA96C581E7EBF300086BA87 /* DataCacheTests.swift in Sources */,
+				5CA96C761E7EC2850086BA87 /* JSONCacheTests.xcdatamodeld in Sources */,
+				5CA96C581E7EBF300086BA87 /* JSONCacheTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,7 +339,7 @@
 			files = (
 				5CA96C851E7ED6B10086BA87 /* ViewController.swift in Sources */,
 				5CA96C831E7ED6B10086BA87 /* AppDelegate.swift in Sources */,
-				5CA96C9C1E7ED9B00086BA87 /* DataCacheTests.xcdatamodeld in Sources */,
+				5CA96C9C1E7ED9B00086BA87 /* JSONCacheTests.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,7 +348,7 @@
 /* Begin PBXTargetDependency section */
 		5CA96C551E7EBF300086BA87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5CA96C481E7EBF300086BA87 /* DataCache */;
+			target = 5CA96C481E7EBF300086BA87 /* JSONCache */;
 			targetProxy = 5CA96C541E7EBF300086BA87 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -360,6 +360,7 @@
 				5CA96C871E7ED6B10086BA87 /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		5CA96C8E1E7ED6B10086BA87 /* LaunchScreen.storyboard */ = {
@@ -368,6 +369,7 @@
 				5CA96C8F1E7ED6B10086BA87 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -483,11 +485,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = DataCache/Info.plist;
+				INFOPLIST_FILE = JSONCache/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.DataCache;
+				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.JSONCache;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -506,11 +508,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = DataCache/Info.plist;
+				INFOPLIST_FILE = JSONCache/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.DataCache;
+				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.JSONCache;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -522,9 +524,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 68M9JL23T5;
-				INFOPLIST_FILE = DataCacheTests/Info.plist;
+				INFOPLIST_FILE = JSONCacheTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.DataCacheTests;
+				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.JSONCacheTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -535,9 +537,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 68M9JL23T5;
-				INFOPLIST_FILE = DataCacheTests/Info.plist;
+				INFOPLIST_FILE = JSONCacheTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.DataCacheTests;
+				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.JSONCacheTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -551,7 +553,7 @@
 				INFOPLIST_FILE = UsageExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.DataCache.UsageExample;
+				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.JSONCache.UsageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -565,7 +567,7 @@
 				INFOPLIST_FILE = UsageExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.DataCache.UsageExample;
+				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.JSONCache.UsageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -574,7 +576,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5CA96C431E7EBF300086BA87 /* Build configuration list for PBXProject "DataCache" */ = {
+		5CA96C431E7EBF300086BA87 /* Build configuration list for PBXProject "JSONCache" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CA96C5B1E7EBF300086BA87 /* Debug */,
@@ -583,21 +585,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5CA96C5D1E7EBF300086BA87 /* Build configuration list for PBXNativeTarget "DataCache" */ = {
+		5CA96C5D1E7EBF300086BA87 /* Build configuration list for PBXNativeTarget "JSONCache" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CA96C5E1E7EBF300086BA87 /* Debug */,
 				5CA96C5F1E7EBF300086BA87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		5CA96C601E7EBF300086BA87 /* Build configuration list for PBXNativeTarget "DataCacheTests" */ = {
+		5CA96C601E7EBF300086BA87 /* Build configuration list for PBXNativeTarget "JSONCacheTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CA96C611E7EBF300086BA87 /* Debug */,
 				5CA96C621E7EBF300086BA87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5CA96C921E7ED6B10086BA87 /* Build configuration list for PBXNativeTarget "UsageExample" */ = {
 			isa = XCConfigurationList;
@@ -606,27 +610,28 @@
 				5CA96C941E7ED6B10086BA87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		5CA96C741E7EC2850086BA87 /* DataCacheTests.xcdatamodeld */ = {
+		5CA96C741E7EC2850086BA87 /* JSONCacheTests.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				5CA96C751E7EC2850086BA87 /* DataCacheTests.xcdatamodel */,
+				5CA96C751E7EC2850086BA87 /* JSONCacheTests.xcdatamodel */,
 			);
-			currentVersion = 5CA96C751E7EC2850086BA87 /* DataCacheTests.xcdatamodel */;
-			path = DataCacheTests.xcdatamodeld;
+			currentVersion = 5CA96C751E7EC2850086BA87 /* JSONCacheTests.xcdatamodel */;
+			path = JSONCacheTests.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
-		5CA96C9A1E7ED9B00086BA87 /* DataCacheTests.xcdatamodeld */ = {
+		5CA96C9A1E7ED9B00086BA87 /* JSONCacheTests.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				5CA96C9B1E7ED9B00086BA87 /* DataCacheTests.xcdatamodel */,
+				5CA96C9B1E7ED9B00086BA87 /* JSONCacheTests.xcdatamodel */,
 			);
-			currentVersion = 5CA96C9B1E7ED9B00086BA87 /* DataCacheTests.xcdatamodel */;
-			path = DataCacheTests.xcdatamodeld;
+			currentVersion = 5CA96C9B1E7ED9B00086BA87 /* JSONCacheTests.xcdatamodel */;
+			path = JSONCacheTests.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

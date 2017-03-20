@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  DataCache
+//  JSONCache
 //
 //  Created by Anders Blehr on 13/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-import DataCache
+import JSONCache
 
 
 @UIApplicationMain
@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         
-        switch DataCache.save() {
+        switch JSONCache.save() {
         case .success:
             break
         case .failure(let error):

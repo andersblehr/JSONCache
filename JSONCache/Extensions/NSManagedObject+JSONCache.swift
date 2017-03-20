@@ -1,6 +1,6 @@
 //
-//  NSManagedObject+DataCache.swift
-//  DataCache
+//  NSManagedObject+JSONCache.swift
+//  JSONCache
 //
 //  Created by Anders Blehr on 10/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.

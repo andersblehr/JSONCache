@@ -1,6 +1,6 @@
 //
-//  Date+DataCache.swift
-//  DataCache
+//  Date+JSONCache.swift
+//  JSONCache
 //
 //  Created by Anders Blehr on 14/03/2017.
 //  Copyright © 2017 Anders Blehr. All rights reserved.
@@ -13,7 +13,7 @@ public extension Date {
     
     public init(fromJSONValue value: Any) {
         
-        switch JSONConverter.dateFormat {
+        switch JSONCache.dateFormat {
         case .iso8601WithSeparators, .iso8601WithoutSeparators:
             if let date = DateFormatter.date(fromISO8601String: value as! String) {
                 self.init(timeIntervalSince1970: date.timeIntervalSince1970)
@@ -32,7 +32,7 @@ public extension Date {
     
     public func toJSONValue() -> Any {
         
-        switch JSONConverter.dateFormat {
+        switch JSONCache.dateFormat {
         case .iso8601WithSeparators, .iso8601WithoutSeparators:
             return DateFormatter.iso8601String(from: self)
         case .timeIntervalSince1970:
