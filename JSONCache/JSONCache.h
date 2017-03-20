@@ -6,7 +6,7 @@
 //  Copyright © 2017 Anders Blehr. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for JSONCache.
 FOUNDATION_EXPORT double JSONCacheVersionNumber;

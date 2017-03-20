@@ -26,8 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "NO"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "NO">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -43,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5CA96C511E7EBF300086BA87"
-            BuildableName = "JSONCacheTests.xctest"
-            BlueprintName = "JSONCacheTests"
+            BlueprintIdentifier = "5CA96C481E7EBF300086BA87"
+            BuildableName = "JSONCache.framework"
+            BlueprintName = "JSONCache"
             ReferencedContainer = "container:JSONCache.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
