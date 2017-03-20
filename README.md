@@ -10,9 +10,28 @@ consumes, caches and produces JSON data.
 - On-demand JSON generation, both from `NSManageObject` instances, and
   from any `struct` that adopts the `JSONifiable` protocol.
 - All JSON parsing and Core Data operations are done in the
-  background, so doesn't interfere with your app's responsiveness.
+  background, so it doesn't interfere with your app's responsiveness.
+
+## Content
+
+- [Show, don't tell](#show-dont-tell)
+  - [Consuming JSON](#consuming-json)
+  - [Producing JSON](#producing-json)
+- [But do tell](#but-do-tell)
+  - [Case conversion](#case-conversion)
+  - [Date conversion](#date-conversion)
+  - [Relationship mapping](#relationship-mapping)
+    - [Entity primary key](#entity-primary-key)
+    - [JSON foreign key](#json-foreign-key)
+- [Installation](#installation)
+  - [CocoaPods](#cocoapods)
+  - [Carthage](#carthage)
+  - [Compatibility](#compatibility)
+- [License](#license)
 
 ## Show, don't tell
+
+### Consuming JSON
 
 Say your backend produces JSON like this:
 
@@ -117,7 +136,9 @@ DataCache.applyChanges { result in
 }
 ```
 
-And if your app allows producing as well as consuming data, you can
+### Producing JSON
+
+If your app allows producing as well as consuming data, you can
 generate JSON directly from `NSManagedObject` instances:
 
 ```swift
@@ -178,3 +199,155 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
     print("An error occurred: \(error)")
 }
 ```
+
+## But do tell
+
+### Case conversion
+
+Before JSON data is loaded into Core Data, any necessary case
+conversion is performed on the attribute names. The
+`JSONConverter.casing` configuration parameter tells DataCache whether
+to expect `.snake_case` or `.camelCase` in the JSON data. Case
+conversion is only done if the JSON casing is `.snake_case`:
+
+- `attribute_name` becomes `attributeName`.
+- `description`, being a reserved attribute name, becomes
+  `entityNameDescription`.
+  
+Similarly, when producing JSON:
+
+- `attributeName` becomes `attribute_name`.
+- `entityNameDescription` becomes `description`.
+
+### Date conversion
+
+DataCache supports the following JSON date formats:
+
+- ISO 8601 with separators: `2000-08-22T13:28:00Z`
+- ISO 8601 without separators: `20000822T132800Z`
+- Seconds since 00:00 on 1 Jan 1970 as a double precision value:
+  `966950880.0`
+
+Use the `JSONConverter.dateFormat` configuration parameter to tell
+DataCache which format to expect and/or produce.
+
+### Relationship mapping
+
+For DataCache to automatically map relationships, two things must be
+in place:
+
+1. A primary key for each entity that takes part in a relationship.
+2. The foreign key of the target entity in the JSON relationship
+   attribute on the 'one end' of one-to-one and one-to-many
+   relationships.
+
+Many-to-many relationships are currently not supported, except through
+relationship entities (such as the `BandMember` entity in the JSON
+example above).
+
+#### Entity primary key
+
+For DataCache to automatically map relationships, you must mark the
+primary key of each entity in your Core Data model. You do this in
+either of two ways:
+
+1. Use the name `id` for the primary key. (See Figure 1.)
+2. Create a User Info key named `DC.isIdentifier` for the primary key
+   attribute  and assign it the value `true` or `YES` (both case
+   insensitive). (See Figure 2.)
+   
+The primary key must be unique within an entity, but not across
+entities.
+
+![](images/identifier-1.png)
+
+_Figure 1: Marking an entity's primary key by naming it `id`._
+
+![](images/identifier-2.png)
+
+_Figure 2: Marking an entity's primary key by creating a User Info key
+named `DC.isIdentifier` and setting it to `true`._
+
+#### JSON foreign key
+
+Consider the following JSON records:
+
+**Musician**
+```
+{
+  "name": "Mick Karn",  <- Primary key
+  "born": 1958,
+  "dead": 2011,
+  "instruments": "Bass, sax, clarinet, oboe, keyboards, vocals"
+}
+```
+
+**BandMember**
+```
+{
+  "id": "Mick Karn in Japan",  <- Primary key
+  "musician": "Mick Karn",     <- Foreign key
+  "band": "Japan",             <- Foreign key
+  "joined": 1974,
+  "left": 1991,
+  "instruments": "Bass, sax, vocals"
+}
+```
+
+**Band**
+```
+{
+  "name": "Japan",  <- Primary key
+  "formed": 1974,
+  "disbanded": 1991,
+  "hiatus": "1982-1989",
+  "description": "Initially a glam-inspired group [...]",
+  "other_names": "Rain Tree Crow"
+}
+```
+
+**Album**
+```
+{
+  "name": "Tin Drum",
+  "band": "Japan",  <- Foreign key
+  "released": "1981-11-13T00:00:00Z",
+  "label": "Virgin"
+}
+```
+
+The foreign keys in the JSON data correspond to `toOne` relationships
+in Core Data. DataCache retrieves the `NSRelationshipDescription` for
+each relationship, uses this to obtain the class of the target object,
+looks it up using the foreign key from the JSON dictionary, and
+establishes the relationship.
+
+## Installation
+
+You can install DataCache using either
+[CocoaPods](http://cocoapods.org/) or
+[Carthage](https://github.com/Carthage/Carthage).
+
+### CocoaPods
+
+```
+pod 'DataCache', '~> 1'
+```
+
+### Carthage
+
+```
+github "andersblehr/DataCache" ~> 1.0
+```
+
+### Compatibility
+
+- iOS 9.3 or later
+- Swift 3.x
+
+Support for other Apple platforms is in the works.
+
+## License
+
+DataCache is released under the MIT license. See the
+[LICENSE](LICENSE) file for details.
