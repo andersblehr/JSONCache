@@ -1,7 +1,17 @@
 language: objective-c
-osx_image: xcode8.2
-branches:
-  only:
-  - master
+osx_image: xcode8
+
+env:
+  - iOS= DST='platform=iOS Simulator,name=iPhone 6S' ACTION=test
+  - tvOS= DST='platform=tvOS Simulator,name=Apple TV 1080p' ACTION=test
+  - macOS= DST='platform=OS X' ACTION=test
+  - watchOS= DST='platform=watchOS Simulator,name=Apple Watch - 38mm' ACTION=build
+
 script:
-- xcodebuild test -workspace JSONCache.xcodeproj/project.xcworkspace -scheme JSONCache -destination "platform=iOS Simulator,name=iPhone 7 Plus,OS=10.1"
+  - set -o pipefail && xcodebuild -scheme PromiseKit -destination "$DST" $ACTION | xcpretty
+
+#branches:
+#  only:
+#  - master
+#script:
+#- xcodebuild test -workspace JSONCache.xcodeproj/project.xcworkspace -scheme JSONCache -destination "platform=iOS Simulator,name=iPhone 7 Plus,OS=10.1"
