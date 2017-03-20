@@ -4,4 +4,4 @@ branches:
   only:
   - master
 script:
-- xcodebuild test -workspace DataCache.xcodeproj/project.xcworkspace -scheme DataCache -destination "platform=iOS Simulator,name=iPhone 7 Plus,OS=10.1"
+- xcodebuild test -workspace JSONCache.xcodeproj/project.xcworkspace -scheme JSONCache -destination "platform=iOS Simulator,name=iPhone 7 Plus,OS=10.1"
