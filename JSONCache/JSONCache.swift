@@ -46,6 +46,11 @@ public struct JSONCache {
     
     public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = Bundle.main, completion: @escaping (_ result: Result<Void>) -> Void) {
         
+        guard mainContext == nil else {
+            DispatchQueue.main.async { completion(Result.success()) }
+            return
+        }
+        
         let persistentStoreType = inMemory ? NSInMemoryStoreType : NSSQLiteStoreType
         
         guard let managedObjectModelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
