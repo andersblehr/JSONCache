@@ -4,7 +4,7 @@
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "NO">
+      buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -17,6 +17,20 @@
                BlueprintIdentifier = "5CA96C481E7EBF300086BA87"
                BuildableName = "JSONCache.framework"
                BlueprintName = "JSONCache"
+               ReferencedContainer = "container:JSONCache.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5CA96C511E7EBF300086BA87"
+               BuildableName = "JSONCacheTests.xctest"
+               BlueprintName = "JSONCacheTests"
                ReferencedContainer = "container:JSONCache.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
