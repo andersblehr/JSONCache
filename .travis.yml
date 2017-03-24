@@ -8,7 +8,6 @@ env:
   - watchOS= DST='platform=watchOS Simulator,name=Apple Watch - 38mm' ACTION=build
 
 before_install:
-  - brew update && brew install carthage
   - carthage bootstrap
 
 script:
