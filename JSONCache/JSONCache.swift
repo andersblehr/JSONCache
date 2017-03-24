@@ -9,18 +9,15 @@
 import CoreData
 import Foundation
 
+import Result
 
 public enum JSONCacheError: Error {
     case unsupportedPersistentStoreType(String)
     case modelNotFound(String)
     case modelInitializationError(URL)
     case managedObjectContextNotAvailable
+    case coreDataError(Error)
     case noSuchEntity(String)
-}
-
-public enum Result<T> {
-    case success(T)
-    case failure(Error)
 }
 
 
@@ -44,9 +41,9 @@ public struct JSONCache {
     
     // MARK: - Bootstrapping the Core Data stack
     
-    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = Bundle.main, completion: @escaping (_ result: Result<Void>) -> Void) {
+    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = Bundle.main, completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
         
-        guard mainContext == nil else {
+        guard mainContext == nil || modelName != mainContext.name else {
             DispatchQueue.main.async { completion(Result.success()) }
             return
         }
@@ -72,11 +69,12 @@ public struct JSONCache {
             persistentContainer.loadPersistentStores { (_, error) in
                 
                 guard error == nil else {
-                    DispatchQueue.main.async { completion(Result.failure(error!)) }
+                    DispatchQueue.main.async { completion(Result.failure(JSONCacheError.coreDataError(error!))) }
                     return
                 }
                 
                 mainContext = persistentContainer.viewContext
+                mainContext.name = modelName
                 
                 DispatchQueue.main.async { completion(Result.success()) }
             }
@@ -90,10 +88,11 @@ public struct JSONCache {
                 
                 mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
                 mainContext.persistentStoreCoordinator = persistentStoreCoordinator
+                mainContext.name = modelName
                 
                 DispatchQueue.main.async { completion(Result.success()) }
             } catch {
-                DispatchQueue.main.async { completion(Result.failure(error)) }
+                DispatchQueue.main.async { completion(Result.failure(JSONCacheError.coreDataError(error))) }
             }
         }
     }
@@ -118,7 +117,7 @@ public struct JSONCache {
     }
     
     
-    public static func applyChanges(completion: @escaping (_ result: Result<Void>) -> Void) {
+    public static func applyChanges(completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
         
         guard mainContext != nil else {
             DispatchQueue.main.async { completion(Result.failure(JSONCacheError.managedObjectContextNotAvailable)) }
@@ -195,14 +194,14 @@ public struct JSONCache {
     
     // MARK: - Core Data interaction
     
-    public static func save(context: NSManagedObjectContext = mainContext) -> Result<Void> {
+    public static func save(context: NSManagedObjectContext = mainContext) -> Result<Void, JSONCacheError> {
         
         if context.hasChanges {
             do {
                 try context.save()
             } catch {
                 context.rollback()
-                return Result.failure(error)
+                return Result.failure(JSONCacheError.coreDataError(error))
             }
         }
         
@@ -210,7 +209,7 @@ public struct JSONCache {
     }
     
     
-    public static func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable, in context: NSManagedObjectContext? = mainContext) -> Result<ResultType?> {
+    public static func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable, in context: NSManagedObjectContext? = mainContext) -> Result<ResultType?, JSONCacheError> {
         
         guard context != nil else {
             return Result.failure(JSONCacheError.managedObjectContextNotAvailable)
@@ -224,7 +223,7 @@ public struct JSONCache {
                 let object = try context!.fetch(fetchRequest).first
                 return Result.success(object)
             } catch {
-                return Result.failure(error)
+                return Result.failure(JSONCacheError.coreDataError(error))
             }
         } else {
             return Result.failure(JSONCacheError.noSuchEntity(entityName))
@@ -232,7 +231,7 @@ public struct JSONCache {
     }
     
     
-    public static func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable], in context: NSManagedObjectContext? = mainContext) -> Result<[ResultType]> {
+    public static func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable], in context: NSManagedObjectContext? = mainContext) -> Result<[ResultType], JSONCacheError> {
         
         guard context != nil else {
             return Result.failure(JSONCacheError.managedObjectContextNotAvailable)
@@ -246,7 +245,7 @@ public struct JSONCache {
                 let objects = try context!.fetch(fetchRequest)
                 return Result.success(objects)
             } catch {
-                return Result.failure(error)
+                return Result.failure(JSONCacheError.coreDataError(error))
             }
         } else {
             return Result.failure(JSONCacheError.noSuchEntity(entityName))

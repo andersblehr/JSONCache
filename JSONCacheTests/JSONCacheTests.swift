@@ -7,9 +7,11 @@
 //
 
 import XCTest
+
+import Result
+
+
 @testable import JSONCache
-
-
 class JSONCacheTests: XCTestCase {
     
     var inMemory = true
@@ -306,7 +308,7 @@ class JSONCacheTests: XCTestCase {
             case .success:
                 XCTFail("Bootstrapping non-existent model succeeded. This should not happen.")
             case .failure(let error):
-                switch error as! JSONCacheError {
+                switch error {
                 case .modelNotFound:
                     modelNotFoundExpectation.fulfill()
                     
@@ -329,7 +331,7 @@ class JSONCacheTests: XCTestCase {
                             case .success:
                                 XCTFail("Fetching object with non-existent entity succeeded. This should not happen.")
                             case .failure(let error):
-                                switch error as! JSONCacheError {
+                                switch error {
                                 case .noSuchEntity:
                                     noSuchEntityExpectation.fulfill()
                                 default:
@@ -352,7 +354,7 @@ class JSONCacheTests: XCTestCase {
     
     // MARK: - Shared methods
     
-    func loadJSONTestData(completion: @escaping (_ result: Result<Void>) -> Void) {
+    func loadJSONTestData(completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
         
         JSONCache.stageChanges(withDictionaries: self.bands, forEntityWithName: "Band")
         JSONCache.stageChanges(withDictionaries: self.musicians, forEntityWithName: "Musician")
