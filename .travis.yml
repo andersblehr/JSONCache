@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8.2
+osx_image: xcode8.1
 
 env:
   - iOS= PLATFORM=iOS DST='platform=iOS Simulator,name=iPhone 6S' ACTION=test
@@ -11,5 +11,7 @@ install:
   - carthage bootstrap --platform $PLATFORM
 
 script:
-  - set -o pipefail && xcodebuild $ACTION -scheme JSONCache -destination "$DST" -derivedDataPath $PLATFORM | xcpretty
+  - set -o pipefail
+  - xcodebuild clean -scheme JSONCache | xcpretty
+  - xcodebuild $ACTION -scheme JSONCache -destination "$DST" -derivedDataPath $PLATFORM | xcpretty
 
