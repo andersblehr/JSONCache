@@ -2,14 +2,14 @@ language: objective-c
 osx_image: xcode8
 
 env:
-  - iOS= DST='platform=iOS Simulator,name=iPhone 6S' ACTION=test
-  - tvOS= DST='platform=tvOS Simulator,name=Apple TV 1080p' ACTION=test
-  - macOS= DST='platform=OS X' ACTION=test
-  - watchOS= DST='platform=watchOS Simulator,name=Apple Watch - 38mm' ACTION=build
+  - iOS= PLATFORM=iOS DST='platform=iOS Simulator,name=iPhone 6S' ACTION=test
+  - tvOS= PLATFORM=tvOS DST='platform=tvOS Simulator,name=Apple TV 1080p' ACTION=test
+  - macOS= PLATFORM=macOS DST='platform=OS X' ACTION=test
+  - watchOS= PLATFORM=watchOS DST='platform=watchOS Simulator,name=Apple Watch - 38mm' ACTION=build
 
 before_install:
-  - carthage bootstrap
+  - carthage bootstrap --platform $PLATFORM
 
 script:
-  - set -o pipefail && xcodebuild -scheme JSONCache -destination "$DST" $ACTION | xcpretty
+  - set -o pipefail && xcodebuild -workspace JSONCache.xcodeproj/project.xcworkspace -scheme JSONCache -destination "$DST" $ACTION | xcpretty
 
