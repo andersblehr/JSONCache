@@ -9,15 +9,15 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "Anders Blehr" => "anders@andersblehr.co" }
   s.social_media_url   = "http://twitter.com/andersblehr"
-  s.platform     = :ios, "9.3"
 
   #  When using multiple platforms
-  # s.ios.deployment_target = "5.0"
-  # s.osx.deployment_target = "10.7"
-  # s.watchos.deployment_target = "2.0"
-  # s.tvos.deployment_target = "9.0"
+  s.ios.deployment_target = "9.3"
+  s.osx.deployment_target = "10.11"
+  s.watchos.deployment_target = "3.0"
+  s.tvos.deployment_target = "9.2"
 
   s.source       = { :git => "https://github.com/andersblehr/JSONCache.git", :tag => "#{s.version}" }
   s.source_files  = "JSONCache/**/*.{h,swift}"
+  s.dependency 'Result', '~> 3.2.1'
   s.requires_arc = true
 end
