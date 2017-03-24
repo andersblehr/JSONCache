@@ -7,11 +7,10 @@ env:
   - macOS= DST='platform=OS X' ACTION=test
   - watchOS= DST='platform=watchOS Simulator,name=Apple Watch - 38mm' ACTION=build
 
+before_install:
+  - brew update && brew install carthage
+  - carthage bootstrap
+
 script:
   - set -o pipefail && xcodebuild -scheme JSONCache -destination "$DST" $ACTION | xcpretty
 
-#branches:
-#  only:
-#  - master
-#script:
-#- xcodebuild test -workspace JSONCache.xcodeproj/project.xcworkspace -scheme JSONCache -destination "platform=iOS Simulator,name=iPhone 7 Plus,OS=10.1"
