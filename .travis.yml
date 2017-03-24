@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8
+osx_image: xcode8.2
 
 env:
   - iOS= PLATFORM=iOS DST='platform=iOS Simulator,name=iPhone 6S' ACTION=test
