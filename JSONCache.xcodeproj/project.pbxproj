@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C5E78E91E858A66004A0A6F /* JSONCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA96C491E7EBF300086BA87 /* JSONCache.framework */; };
+		5C5E78EA1E858A66004A0A6F /* JSONCache.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA96C491E7EBF300086BA87 /* JSONCache.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5CA96C531E7EBF300086BA87 /* JSONCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA96C491E7EBF300086BA87 /* JSONCache.framework */; };
 		5CA96C581E7EBF300086BA87 /* JSONCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C571E7EBF300086BA87 /* JSONCacheTests.swift */; };
 		5CA96C5A1E7EBF300086BA87 /* JSONCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA96C4C1E7EBF300086BA87 /* JSONCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -30,6 +32,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5C5E78EB1E858A66004A0A6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CA96C401E7EBF300086BA87 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CA96C481E7EBF300086BA87;
+			remoteInfo = JSONCache;
+		};
 		5CA96C541E7EBF300086BA87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5CA96C401E7EBF300086BA87 /* Project object */;
@@ -38,6 +47,20 @@
 			remoteInfo = DataCache;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5C5E78ED1E858A66004A0A6F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5C5E78EA1E858A66004A0A6F /* JSONCache.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5C5226551E85282200ACA1DB /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -92,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C5E78E91E858A66004A0A6F /* JSONCache.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,10 +265,12 @@
 				5CA96C7D1E7ED6B10086BA87 /* Frameworks */,
 				5CA96C7E1E7ED6B10086BA87 /* Resources */,
 				5C52266A1E8538FD00ACA1DB /* Copy Carthage Frameworks */,
+				5C5E78ED1E858A66004A0A6F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5C5E78EC1E858A66004A0A6F /* PBXTargetDependency */,
 			);
 			name = UsageExample;
 			productName = UsageExample;
@@ -275,7 +301,7 @@
 					5CA96C7F1E7ED6B10086BA87 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 68M9JL23T5;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -399,6 +425,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5C5E78EC1E858A66004A0A6F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5CA96C481E7EBF300086BA87 /* JSONCache */;
+			targetProxy = 5C5E78EB1E858A66004A0A6F /* PBXContainerItemProxy */;
+		};
 		5CA96C551E7EBF300086BA87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5CA96C481E7EBF300086BA87 /* JSONCache */;
@@ -450,7 +481,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Anders Blehr (68M9JL23T5)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -508,7 +539,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Anders Blehr (68M9JL23T5)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -542,7 +573,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 68M9JL23T5;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -583,7 +614,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 68M9JL23T5;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -683,7 +714,9 @@
 		5CA96C931E7ED6B10086BA87 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 68M9JL23T5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -698,6 +731,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.JSONCache.UsageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0bd74e2c-73ef-49d5-8425-3e0240a6bcee";
+				PROVISIONING_PROFILE_SPECIFIER = "Anders Blehr Generic Profile";
+				SDKROOT = iphoneos10.2;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 3.0;
 			};
@@ -706,7 +742,9 @@
 		5CA96C941E7ED6B10086BA87 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 68M9JL23T5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -721,6 +759,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.andersblehr.JSONCache.UsageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0bd74e2c-73ef-49d5-8425-3e0240a6bcee";
+				PROVISIONING_PROFILE_SPECIFIER = "Anders Blehr Generic Profile";
+				SDKROOT = iphoneos10.2;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 3.0;
 			};
