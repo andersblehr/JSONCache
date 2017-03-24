@@ -11,5 +11,5 @@ install:
   - carthage bootstrap --platform $PLATFORM
 
 script:
-  - set -o pipefail && xcodebuild $ACTION -scheme JSONCache -destination "$DST" -derivedDataPath build | xcpretty
+  - set -o pipefail && xcodebuild $ACTION -scheme JSONCache -destination "$DST" -derivedDataPath $PLATFORM | xcpretty
 
