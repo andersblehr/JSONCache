@@ -1,16 +1,27 @@
 # JSONCache
 
+[![Build Status](https://travis-ci.org/andersblehr/JSONCache.svg?branch=master)](https://travis-ci.org/andersblehr/JSONCache)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![CocoaPods](https://img.shields.io/cocoapods/v/JSONCache.svg)](https://cocoapods.org/)
+[![Reference Status](https://www.versioneye.com/objective-c/jsoncache/reference_badge.svg?style=flat)](https://www.versioneye.com/objective-c/jsoncache/references)
+
 JSONCache is a thin layer on top of Core Data that seamlessly
 consumes, caches and produces JSON data.
 
-- Automatic mapping between `camelCase` and `snake_case`.
-- Automatic relationship mapping, based on inferred knowledge of your
-  Core Data model.
-- Automatic merging of JSON data into existing objects.
-- On-demand JSON generation, both from `NSManageObject` instances, and
+- Automatically creates Core Data objects from JSON data, or merges
+  JSON data into objects that already exist.
+- Automatically maps 1:1 and 1:N relationships based on inferred
+  knowledge of your Core Data model.
+- If necessary, automatically maps between `snake_case` in JSON and
+  `camelCase` in Core Data attribute names.
+- Generates JSON on demand, both from `NSManageObject` instances, and
   from any `struct` that adopts the `JSONifiable` protocol.
-- All JSON parsing and Core Data operations are done in the
-  background, so it doesn't interfere with your app's responsiveness.
+- Operates on background threads to avoid interfering with your app's
+  responsiveness.
+- Both synchronous and asynchronous methods return instances of
+  [Result](https://github.com/antitypical/Result), the go-to
+  implementation for Swift of a functional pattern that puts emphasis
+  on the semantics of success or failure.
 
 ## Content
 
@@ -21,8 +32,8 @@ consumes, caches and produces JSON data.
   - [Case conversion](#case-conversion)
   - [Date conversion](#date-conversion)
   - [Relationship mapping](#relationship-mapping)
-    - [Entity primary key](#entity-primary-key)
-    - [JSON foreign key](#json-foreign-key)
+    - [How to ...](#how-to)
+    - [But how ...?](#but-how)
 - [Installation](#installation)
   - [CocoaPods](#cocoapods)
   - [Carthage](#carthage)
@@ -233,32 +244,18 @@ JSONCache which format to expect and/or produce.
 
 ### Relationship mapping
 
-For JSONCache to automatically map relationships, two things must be
-in place:
+#### How to ...
 
-1. A primary key for each entity that takes part in a relationship.
-2. The foreign key of the target entity in the JSON relationship
-   attribute on the 'one end' of one-to-one and one-to-many
-   relationships.
-
-Many-to-many relationships are currently not supported, except through
-relationship entities (such as the `BandMember` entity in the JSON
-example above).
-
-#### Entity primary key
-
-For JSONCache to automatically map relationships, you must mark the
-primary key of each entity in your Core Data model. You do this in
-either of two ways:
+In order for JSONCache to automatically map a 1:1 or a 1:N
+relationship, you essentially only need to tell it one thing: The
+primary key of the object on the '1: end' of the relationship. You do
+this in either of two ways:
 
 1. Use the name `id` for the primary key. (See Figure 1.)
-2. Create a User Info key named `DC.isIdentifier` for the primary key
-   attribute  and assign it the value `true` or `YES` (both case
-   insensitive). (See Figure 2.)
+2. Create a User Info key named `JC.isIdentifier` for the primary key
+   attribute and assign it the value `true` or `YES` (or `TRUE` or
+   `yes`; both are case insensitive). (See Figure 2.)
    
-The primary key must be unique within an entity, but not across
-entities.
-
 ![](images/identifier-1.png)
 
 _Figure 1: Marking an entity's primary key by naming it `id`._
@@ -266,38 +263,37 @@ _Figure 1: Marking an entity's primary key by naming it `id`._
 ![](images/identifier-2.png)
 
 _Figure 2: Marking an entity's primary key by creating a User Info key
-named `DC.isIdentifier` and setting it to `true`._
+named `JC.isIdentifier` and setting it to `true`._
 
-#### JSON foreign key
+The primary key must be unique within an entity, but not across
+entities.
+
+#### But how ...?
+   
+When JSONCache instantiates or updates an `NSManagedObject` instance
+from a JSON dictionary, it does so by inspecting the
+`NSAttributeDescription`s of the `NSEntityDescription` that describes
+the underlying entity, and assign each attribute the corresponding
+value from the JSON dictionary.
+
+In a second pass, JSONCache inspects the `NSRelationshipDescription`s
+of the entity, and for each relationship that is _not_ `toMany`, it
+looks up the `NSEntityDescription` of the destination object. Through
+a JSONCache extension method on `NSEntityDescription`, it obtains the
+primary key of the destination entity. It already knows the primary
+key _value_ of the destination object from the JSON dictionary, so now
+it has all the information it needs in order to look it up, either in
+the set of new objects created from the JSON data, or in Core Data if
+it already has been persisted. Once it has a reference to the
+destination object, it hooks up the relationship and moves on to the
+next item.
 
 Consider the following JSON records:
-
-**Musician**
-```json
-{
-  "name": "Mick Karn",  <- Primary key
-  "born": 1958,
-  "dead": 2011,
-  "instruments": "Bass, sax, clarinet, oboe, keyboards, vocals"
-}
-```
-
-**BandMember**
-```json
-{
-  "id": "Mick Karn in Japan",  <- Primary key
-  "musician": "Mick Karn",     <- Foreign key
-  "band": "Japan",             <- Foreign key
-  "joined": 1974,
-  "left": 1991,
-  "instruments": "Bass, sax, vocals"
-}
-```
 
 **Band**
 ```json
 {
-  "name": "Japan",  <- Primary key
+  "name": "Japan",
   "formed": 1974,
   "disbanded": 1991,
   "hiatus": "1982-1989",
@@ -310,17 +306,27 @@ Consider the following JSON records:
 ```json
 {
   "name": "Tin Drum",
-  "band": "Japan",  <- Foreign key
+  "band": "Japan",
   "released": "1981-11-13T00:00:00Z",
   "label": "Virgin"
 }
 ```
 
-The foreign keys in the JSON data correspond to `toOne` relationships
-in Core Data. JSONCache retrieves the `NSRelationshipDescription` for
-each relationship, uses this to obtain the class of the target object,
-looks it up using the foreign key from the JSON dictionary, and
-establishes the relationship.
+JSONCache first creates two `NSManagedObject` instances, one for the
+band Japan, and one for the _Tin Drum_ album, each holding all the
+attributes from the corresponding JSON record. Then, in the second
+pass, JSONCache looks at relationships. The `Band` entity participates
+in 2 relationships, `albums` and `members` (see the ER diagram above),
+both of which are `toMany`, so it does nothing. The `Album` entity
+participates in 1 relationship, `band`, which is _not_
+`toMany`. Through the `NSRelationshipDescription` describing the
+`band` relationship, JSONCache finds that the destination entity is of
+type `Band`, and through the `NSEntityDescription` describing the
+destination entity, it finds that it has the primary key `name`. Now
+JSONCache has all the information it needs. It looks up a `Band`
+object whose `name` value is the same as the `band` value in the
+`Album` dictionary for the _Tin Drum_ album (i.e., 'Japan'), and
+finally hooks up the relationship.
 
 ## Installation
 
@@ -342,10 +348,11 @@ github "andersblehr/JSONCache" ~> 1.0
 
 ### Compatibility
 
-- iOS 9.3 or later
 - Swift 3.x
-
-Support for other Apple platforms is in the works.
+- macOS 10.11 or later
+- iOS 9.3 or later
+- watchOS 3.0 or later
+- tvOS 9.2 or later
 
 ## License
 
