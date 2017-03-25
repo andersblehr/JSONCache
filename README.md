@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/andersblehr/JSONCache.svg?branch=master)](https://travis-ci.org/andersblehr/JSONCache)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/v/JSONCache.svg)](https://cocoapods.org/)
-[![Reference Status](https://www.versioneye.com/objective-c/jsoncache/reference_badge.svg?style=flat)](https://www.versioneye.com/objective-c/jsoncache/references)
 
 JSONCache is a thin layer on top of Core Data that seamlessly
 consumes, caches and produces JSON data.
@@ -273,7 +272,7 @@ entities.
 When JSONCache instantiates or updates an `NSManagedObject` instance
 from a JSON dictionary, it does so by inspecting the
 `NSAttributeDescription`s of the `NSEntityDescription` that describes
-the underlying entity, and assign each attribute the corresponding
+the underlying entity, and assigns each attribute the corresponding
 value from the JSON dictionary.
 
 In a second pass, JSONCache inspects the `NSRelationshipDescription`s
