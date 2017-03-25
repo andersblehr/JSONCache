@@ -13,7 +13,7 @@ consumes, caches and produces JSON data.
   knowledge of your Core Data model.
 - If necessary, automatically maps between `snake_case` in JSON and
   `camelCase` in Core Data attribute names.
-- Generates JSON on demand, both from `NSManageObject` instances, and
+- Generates JSON on demand, both from `NSManagedObject` instances, and
   from any `struct` that adopts the `JSONifiable` protocol.
 - Operates on background threads to avoid interfering with your app's
   responsiveness.
@@ -160,7 +160,7 @@ switch JSONCache.fetchObject(ofType: "Band", withId: "Japan") {
     ServerProxy.update(band: japan.toJSONDictionary()) { result in
       switch result {
       case .success:
-        switch JSONCache.save() {
+        switch JSONCache.save() { result in
           case .success:
             print("Japan as Rain Tree Crow all nicely tucked in")
           case .failure(let error):
