@@ -199,7 +199,7 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
     u2 = NSEntityDescription.insertNewObject(forEntityName: "Band" into: JSONCache.mainContext)!
     u2.setAttributes(fromDictionary: u2Info)
     
-    switch JSONCache.save() {
+    switch JSONCache.save() { result in
     case .success:
       print("U2 all nicely tucked in")
     case .failure(let error)
