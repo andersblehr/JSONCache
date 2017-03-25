@@ -5,9 +5,4 @@ install:
   - carthage bootstrap
 
 script:
-  - set -o pipefail
-  - xcodebuild clean -scheme JSONCache | xcpretty
-  - xcodebuild test -scheme JSONCache -destination "platform=iOS Simulator,name=iPhone 6S" -derivedDataPath iOS | xcpretty
-  - xcodebuild test -scheme JSONCache -destination "platform=OS X" -derivedDataPath Mac | xcpretty
-  - xcodebuild test -scheme JSONCache -destination "platform=tvOS Simulator,name=Apple TV 1080p" -derivedDataPath tvOS | xcpretty
-  - xcodebuild build -scheme JSONCache -destination "platform=watchOS Simulator,name=Apple Watch - 38mm" -derivedDataPath watchOS | xcpretty
+  - ./test.sh
