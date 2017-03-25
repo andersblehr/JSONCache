@@ -14,7 +14,7 @@ public extension NSAttributeDescription {
     
     public var isIdentifier: Bool {
         
-        if let identifierFlag = self.userInfo!["DC.isIdentifier"] as? String {
+        if let identifierFlag = self.userInfo!["JC.isIdentifier"] as? String {
             return ["true", "yes"].contains(identifierFlag.lowercased())
         }
         

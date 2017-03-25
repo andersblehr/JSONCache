@@ -4,7 +4,7 @@
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES">
             <userInfo>
-                <entry key="DC.isIdentifier" value="true"/>
+                <entry key="JC.isIdentifier" value="true"/>
             </userInfo>
         </attribute>
         <attribute name="released" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -18,7 +18,7 @@
         <attribute name="hiatus" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES">
             <userInfo>
-                <entry key="DC.isIdentifier" value="true"/>
+                <entry key="JC.isIdentifier" value="true"/>
             </userInfo>
         </attribute>
         <attribute name="otherNames" optional="YES" attributeType="String" syncable="YES"/>
@@ -39,7 +39,7 @@
         <attribute name="instruments" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES">
             <userInfo>
-                <entry key="DC.isIdentifier" value="true"/>
+                <entry key="JC.isIdentifier" value="true"/>
             </userInfo>
         </attribute>
         <relationship name="bands" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BandMember" inverseName="musician" inverseEntity="BandMember" syncable="YES"/>

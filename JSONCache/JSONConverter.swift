@@ -11,53 +11,68 @@ import Foundation
 
 public struct JSONConverter {
     
-    public enum Direction {
+    public enum Conversion {
         case fromJSON
         case toJSON
     }
     
     
-    public static func convert(_ direction: Direction, dictionary: [String: Any], qualifier: String? = nil) -> [String: Any] {
-        
-        if JSONCache.casing == .camelCase {
-            return dictionary
-        }
+    public static func convert(_ conversion: Conversion, dictionary: [String: Any], qualifier: String? = nil) -> [String: Any] {
         
         var convertedDictionary = [String: Any]()
         for (key, value) in dictionary {
-            convertedDictionary[convert(direction, string: key, qualifier: qualifier)] = value
+            convertedDictionary[convert(conversion, string: key, qualifier: qualifier)] = value
         }
         
         return convertedDictionary
     }
     
     
-    public static func convert(_ direction: Direction, string: String, qualifier: String? = nil) -> String {
+    public static func convert(_ conversion: Conversion, string: String, qualifier: String? = nil) -> String {
         
-        if JSONCache.casing == .camelCase {
-            return string
-        }
-        
-        switch direction {
+        switch conversion {
         case .fromJSON:
-            if string.contains("_") {
-                var convertedString = ""
-                let components = string.components(separatedBy: "_")
-                for (i, component) in components.enumerated() {
-                    convertedString += i == 0 ? component : component.capitalized
-                }
-                
-                return convertedString
-            } else if string == "description" && qualifier != nil {
-                var qualifier = qualifier!
-                return String(qualifier.remove(at: qualifier.startIndex)).lowercased() + qualifier + "Description"
-            } else {
+            if qualifier != nil && string == "description" {
+                return camelCase(fromTitleCase: qualifier!) + "Description"
+            }
+            
+            switch JSONCache.casing {
+            case .camelCase:
                 return string
+            case .snake_case:
+                if string.contains("_") {
+                    return camelCase(fromTitleCase: string.components(separatedBy: "_").reduce("", { $0 + $1.capitalized }))
+                } else {
+                    return string
+                }
             }
         case .toJSON:
-            let convertedString = string.replacingOccurrences(of: "([a-z])([A-Z])", with: "$1_$2", options: .regularExpression).lowercased()
+            if string.hasSuffix("Description") {
+                if qualifier == nil {
+                    return "description"
+                }
+                
+                if string == convert(.fromJSON, string: "description", qualifier: qualifier) {
+                    return "description"
+                }
+            }
             
-            return convertedString.hasSuffix("_description") ? "description" : convertedString
+            switch JSONCache.casing {
+            case .camelCase:
+                return string
+            case .snake_case:
+                return string.replacingOccurrences(of: "([a-z])([A-Z])", with: "$1_$2", options: .regularExpression).lowercased()
+            }
         }
+    }
+    
+    
+    // MARK: - Private implementation details
+    
+    private static func camelCase(fromTitleCase titleCase: String) -> String {
+        
+        var titleCase = titleCase
+        
+        return String(titleCase.remove(at: titleCase.startIndex)).lowercased() + titleCase
     }
 }

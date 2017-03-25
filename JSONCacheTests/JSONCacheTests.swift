@@ -76,9 +76,11 @@ class JSONCacheTests: XCTestCase {
         XCTAssertEqual(JSONConverter.convert(.toJSON, string: "snake_case_attribute"), "snake_case_attribute")
         XCTAssertEqual(JSONConverter.convert(.fromJSON, string: "camelCaseAttribute"), "camelCaseAttribute")
         XCTAssertEqual(JSONConverter.convert(.toJSON, string: "camelCaseAttribute"), "camel_case_attribute")
-        XCTAssertEqual(JSONConverter.convert(.fromJSON, string: "description", qualifier: "snakeCase"), "snakeCaseDescription")
+        XCTAssertEqual(JSONConverter.convert(.fromJSON, string: "description", qualifier: "SnakeCase"), "snakeCaseDescription")
         XCTAssertEqual(JSONConverter.convert(.fromJSON, string: "camelCaseDescription"), "camelCaseDescription")
         XCTAssertEqual(JSONConverter.convert(.toJSON, string: "camelCaseDescription"), "description")
+        XCTAssertEqual(JSONConverter.convert(.toJSON, string: "camelCaseDescription", qualifier: "CamelCase"), "description")
+        XCTAssertEqual(JSONConverter.convert(.toJSON, string: "camelCaseDescription", qualifier: "Some"), "camel_case_description")
     }
     
     
@@ -86,7 +88,7 @@ class JSONCacheTests: XCTestCase {
         
         let snake_case = bands.filter({ $0["name"] as! String == "Japan" })[0]
         let camelCase = JSONConverter.convert(.fromJSON, dictionary: snake_case, qualifier: "Band")
-        let snake_case_roundtrip = JSONConverter.convert(.toJSON, dictionary: camelCase)
+        let snake_case_roundtrip = JSONConverter.convert(.toJSON, dictionary: camelCase, qualifier: "Band")
         
         XCTAssertEqual(camelCase["bandDescription"] as! String, snake_case["description"] as! String)
         XCTAssertEqual(camelCase["bandDescription"] as! String, snake_case_roundtrip["description"] as! String)

@@ -68,6 +68,6 @@ extension NSManagedObject: JSONifiable {
             }
         }
         
-        return JSONConverter.convert(.toJSON, dictionary: dictionary)
+        return JSONConverter.convert(.toJSON, dictionary: dictionary, qualifier: self.entity.name)
     }
 }
