@@ -11,6 +11,11 @@ import Foundation
 
 public extension Date {
     
+    /// Create a `Date` instance from a JSON value.
+    /// - Parameters:
+    ///   - value: The JSON value from which to create a `Date` instance. The
+    ///     `JSONCache.dateFormat` setting governs how to the value is parsed.
+    
     public init(fromJSONValue value: Any) {
         
         switch JSONCache.dateFormat {
@@ -29,6 +34,11 @@ public extension Date {
         }
     }
     
+    
+    /// Produce a JSON serializable value from this `Date` instance. The
+    /// `JSONCache.dateFormat` setting governs the type and format of the produced
+    /// value.
+    /// - Returns: A JSON serializable value representing this `Date` instance.
     
     public func toJSONValue() -> Any {
         

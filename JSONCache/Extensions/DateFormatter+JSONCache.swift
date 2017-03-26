@@ -11,11 +11,22 @@ import Foundation
 
 public extension DateFormatter {
     
+    /// Produce a `Date` instance from an ISO 8601 formatted date string.
+    /// - Parameters:
+    ///   - string: An ISO 8601 formatted date string. The expected format is
+    ///     governed by the `JSONCache.dateFormat` setting.
+    /// - Returns: The `Date` instance represented by the string.
+    
     public static func date(fromISO8601String string: String) -> Date? {
         
         return iso8601DateFormatter.date(from: string)
     }
     
+    
+    /// Produce an ISO 8601 formatted date string from a `Date` instance. The
+    /// specific format of the produced string is governed by the
+    /// `JSONCache.dateFormat` setting.
+    /// - Returns: A string representation of the `Date` instance.
     
     public static func iso8601String(from date: Date) -> String {
         

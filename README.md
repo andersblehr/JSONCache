@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/andersblehr/JSONCache.svg?branch=master)](https://travis-ci.org/andersblehr/JSONCache)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/v/JSONCache.svg)](https://cocoapods.org/)
+[![CocoaDocs](https://img.shields.io/cocoapods/metrics/doc-percent/JSONCache.svg)](http://cocoadocs.org/docsets/JSONCache)
 
 JSONCache is a thin layer on top of Core Data that seamlessly
 consumes, caches and produces JSON data.
@@ -233,10 +234,10 @@ Similarly, when producing JSON:
 
 JSONCache supports the following JSON date formats:
 
-- ISO 8601 with separators: `2000-08-22T13:28:00Z`
-- ISO 8601 without separators: `20000822T132800Z`
+- ISO 8601 with separators: `2000-08-22T12:28:00Z`
+- ISO 8601 without separators: `20000822T122800Z`
 - Seconds since 00:00 on 1 Jan 1970 as a double precision value:
-  `966950880.0`
+  `966947280.0`
 
 Use the `JSONCache.dateFormat` configuration parameter to tell
 JSONCache which format to expect and/or produce.

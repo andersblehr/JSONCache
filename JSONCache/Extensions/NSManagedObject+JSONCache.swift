@@ -12,6 +12,7 @@ import Foundation
 
 extension NSManagedObject: JSONifiable {
     
+    /// The identifier (primary key) value of this object.
     public var identifier: AnyHashable? {
         
         if let identifierName = self.entity.identifierName {
@@ -21,6 +22,12 @@ extension NSManagedObject: JSONifiable {
         return nil
     }
     
+    
+    /// Set the attributes of this object from the (key, value) pairs in the
+    /// dictionary. Dictionary keys that do not correspond with an attribute name
+    /// are ignored.
+    /// - Parameters:
+    ///   - dictionary: The dictionary from which to retrieve attribute values.
     
     public func setAttributes(fromDictionary dictionary: [String: Any]) {
         
@@ -37,6 +44,9 @@ extension NSManagedObject: JSONifiable {
     
     
     // MARK: - Jsonifiable conformance
+    
+    /// Produce a JSON serializable dictionary that represents this object.
+    /// - Returns: A JSON serializable dictionary representing this object.
     
     public func toJSONDictionary() -> [String: Any] {
         

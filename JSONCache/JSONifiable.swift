@@ -9,14 +9,18 @@
 import Foundation
 
 
+/// A type that can be represented as a JSON serializable dictionary
 public protocol JSONifiable {
     
+    /// Produce a JSON serializable dictionary that represents the type
     func toJSONDictionary() -> [String: Any]
 }
 
 
 public extension JSONifiable {
     
+    /// If the type is a `struct`, produce a JSON serializable dictionary
+    /// that represents the `struct`.
     public func toJSONDictionary() -> [String: Any] {
         
         var dictionary = [String: Any]()
