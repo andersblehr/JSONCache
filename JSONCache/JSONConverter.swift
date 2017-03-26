@@ -16,9 +16,16 @@ public struct JSONConverter {
     
     /// Enum definining the supported JSON conversions
     public enum Conversion {
-        /// Convert from JSON
+        /// Convert from JSON. If `JSONCache.casing` is `.snake_case`, the conversion
+        /// is from `snake_case` to `camelCase`; if `JSONCache.casing` is `.camelCase`,
+        /// no casing conversion is done, but reserved words are mapped to qualified
+        /// counterparts (see `convert(_:dictionary:qualifier:)` for details).
         case fromJSON
-        /// Convert to JSON
+        /// Convert to JSON. If `JSONCache.casing` is `.snake_case`, the conversion is
+        /// from `camelCase` to `snake_case`; if `JSONCache.casing` is `.camelCase`, no
+        /// casing conversion is done, but qualified attribute names are mapped to
+        /// their unqualified counterparts (see the `convert(_:dictionary:qualifier:)`
+        /// for details).
         case toJSON
     }
     
@@ -30,12 +37,18 @@ public struct JSONConverter {
     ///   - conversion: Enum specifying if the conversion is from JSON or to JSON.
     ///   - dictionary: The dictionary whose keys are to be converted.
     ///   - qualifier: Used to qualify any reserved words among the dictionary keys,
-    ///     so that they match the qualified attribute name in the Core Data entity
-    ///     that will hold the dictionary data. Typically, this will be the entity
-    ///     name. Defaults to `nil` if not given. **Example:** If the qualifier is
-    ///     `EntityName`, the key `description` in the dictionary will be converted to
-    ///     the attribute name `entityNameDescription`. This applies regardless of
-    ///     whether `JSONCache.casing` specifies `snake_case` or `camelCase`.
+    ///     so that they match the corresponding qualified attribute names in the Core
+    ///     Data entity that will hold the dictionary data. Defaults to `nil` if not
+    ///     given. If for instance the qualifier is 'EntityName', the key 'description'
+    ///     in the dictionary will be converted to 'entityNameDescription' if
+    ///     `conversion` is `.fromJSON`. Conversely, if `conversion` is `.toJSON`, the
+    ///     key 'entityNameDescription' will be converted to 'description'. The key
+    ///     'someOtherDescription', however, will be converted to
+    ///     'some_other_description' (or not converted at all if `JSONCache.casing` is
+    ///     `.camelCase`). If `qualifier` is not given, any string that ends with 
+    ///     '-Description' will be converted to 'description' when `conversion` is
+    ///     `.toJSON`. These rules apply regardless of whether `JSONCache.casing`
+    ///     specifies `snake_case` or `camelCase`.
     
     public static func convert(_ conversion: Conversion, dictionary: [String: Any], qualifier: String? = nil) -> [String: Any] {
         
@@ -54,10 +67,16 @@ public struct JSONConverter {
     /// - Parameters:
     ///   - conversion: Enum specifying if the conversion is from JSON or to JSON.
     ///   - string: The string to be converted.
-    ///   - qualifier: Used to qualify the string if it represents a reserved word.
-    ///     Defaults to `nil` if not given. **Example:** If the qualifier is
-    ///     `EntityName`, the string `description` will be converted to
-    ///     `entityNameDescription`. This applies regardless of whether
+    ///   - qualifier: Used to qualify strings that represent a reserved word.
+    ///     Defaults to `nil` if not given. If for instance the qualifier is
+    ///     'EntityName', the string 'description' will be converted to
+    ///     'entityNameDescription' if `conversion` is `.fromJSON`. Conversely, if
+    ///     `conversion` is `.toJSON`, the string 'entityNameDescription' will be
+    ///     converted to `description`. The string 'someOtherDescription', however,
+    ///     will be converted to 'some_other_description' (or not converted at all if
+    ///     `JSONCache.casing` is `.camelCase`). If `qualifier` is not given, any
+    ///     string that ends with '-Description' will be converted to 'description'
+    ///     when `conversion` is `.toJSON`. These rules apply regardless of whether
     ///     `JSONCache.casing` specifies `snake_case` or `camelCase`.
     
     public static func convert(_ conversion: Conversion, string: String, qualifier: String? = nil) -> String {

@@ -194,7 +194,7 @@ governed by the <code><a href="../Structs/JSONCache.html#/s:ZvV9JSONCache9JSONCa
                               </td>
                               <td>
                                 <div>
-                                  <p>Used to qualify any reserved words among the dictionary keys, so that they match the qualified attribute name in the Core Data entity that will hold the dictionary data. Typically, this will be the entity name. Defaults to <code>nil</code> if not given.  If the qualifier is <code>EntityName</code>, the key <code>description</code> in the dictionary will be converted to the attribute name <code>entityNameDescription</code>. This applies regardless of whether <code>JSONCache.casing</code> specifies <code>snake_case</code> or <code>camelCase</code>.</p>
+                                  <p>Used to qualify any reserved words among the dictionary keys, so that they match the corresponding qualified attribute names in the Core Data entity that will hold the dictionary data. Defaults to <code>nil</code> if not given. If for instance the qualifier is ‘EntityName’, the key ‘description’ in the dictionary will be converted to ‘entityNameDescription’ if <code>conversion</code> is <code>.fromJSON</code>. Conversely, if <code>conversion</code> is <code>.toJSON</code>, the key ‘entityNameDescription’ will be converted to ‘description’. The key ‘someOtherDescription’, however, will be converted to ‘some_other_description’ (or not converted at all if <code>JSONCache.casing</code> is <code>.camelCase</code>). If <code>qualifier</code> is not given, any string that ends with ‘-Description’ will be converted to ‘description’ when <code>conversion</code> is <code>.toJSON</code>. These rules apply regardless of whether <code>JSONCache.casing</code> specifies <code>snake_case</code> or <code>camelCase</code>.</p>
 
                                 </div>
                               </td>
@@ -268,7 +268,7 @@ governed by the <code><a href="../Structs/JSONCache.html#/s:ZvV9JSONCache9JSONCa
                               </td>
                               <td>
                                 <div>
-                                  <p>Used to qualify the string if it represents a reserved word. Defaults to <code>nil</code> if not given.  If the qualifier is <code>EntityName</code>, the string <code>description</code> will be converted to <code>entityNameDescription</code>. This applies regardless of whether <code>JSONCache.casing</code> specifies <code>snake_case</code> or <code>camelCase</code>.</p>
+                                  <p>Used to qualify strings that represent a reserved word. Defaults to <code>nil</code> if not given. If for instance the qualifier is ‘EntityName’, the string ‘description’ will be converted to ‘entityNameDescription’ if <code>conversion</code> is <code>.fromJSON</code>. Conversely, if <code>conversion</code> is <code>.toJSON</code>, the string ‘entityNameDescription’ will be converted to <code>description</code>. The string ‘someOtherDescription’, however, will be converted to ‘some_other_description’ (or not converted at all if <code>JSONCache.casing</code> is <code>.camelCase</code>). If <code>qualifier</code> is not given, any string that ends with ‘-Description’ will be converted to ‘description’ when <code>conversion</code> is <code>.toJSON</code>. These rules apply regardless of whether <code>JSONCache.casing</code> specifies <code>snake_case</code> or <code>camelCase</code>.</p>
 
                                 </div>
                               </td>

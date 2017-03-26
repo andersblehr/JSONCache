@@ -115,7 +115,10 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convert from JSON</p>
+                        <p>Convert from JSON. If <code><a href="../../Structs/JSONCache.html#/s:ZvV9JSONCache9JSONCache6casingOS0_6Casing">JSONCache.casing</a></code> is <code>.snake_case</code>, the conversion
+is from <code>snake_case</code> to <code>camelCase</code>; if <code><a href="../../Structs/JSONCache.html#/s:ZvV9JSONCache9JSONCache6casingOS0_6Casing">JSONCache.casing</a></code> is <code>.camelCase</code>,
+no casing conversion is done, but reserved words are mapped to qualified
+counterparts (see <code><a href="../../Structs/JSONConverter.html#/s:ZFV9JSONCache13JSONConverter7convertFTOS0_10Conversion10dictionaryGVs10DictionarySSP__9qualifierGSqSS__GS2_SSP__">convert(_:dictionary:qualifier:)</a></code> for details).</p>
 
                       </div>
                       <div class="declaration">
@@ -146,7 +149,11 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convert to JSON</p>
+                        <p>Convert to JSON. If <code><a href="../../Structs/JSONCache.html#/s:ZvV9JSONCache9JSONCache6casingOS0_6Casing">JSONCache.casing</a></code> is <code>.snake_case</code>, the conversion is
+from <code>camelCase</code> to <code>snake_case</code>; if <code><a href="../../Structs/JSONCache.html#/s:ZvV9JSONCache9JSONCache6casingOS0_6Casing">JSONCache.casing</a></code> is <code>.camelCase</code>, no
+casing conversion is done, but qualified attribute names are mapped to
+their unqualified counterparts (see the <code><a href="../../Structs/JSONConverter.html#/s:ZFV9JSONCache13JSONConverter7convertFTOS0_10Conversion10dictionaryGVs10DictionarySSP__9qualifierGSqSS__GS2_SSP__">convert(_:dictionary:qualifier:)</a></code>
+for details).</p>
 
                       </div>
                       <div class="declaration">

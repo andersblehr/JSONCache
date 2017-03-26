@@ -93,7 +93,7 @@ public struct JSONCache {
     ///     completion closure that should be inspected to determine if
     ///     bootstrapping completed successfully.
     
-    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = Bundle.main, completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
+    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = .main, completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
         
         guard mainContext == nil || modelName != mainContext.name else {
             DispatchQueue.main.async { completion(Result.success()) }
