@@ -27,6 +27,8 @@ consumes, caches and produces JSON data.
   implementation for Swift of a functional pattern that puts emphasis
   on the semantics of success or failure.
 
+Read the [API documentation](http://htmlpreview.github.com/?https://github.com/andersblehr/JSONCache/blob/master/docs/index.html) for the complete picture.
+
 ## Content
 
 - [Show, don't tell](#show-dont-tell)
