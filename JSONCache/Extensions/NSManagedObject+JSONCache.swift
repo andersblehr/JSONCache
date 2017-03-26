@@ -26,6 +26,7 @@ extension NSManagedObject: JSONifiable {
     /// Set the attributes of this object from the (key, value) pairs in the
     /// dictionary. Dictionary keys that do not correspond with an attribute name
     /// are ignored.
+    ///
     /// - Parameters:
     ///   - dictionary: The dictionary from which to retrieve attribute values.
     
@@ -43,9 +44,10 @@ extension NSManagedObject: JSONifiable {
     }
     
     
-    // MARK: - Jsonifiable conformance
+    // MARK: - JSONifiable conformance
     
     /// Produce a JSON serializable dictionary that represents this object.
+    ///
     /// - Returns: A JSON serializable dictionary representing this object.
     
     public func toJSONDictionary() -> [String: Any] {

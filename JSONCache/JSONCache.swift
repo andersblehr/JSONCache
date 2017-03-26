@@ -80,6 +80,7 @@ public struct JSONCache {
     
     /// Boostrap the Core Data stack. Must be called before invoking any other
     /// methods.
+    ///
     /// - Parameters:
     ///   - modelName: The name of the managed object model to use.
     ///   - inMemory: `true` if the persistent store should be in memory only.
@@ -152,6 +153,7 @@ public struct JSONCache {
     // MARK: - Loading JSON dictionaries into Core Data
     
     /// Stage a JSON dictionary for loading into Core Data.
+    ///
     /// - Parameters:
     ///   - dictionary: The JSON dictionary to load into Core Data.
     ///   - entityName: The name of the Core Data entity that will hold the
@@ -164,6 +166,7 @@ public struct JSONCache {
     
     
     /// Stage an array JSON dictionaries for loading into Core Data.
+    ///
     /// - Parameters:
     ///   - dictionaries: The array of JSON dictionaries to load into Core Data.
     ///   - entityName: The name of the Core Data entity that will hold the
@@ -181,6 +184,7 @@ public struct JSONCache {
     
     
     /// Load the staged JSON dictionaries into Core Data on a background thread.
+    ///
     /// - Parameters:
     ///   - completion: A closure to be executed when loading has completed.
     ///   - result: A `Result<Void, JSONCacheError>` instance passed to the
@@ -266,6 +270,7 @@ public struct JSONCache {
     
     /// Save any changes in the parent store of the given managed object context.
     /// Roll back the save operation if an error occurs.
+    ///
     /// - Parameters:
     ///   - context: The managed object context whose parent store should be
     ///     saved. Defaults to `mainContext` if not given.
@@ -287,6 +292,7 @@ public struct JSONCache {
     }
     
     /// Fetch a managed object from the persistent store.
+    ///
     /// - Parameters:
     ///   - entityName: The entity name of the object to be fetched.
     ///   - identifier: The primary key value of the object. The entity's primary
@@ -321,6 +327,7 @@ public struct JSONCache {
     
     
     /// Fetch an array of managed objects from the persistent store.
+    /// 
     /// - Parameters:
     ///   - entityName: The entity name of the objects to be fetched.
     ///   - identifiers: An array containing the primary key values of the objects.

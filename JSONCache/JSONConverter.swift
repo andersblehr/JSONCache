@@ -25,6 +25,7 @@ public struct JSONConverter {
     
     /// Perform the specified casing `conversion` on the keys in `dictionary`, as
     /// governed by the `JSONCache.casing` setting
+    ///
     /// - Parameters:
     ///   - conversion: Enum specifying if the conversion is from JSON or to JSON.
     ///   - dictionary: The dictionary whose keys are to be converted.
@@ -49,6 +50,7 @@ public struct JSONConverter {
     
     /// Perform the specified casing `conversion` on `string`, as governed by the
     /// `JSONCache.casing` setting
+    /// 
     /// - Parameters:
     ///   - conversion: Enum specifying if the conversion is from JSON or to JSON.
     ///   - string: The string to be converted.

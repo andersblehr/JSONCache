@@ -3,7 +3,11 @@
 [![Build Status](https://travis-ci.org/andersblehr/JSONCache.svg?branch=master)](https://travis-ci.org/andersblehr/JSONCache)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/v/JSONCache.svg)](https://cocoapods.org/)
-[![CocoaDocs](https://img.shields.io/cocoapods/metrics/doc-percent/JSONCache.svg)](http://cocoadocs.org/docsets/JSONCache)
+![Platform](https://img.shields.io/cocoapods/p/JSONCache.svg)
+![license MIT](https://img.shields.io/cocoapods/l/JSONCache.svg)
+
+<!-- [![codecov](https://codecov.io/gh/andersblehr/JSONCache/branch/master/graph/badge.svg)](https://codecov.io/gh/andersblehr/JSONCache) -->
+<!-- [![CocoaDocs](https://img.shields.io/cocoapods/metrics/doc-percent/JSONCache.svg)](http://cocoadocs.org/docsets/JSONCache) -->
 
 JSONCache is a thin layer on top of Core Data that seamlessly
 consumes, caches and produces JSON data.
@@ -22,6 +26,8 @@ consumes, caches and produces JSON data.
   [Result](https://github.com/antitypical/Result), the go-to
   implementation for Swift of a functional pattern that puts emphasis
   on the semantics of success or failure.
+
+Read the [API documentation](docs/index.html) for the complete picture.
 
 ## Content
 
@@ -345,6 +351,11 @@ pod 'JSONCache'
 ```
 github "andersblehr/JSONCache" ~> 1.0
 ```
+
+### Dependencies
+
+- [antitypical/Result](https://github.com/antitypical/Result)
+
 
 ### Compatibility
 
