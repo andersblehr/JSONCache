@@ -109,8 +109,8 @@ consumes, caches and produces JSON data.</p>
 JSON data into objects that already exist.</li>
 <li>Automatically maps 1:1 and 1:N relationships based on inferred
 knowledge of your Core Data model.</li>
-<li>If necessary, automatically maps between <code>snake_case</code> in JSON and
-<code>camelCase</code> in Core Data attribute names.</li>
+<li>If necessary, automatically maps between <code>snake_case</code> in JSON key
+names and <code>camelCase</code> in Core Data attribute names.</li>
 <li>Generates JSON on demand, both from <code>NSManagedObject</code> instances, and
 from any <code>struct</code> that adopts the <code>JSONifiable</code> protocol.</li>
 <li>Operates on background threads to avoid interfering with your app&rsquo;s
@@ -121,7 +121,7 @@ implementation for Swift of a functional pattern that puts emphasis
 on the semantics of success or failure.</li>
 </ul>
 
-<p>Read the <a href="http://htmlpreview.github.com/?https://github.com/andersblehr/JSONCache/blob/master/docs/index.html">API documentation</a> for the complete picture.</p>
+<p>Read the <a href="https://andersblehr.github.io/JSONCache">API documentation</a> for the complete picture.</p>
 <a href='#content' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='content'>Content</h2>
 
 <ul>
@@ -134,7 +134,9 @@ on the semantics of success or failure.</li>
 <li><a href="#but-do-tell">But do tell</a>
 
 <ul>
+<li><a href="#key-conversion">Key conversion</a></li>
 <li><a href="#case-conversion">Case conversion</a></li>
+<li><a href="#qualifying-reserved-words">Qualifying reserved words</a></li>
 <li><a href="#date-conversion">Date conversion</a></li>
 <li><a href="#relationship-mapping">Relationship mapping</a></li>
 <li><a href="#how-to">How to &hellip;</a></li>
@@ -145,6 +147,7 @@ on the semantics of success or failure.</li>
 <ul>
 <li><a href="#cocoapods">CocoaPods</a></li>
 <li><a href="#carthage">Carthage</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#compatibility">Compatibility</a></li>
 </ul></li>
 <li><a href="#license">License</a></li>
@@ -308,26 +311,49 @@ any <code>struct</code> that adopts the <code>JSONifiable</code> protocol:</p>
 <span class="p">}</span>
 </code></pre>
 <a href='#but-do-tell' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='but-do-tell'>But do tell</h2>
-<a href='#case-conversion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='case-conversion'>Case conversion</h3>
+<a href='#key-conversion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='key-conversion'>Key conversion</h3>
 
-<p>Before JSON data is loaded into Core Data, any necessary case
-conversion is performed on the attribute names. The
-<code>JSONCache.casing</code> configuration parameter tells JSONCache whether
-to expect <code>.snake_case</code> or <code>.camelCase</code> in the JSON data. Case
+<p>When consuming JSON, JSON keys are converted to Core Data entity
+attribute names. Conversely, when producing JSON, Core Data entity
+attribute names (or <code>struct</code> properties) are converted to JSON keys.</p>
+
+<p>Key conversion consists of two steps:</p>
+
+<ol>
+<li>Convert between <code>snake_case</code> and <code>camelCase</code> as needed.</li>
+<li>Qualify or dequalify reserved words as needed.</li>
+</ol>
+<a href='#case-conversion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='case-conversion'>Case conversion</h4>
+
+<p>The <code>JSONCache.casing</code> configuration parameter tells JSONCache whether
+the JSON data uses <code>.snake_case</code> or <code>.camelCase</code> in key names. Case
 conversion is only done if the JSON casing is <code>.snake_case</code>:</p>
 
 <ul>
-<li><code>attribute_name</code> becomes <code>attributeName</code>.</li>
-<li><code>description</code>, being a reserved attribute name, becomes
-<code>entityNameDescription</code>.</li>
+<li><code>attribute_name</code> becomes <code>attributeName</code> when consuming JSON.</li>
+<li><code>attributeName</code> becomes <code>attribute_name</code> when producing JSON.</li>
 </ul>
+<a href='#qualifying-reserved-words' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='qualifying-reserved-words'>Qualifying reserved words</h4>
 
-<p>Similarly, when producing JSON:</p>
+<p>Some words, such as <code>description</code>, collide with reserved Cocoa names
+and may not be used as attribute names in Core Data entities. When
+reserved words are received as keys in JSON data, they are qualified
+during the case conversion process. Specifically, the name of the Core
+Data entity that will hold the data is prefixed onto the reserved
+word. If for instance the entity name is <code>EntityName</code>, the JSON key
+<code>description</code> will be mapped to the entity attribute name
+<code>entityNameDescription</code>.</p>
 
-<ul>
-<li><code>attributeName</code> becomes <code>attribute_name</code>.</li>
-<li><code>entityNameDescription</code> becomes <code>description</code>.</li>
-</ul>
+<p>Conversely, when producing JSON, qualified attribute names are
+dequalified: <code>entityNameDescription</code> becomes <code>description</code>.</p>
+
+<p>JSONCache only supports qualifying (prefixing) reserved words with the
+name of the corresponding entity. Thus, care must be taken when naming
+Core Data entity attributes whose JSON counterparts represent reserved
+words.</p>
+
+<p>Currently, JSONCache only supports qualifying the reserved word
+<code>description</code>. More words may be added in the future. </p>
 <a href='#date-conversion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='date-conversion'>Date conversion</h3>
 
 <p>JSONCache supports the following JSON date formats:</p>
@@ -459,7 +485,7 @@ finally hooks up the relationship.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://twitter.com/andersblehr" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2017-03-26)</p>
+          <p>&copy; 2017 <a class="link" href="https://twitter.com/andersblehr" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2017-03-27)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -16,8 +16,8 @@ consumes, caches and produces JSON data.
   JSON data into objects that already exist.
 - Automatically maps 1:1 and 1:N relationships based on inferred
   knowledge of your Core Data model.
-- If necessary, automatically maps between `snake_case` in JSON and
-  `camelCase` in Core Data attribute names.
+- If necessary, automatically maps between `snake_case` in JSON key
+  names and `camelCase` in Core Data attribute names.
 - Generates JSON on demand, both from `NSManagedObject` instances, and
   from any `struct` that adopts the `JSONifiable` protocol.
 - Operates on background threads to avoid interfering with your app's
@@ -35,7 +35,9 @@ Read the [API documentation](https://andersblehr.github.io/JSONCache) for the co
   - [Consuming JSON](#consuming-json)
   - [Producing JSON](#producing-json)
 - [But do tell](#but-do-tell)
-  - [Case conversion](#case-conversion)
+  - [Key conversion](#key-conversion)
+    - [Case conversion](#case-conversion)
+    - [Qualifying reserved words](#qualifying-reserved-words)
   - [Date conversion](#date-conversion)
   - [Relationship mapping](#relationship-mapping)
     - [How to ...](#how-to)
@@ -43,6 +45,7 @@ Read the [API documentation](https://andersblehr.github.io/JSONCache) for the co
 - [Installation](#installation)
   - [CocoaPods](#cocoapods)
   - [Carthage](#carthage)
+  - [Dependencies](#dependencies)
   - [Compatibility](#compatibility)
 - [License](#license)
 
@@ -219,22 +222,47 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
 
 ## But do tell
 
-### Case conversion
+### Key conversion
 
-Before JSON data is loaded into Core Data, any necessary case
-conversion is performed on the attribute names. The
-`JSONCache.casing` configuration parameter tells JSONCache whether
-to expect `.snake_case` or `.camelCase` in the JSON data. Case
+When consuming JSON, JSON keys are converted to Core Data entity
+attribute names. Conversely, when producing JSON, Core Data entity
+attribute names (or `struct` properties) are converted to JSON keys.
+
+Key conversion consists of two steps:
+
+1. Convert between `snake_case` and `camelCase` as needed.
+2. Qualify or dequalify reserved words as needed.
+
+#### Case conversion
+
+The `JSONCache.casing` configuration parameter tells JSONCache whether
+the JSON data uses `.snake_case` or `.camelCase` in key names. Case
 conversion is only done if the JSON casing is `.snake_case`:
 
-- `attribute_name` becomes `attributeName`.
-- `description`, being a reserved attribute name, becomes
-  `entityNameDescription`.
-  
-Similarly, when producing JSON:
+- `attribute_name` becomes `attributeName` when consuming JSON.
+- `attributeName` becomes `attribute_name` when producing JSON.
 
-- `attributeName` becomes `attribute_name`.
-- `entityNameDescription` becomes `description`.
+#### Qualifying reserved words
+
+Some words, such as `description`, collide with reserved Cocoa names
+and may not be used as attribute names in Core Data entities. When
+reserved words are received as keys in JSON data, they are qualified
+during the case conversion process. Specifically, the name of the Core
+Data entity that will hold the data is prefixed onto the reserved
+word. If for instance the entity name is `EntityName`, the JSON key
+`description` will be mapped to the entity attribute name
+`entityNameDescription`.
+
+Conversely, when producing JSON, qualified attribute names are
+dequalified: `entityNameDescription` becomes `description`.
+
+JSONCache only supports qualifying (prefixing) reserved words with the
+name of the corresponding entity. Thus, care must be taken when naming
+Core Data entity attributes whose JSON counterparts represent reserved
+words.
+
+Currently, JSONCache only supports qualifying the reserved word
+`description`. More words may be added in the future. 
 
 ### Date conversion
 
