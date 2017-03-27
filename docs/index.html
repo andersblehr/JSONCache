@@ -340,11 +340,12 @@ and may not be used as attribute names in Core Data entities. When
 reserved words are received as keys in JSON data, they are
 qualified. Specifically, the name of the Core Data entity that will
 hold the data is prefixed onto the reserved word. If for instance the
-entity name is <code>EntityName</code>, the JSON key <code>description</code> will be
-converted to the entity attribute name <code>entityNameDescription</code>.</p>
+entity name is <code>EntityName</code>:</p>
 
-<p>Conversely, when producing JSON, qualified attribute names are
-dequalified: <code>entityNameDescription</code> becomes <code>description</code>.</p>
+<ul>
+<li><code>description</code> becomes <code>entityNameDescription</code> when consuming JSON.</li>
+<li><code>entityNameDescription</code> becomes <code>description</code> when producing JSON.</li>
+</ul>
 
 <p>JSONCache only supports qualifying (prefixing) reserved words with the
 name of the corresponding entity. Thus, care must be taken when naming
