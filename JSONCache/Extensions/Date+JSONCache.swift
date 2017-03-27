@@ -15,7 +15,7 @@ public extension Date {
     ///
     /// - Parameters:
     ///   - value: The JSON value from which to create a `Date` instance. The
-    ///     `JSONCache.dateFormat` setting governs how to the value is interpreted.
+    ///     `JSONCache.dateFormat` setting governs how the value is interpreted.
     
     public init(fromJSONValue value: Any) {
         
