@@ -415,27 +415,25 @@ next item.</p>
 
 <p>Consider the following JSON records:</p>
 
-<p><strong>Band</strong>
-<code>json
-{
-  &quot;name&quot;: &quot;Japan&quot;,
-  &quot;formed&quot;: 1974,
-  &quot;disbanded&quot;: 1991,
-  &quot;hiatus&quot;: &quot;1982-1989&quot;,
-  &quot;description&quot;: &quot;Initially a glam-inspired group [...]&quot;,
-  &quot;other_names&quot;: &quot;Rain Tree Crow&quot;
-}
-</code></p>
+<p><strong>Band</strong></p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"formed"</span><span class="p">:</span><span class="w"> </span><span class="mi">1974</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"disbanded"</span><span class="p">:</span><span class="w"> </span><span class="mi">1991</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"hiatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1982-1989"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initially a glam-inspired group [...]"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"other_names"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rain Tree Crow"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
-<p><strong>Album</strong>
-<code>json
-{
-  &quot;name&quot;: &quot;Tin Drum&quot;,
-  &quot;band&quot;: &quot;Japan&quot;,
-  &quot;released&quot;: &quot;1981-11-13T00:00:00Z&quot;,
-  &quot;label&quot;: &quot;Virgin&quot;
-}
-</code></p>
+<p><strong>Album</strong></p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tin Drum"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"band"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1981-11-13T00:00:00Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Virgin"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>JSONCache first creates two <code>NSManagedObject</code> instances, one for the
 band Japan, and one for the <em>Tin Drum</em> album, each holding all the

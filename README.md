@@ -323,6 +323,7 @@ next item.
 Consider the following JSON records:
 
 **Band**
+
 ```json
 {
   "name": "Japan",
@@ -335,6 +336,7 @@ Consider the following JSON records:
 ```
 
 **Album**
+
 ```json
 {
   "name": "Tin Drum",
