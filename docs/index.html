@@ -337,12 +337,11 @@ conversion is only done if the JSON casing is <code>.snake_case</code>:</p>
 
 <p>Some words, such as <code>description</code>, collide with reserved Cocoa names
 and may not be used as attribute names in Core Data entities. When
-reserved words are received as keys in JSON data, they are qualified
-during the case conversion process. Specifically, the name of the Core
-Data entity that will hold the data is prefixed onto the reserved
-word. If for instance the entity name is <code>EntityName</code>, the JSON key
-<code>description</code> will be mapped to the entity attribute name
-<code>entityNameDescription</code>.</p>
+reserved words are received as keys in JSON data, they are
+qualified. Specifically, the name of the Core Data entity that will
+hold the data is prefixed onto the reserved word. If for instance the
+entity name is <code>EntityName</code>, the JSON key <code>description</code> will be
+converted to the entity attribute name <code>entityNameDescription</code>.</p>
 
 <p>Conversely, when producing JSON, qualified attribute names are
 dequalified: <code>entityNameDescription</code> becomes <code>description</code>.</p>
