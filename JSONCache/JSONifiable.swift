@@ -23,9 +23,9 @@ public protocol JSONifiable {
 public extension JSONifiable {
     
     /// If the type is a `struct`, produce a JSON serializable dictionary
-    /// that represents the `struct`.
+    /// that represents the `struct`
     /// 
-    /// Returns: A JSON serializable dictionary representing the `struct`
+    /// - Returns: A JSON serializable dictionary representing the `struct`
     public func toJSONDictionary() -> [String: Any] {
         
         var dictionary = [String: Any]()
@@ -44,9 +44,9 @@ public extension JSONifiable {
         return JSONConverter.convert(.toJSON, dictionary: dictionary)
     }
     
-    /// Serialize the type to a pretty-printed JSON string.
+    /// Serialize the type to a pretty-printed JSON string
     /// 
-    /// Returns: A pretty-printed JSON string representing the type
+    /// - Returns: A pretty-printed JSON string representing the type
     public func toJSONString() -> String {
         
         let dict = self.toJSONDictionary()
