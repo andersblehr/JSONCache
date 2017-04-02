@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "JSONCache"
-  s.version      = "1.0.5"
+  s.version      = "1.0.6"
   s.summary      = "JSON to Core Data and back."
   s.description  = <<-DESC
                    JSONCache is a thin layer on top of Core Data that seamlessly consumes, persists and produces JSON data, converting between `snake_case` and `camelCase` as needed while establishing and preserving relationships between Core Data objects created from JSON records.

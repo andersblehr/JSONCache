@@ -266,7 +266,7 @@ class JSONCacheTests: XCTestCase {
                             let stranded = stranded as! Album
                             XCTAssertEqual(stranded.name!, "Stranded")
                             XCTAssertEqual(stranded.band!.name!, "Roxy Music")
-                            XCTAssertEqual(stranded.released as! Date, Date(fromJSONValue: "1973-11-01T00:00:00Z"))
+                            XCTAssertEqual(stranded.released! as Date, Date(fromJSONValue: "1973-11-01T00:00:00Z"))
                             XCTAssertEqual(stranded.label!, "Island")
                             
                             fetchSingleObjectExpectation.fulfill()

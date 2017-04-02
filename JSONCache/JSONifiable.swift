@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// A type that can be represented as a JSON serializable dictionary
+/// A type that can be represented as JSON
 public protocol JSONifiable {
     
     /// Produce a JSON serializable dictionary that represents the type
@@ -21,6 +21,8 @@ public extension JSONifiable {
     
     /// If the type is a `struct`, produce a JSON serializable dictionary
     /// that represents the `struct`.
+    /// 
+    /// Returns: A JSON serializable dictionary representing the `struct`
     public func toJSONDictionary() -> [String: Any] {
         
         var dictionary = [String: Any]()
@@ -37,5 +39,16 @@ public extension JSONifiable {
         }
         
         return JSONConverter.convert(.toJSON, dictionary: dictionary)
+    }
+    
+    /// Serialize the type to a pretty-printed JSON string.
+    /// 
+    /// Returns: A pretty-printed JSON string representing the type
+    public func toJSONString() -> String {
+        
+        let dict = self.toJSONDictionary()
+        let data = try! JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+        
+        return String(data: data, encoding: .utf8)!
     }
 }
