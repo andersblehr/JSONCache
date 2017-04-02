@@ -14,6 +14,9 @@ public protocol JSONifiable {
     
     /// Produce a JSON serializable dictionary that represents the type
     func toJSONDictionary() -> [String: Any]
+    
+    /// Serialize the type to a pretty-printed JSON string
+    func toJSONString() -> String
 }
 
 
