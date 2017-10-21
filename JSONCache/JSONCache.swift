@@ -96,7 +96,7 @@ public struct JSONCache {
     public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = .main, completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
         
         guard mainContext == nil || modelName != mainContext.name else {
-            DispatchQueue.main.async { completion(Result.success()) }
+            DispatchQueue.main.async { completion(Result.success(())) }
             return
         }
         
@@ -112,40 +112,22 @@ public struct JSONCache {
             return
         }
         
-        if #available(OSX 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-            let persistentStoreDescription = NSPersistentStoreDescription()
-            persistentStoreDescription.type = persistentStoreType
+        let persistentStoreDescription = NSPersistentStoreDescription()
+        persistentStoreDescription.type = persistentStoreType
+        
+        let persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: managedObjectModel)
+        persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
+        persistentContainer.loadPersistentStores { (_, error) in
             
-            let persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: managedObjectModel)
-            persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
-            persistentContainer.loadPersistentStores { (_, error) in
-                
-                guard error == nil else {
-                    DispatchQueue.main.async { completion(Result.failure(JSONCacheError.coreDataError(error!))) }
-                    return
-                }
-                
-                mainContext = persistentContainer.viewContext
-                mainContext.name = modelName
-                
-                DispatchQueue.main.async { completion(Result.success()) }
+            guard error == nil else {
+                DispatchQueue.main.async { completion(Result.failure(JSONCacheError.coreDataError(error!))) }
+                return
             }
-        } else {
-            let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-            let libraryDirectoryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last!
-            let persistentStoreURL = libraryDirectoryURL.appendingPathComponent("\(modelName).sqlite")
             
-            do {
-                try persistentStoreCoordinator.addPersistentStore(ofType: persistentStoreType, configurationName: nil, at: persistentStoreURL, options: [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true])
-                
-                mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-                mainContext.persistentStoreCoordinator = persistentStoreCoordinator
-                mainContext.name = modelName
-                
-                DispatchQueue.main.async { completion(Result.success()) }
-            } catch {
-                DispatchQueue.main.async { completion(Result.failure(JSONCacheError.coreDataError(error))) }
-            }
+            mainContext = persistentContainer.viewContext
+            mainContext.name = modelName
+            
+            DispatchQueue.main.async { completion(Result.success(())) }
         }
     }
     
@@ -250,7 +232,7 @@ public struct JSONCache {
                 mainContext.performAndWait {
                     switch save() {
                     case .success:
-                        DispatchQueue.main.async { completion(Result.success()) }
+                        DispatchQueue.main.async { completion(Result.success(())) }
                     case .failure(let error):
                         DispatchQueue.main.async { completion(Result.failure(error)) }
                     }
@@ -288,7 +270,7 @@ public struct JSONCache {
             }
         }
         
-        return Result.success()
+        return Result.success(())
     }
     
     /// Fetch a managed object from the persistent store.
