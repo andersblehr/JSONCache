@@ -366,7 +366,7 @@ class JSONCacheTests: XCTestCase {
             
             switch result {
             case .success:
-                DispatchQueue.main.async { completion(Result.success()) }
+                DispatchQueue.main.async { completion(Result.success(())) }
             case .failure(let error):
                 DispatchQueue.main.async { completion(Result.failure(error)) }
             }
