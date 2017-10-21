@@ -387,11 +387,11 @@ github "andersblehr/JSONCache" ~> 1.0
 
 ### Compatibility
 
-- Swift 3.x
-- macOS 10.11 or later
-- iOS 9.3 or later
+- Swift 4.x
+- macOS 10.12 or later
+- iOS 10.0 or later
 - watchOS 3.0 or later
-- tvOS 9.2 or later
+- tvOS 10.0 or later
 
 ## License
 
