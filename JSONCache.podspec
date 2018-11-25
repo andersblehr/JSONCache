@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "JSONCache"
-  s.version      = "1.1.1"
+  s.version      = "1.1.2"
   s.summary      = "JSON to Core Data and back."
   s.description  = <<-DESC
                    JSONCache is a thin layer on top of Core Data that seamlessly consumes, persists and produces JSON data, converting between `snake_case` and `camelCase` as needed while establishing and preserving relationships between Core Data objects created from JSON records.
@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/andersblehr/JSONCache.git", :tag => "#{s.version}" }
   s.source_files  = "JSONCache/**/*.{h,swift}"
-  s.dependency 'Result', '~> 3.2.4'
+  s.dependency 'Result', '~> 4.0.0'
   s.requires_arc = true
 end
