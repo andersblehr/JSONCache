@@ -33,10 +33,10 @@ class JSONCacheTests: XCTestCase {
         let fileData = try! Data(contentsOf: URL(fileURLWithPath: filePath!))
         let jsonObject = try! JSONSerialization.jsonObject(with: fileData) as! [String: Any]
         
-        bands = jsonObject["bands"] as! [[String: Any]]
-        musicians = jsonObject["musicians"] as! [[String: Any]]
-        bandMembers = jsonObject["band_members"] as! [[String: Any]]
-        albums = jsonObject["albums"] as! [[String: Any]]
+        bands = jsonObject["bands"] as? [[String: Any]]
+        musicians = jsonObject["musicians"] as? [[String: Any]]
+        bandMembers = jsonObject["band_members"] as? [[String: Any]]
+        albums = jsonObject["albums"] as? [[String: Any]]
         
         JSONCache.casing = .snake_case
         JSONCache.dateFormat = .iso8601WithSeparators
