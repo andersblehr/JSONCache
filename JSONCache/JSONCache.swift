@@ -38,10 +38,6 @@ public enum JSONCacheError: Error {
 ///   any `struct` that adopts the `JSONifiable` protocol.
 /// - Operates on background threads to avoid interfering with your app's
 ///   responsiveness.
-/// - Both synchronous and asynchronous methods return instances of 
-///  [Result](https://github.com/antitypical/Result), the go-to implementation for
-///  Swift of a functional pattern that puts emphasis on the semantics of success
-///  or failure.
 
 public struct JSONCache {
     

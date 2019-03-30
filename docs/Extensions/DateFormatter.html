@@ -15,7 +15,7 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">JSONCache Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/andersblehr"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right"><a href="https://github.com/andersblehr/JSONCache"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -29,7 +29,7 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
-            <a href="../Enums.html">Enums</a>
+            <a href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Enums/JSONCacheError.html">JSONCacheError</a>
@@ -65,7 +65,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Structs.html">Structs</a>
+            <a href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Structs/JSONCache.html">JSONCache</a>
@@ -90,8 +90,13 @@
         <section>
           <section class="section">
             <h1>DateFormatter</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">DateFormatter</span> <span class="p">:</span> <span class="kt">Formatter</span></code></pre>
 
+                </div>
+              </div>
+            
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -99,9 +104,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@CM@JSONCache@@objc(cs)NSDateFormatter(cm)dateFromISO8601String:"></a>
+                    <a name="/s:So15NSDateFormatterC9JSONCacheE4date17fromISO8601String10Foundation4DateVSgSS_tFZ"></a>
                     <a name="//apple_ref/swift/Method/date(fromISO8601String:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@CM@JSONCache@@objc(cs)NSDateFormatter(cm)dateFromISO8601String:">date(fromISO8601String:)</a>
+                    <a class="token" href="#/s:So15NSDateFormatterC9JSONCacheE4date17fromISO8601String10Foundation4DateVSgSS_tFZ">date(fromISO8601String:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -116,9 +121,33 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">date</span><span class="p">(</span><span class="n">fromISO8601String</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">date</span><span class="p">(</span><span class="n">fromISO8601String</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>string</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An ISO 8601 formatted date string. The expected format is
+governed by the <code><a href="../Structs/JSONCache.html#/s:9JSONCacheAAV10dateFormatAB04DateC0OvpZ">JSONCache.dateFormat</a></code> setting.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The <code>Date</code> instance represented by the string.</p>
                       </div>
                     </section>
                   </div>
@@ -126,9 +155,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@CM@JSONCache@@objc(cs)NSDateFormatter(cm)iso8601StringFrom:"></a>
+                    <a name="/s:So15NSDateFormatterC9JSONCacheE13iso8601String4fromSS10Foundation4DateV_tFZ"></a>
                     <a name="//apple_ref/swift/Method/iso8601String(from:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@CM@JSONCache@@objc(cs)NSDateFormatter(cm)iso8601StringFrom:">iso8601String(from:)</a>
+                    <a class="token" href="#/s:So15NSDateFormatterC9JSONCacheE13iso8601String4fromSS10Foundation4DateV_tFZ">iso8601String(from:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -138,16 +167,20 @@
                       <div class="abstract">
                         <p>Produce an ISO 8601 formatted date string from a <code>Date</code> instance. The
 specific format of the produced string is governed by the
-<code><a href="../Structs/JSONCache.html#/s:9JSONCacheAAV10dateFormatAB04DateC0OvZ">JSONCache.dateFormat</a></code> setting.</p>
+<code><a href="../Structs/JSONCache.html#/s:9JSONCacheAAV10dateFormatAB04DateC0OvpZ">JSONCache.dateFormat</a></code> setting.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">iso8601String</span><span class="p">(</span><span class="n">from</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">iso8601String</span><span class="p">(</span><span class="n">from</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A string representation of the <code>Date</code> instance.</p>
                       </div>
                     </section>
                   </div>
@@ -157,8 +190,8 @@ specific format of the produced string is governed by the
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://andersblehr.co" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2017-10-21)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2019 <a class="link" href="https://andersblehr.co" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-03-30)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -14,7 +14,7 @@
     <header>
       <div class="content-wrapper">
         <p><a href="index.html">JSONCache Docs</a> (100% documented)</p>
-        <p class="header-right"><a href="https://github.com/andersblehr"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right"><a href="https://github.com/andersblehr/JSONCache"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -28,7 +28,7 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
-            <a href="Enums.html">Enums</a>
+            <a href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Enums/JSONCacheError.html">JSONCacheError</a>
@@ -64,7 +64,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="Structs.html">Structs</a>
+            <a href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Structs/JSONCache.html">JSONCache</a>
@@ -89,7 +89,7 @@
         <section>
           <section class="section">
             
-            <a href='#jsoncache' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='jsoncache'>JSONCache</h1>
+            <h1 id='jsoncache' class='heading'>JSONCache</h1>
 
 <p><a href="https://travis-ci.org/andersblehr/JSONCache"><img src="https://travis-ci.org/andersblehr/JSONCache.svg?branch=master" alt="Build Status"></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a>
@@ -112,17 +112,13 @@ knowledge of your Core Data model.</li>
 <li>If necessary, automatically maps between <code>snake_case</code> in JSON key
 names and <code>camelCase</code> in Core Data attribute names.</li>
 <li>Generates JSON on demand, both from <code>NSManagedObject</code> instances, and
-from any <code>struct</code> that adopts the <code>JSONifiable</code> protocol.</li>
+from any <code>struct</code> that adopts the <code><a href="Protocols/JSONifiable.html">JSONifiable</a></code> protocol.</li>
 <li>Operates on background threads to avoid interfering with your app&rsquo;s
 responsiveness.</li>
-<li>Both synchronous and asynchronous methods return instances of
-<a href="https://github.com/antitypical/Result">Result</a>, the go-to
-implementation for Swift of a functional pattern that puts emphasis
-on the semantics of success or failure.</li>
 </ul>
 
 <p>Read the <a href="https://andersblehr.github.io/JSONCache">API documentation</a> for the complete picture.</p>
-<a href='#content' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='content'>Content</h2>
+<h2 id='content' class='heading'>Content</h2>
 
 <ul>
 <li><a href="#show-dont-tell">Show, don&rsquo;t tell</a>
@@ -152,46 +148,46 @@ on the semantics of success or failure.</li>
 </ul></li>
 <li><a href="#license">License</a></li>
 </ul>
-<a href='#show-don-39-t-tell' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='show-don-39-t-tell'>Show, don&rsquo;t tell</h2>
-<a href='#consuming-json' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='consuming-json'>Consuming JSON</h3>
+<h2 id='show-don-39-t-tell' class='heading'>Show, don&rsquo;t tell</h2>
+<h3 id='consuming-json' class='heading'>Consuming JSON</h3>
 
 <p>Say your backend produces JSON like this:</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"bands"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"bands"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"formed"</span><span class="p">:</span><span class="w"> </span><span class="mi">1974</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"disbanded"</span><span class="p">:</span><span class="w"> </span><span class="mi">1991</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"hiatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1982-1989"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initially a glam-inspired group [...]"</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"formed"</span><span class="p">:</span><span class="w"> </span><span class="mi">1974</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"disbanded"</span><span class="p">:</span><span class="w"> </span><span class="mi">1991</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"hiatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1982-1989"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initially a glam-inspired group [...]"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="err">...</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"band_members"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"band_members"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"David Sylvian in Japan"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"musician"</span><span class="p">:</span><span class="w"> </span><span class="s2">"David Sylvian"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"band"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"instruments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lead vocals, keyboards, guitar"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"joined"</span><span class="p">:</span><span class="w"> </span><span class="mi">1974</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"left"</span><span class="p">:</span><span class="w"> </span><span class="mi">1991</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"David Sylvian in Japan"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"musician"</span><span class="p">:</span><span class="w"> </span><span class="s2">"David Sylvian"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"band"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"instruments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lead vocals, keyboards, guitar"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"joined"</span><span class="p">:</span><span class="w"> </span><span class="mi">1974</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"left"</span><span class="p">:</span><span class="w"> </span><span class="mi">1991</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="err">...</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"musicians"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"musicians"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"David Sylvian"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"born"</span><span class="p">:</span><span class="w"> </span><span class="mi">1958</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"instruments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vocals, guitar, keyboards"</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"David Sylvian"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"born"</span><span class="p">:</span><span class="w"> </span><span class="mi">1958</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"instruments"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vocals, guitar, keyboards"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="err">...</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"albums"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"albums"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gentlemen Take Polaroids"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"band"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1980-10-24T00:00:00Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Virgin"</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gentlemen Take Polaroids"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"band"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1980-10-24T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Virgin"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="err">...</span><span class="w">
   </span><span class="p">]</span><span class="w">
@@ -251,7 +247,7 @@ in Core Data on your device, relationships and all:</p>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<a href='#producing-json' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='producing-json'>Producing JSON</h3>
+<h3 id='producing-json' class='heading'>Producing JSON</h3>
 
 <p>If your app allows producing as well as consuming data, you can
 generate JSON directly from <code>NSManagedObject</code> instances:</p>
@@ -282,7 +278,7 @@ generate JSON directly from <code>NSManagedObject</code> instances:</p>
 create the <code>NSManagedObject</code> instance first and then use it to
 generate JSON for the backend, or if you prefer to wait until the
 record is safely persisted on the backend, you can generate JSON from
-any <code>struct</code> that adopts the <code>JSONifiable</code> protocol:</p>
+any <code>struct</code> that adopts the <code><a href="Protocols/JSONifiable.html">JSONifiable</a></code> protocol:</p>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">BandInfo</span><span class="p">:</span> <span class="kt">JSONifiable</span> <span class="p">{</span>
   <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
   <span class="k">var</span> <span class="nv">bandDescription</span><span class="p">:</span> <span class="kt">String</span>
@@ -310,8 +306,8 @@ any <code>struct</code> that adopts the <code>JSONifiable</code> protocol:</p>
     <span class="nf">print</span><span class="p">(</span><span class="s">"An error occurred: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
-<a href='#but-do-tell' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='but-do-tell'>But do tell</h2>
-<a href='#key-conversion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='key-conversion'>Key conversion</h3>
+<h2 id='but-do-tell' class='heading'>But do tell</h2>
+<h3 id='key-conversion' class='heading'>Key conversion</h3>
 
 <p>When consuming JSON, JSON keys are converted to Core Data entity
 attribute names. Conversely, when producing JSON, Core Data entity
@@ -323,9 +319,9 @@ attribute names (or <code>struct</code> properties) are converted to JSON keys.<
 <li>Convert between <code>snake_case</code> and <code>camelCase</code> as needed.</li>
 <li>Qualify or dequalify reserved words as needed.</li>
 </ol>
-<a href='#case-conversion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='case-conversion'>Case conversion</h4>
+<h4 id='case-conversion' class='heading'>Case conversion</h4>
 
-<p>The <code>JSONCache.casing</code> configuration parameter tells JSONCache whether
+<p>The <code><a href="Structs/JSONCache.html#/s:9JSONCacheAAV6casingAB6CasingOvpZ">JSONCache.casing</a></code> configuration parameter tells JSONCache whether
 the JSON data uses <code>.snake_case</code> or <code>.camelCase</code> in key names. Case
 conversion is only done if the JSON casing is <code>.snake_case</code>:</p>
 
@@ -333,7 +329,7 @@ conversion is only done if the JSON casing is <code>.snake_case</code>:</p>
 <li><code>attribute_name</code> becomes <code>attributeName</code> when consuming JSON.</li>
 <li><code>attributeName</code> becomes <code>attribute_name</code> when producing JSON.</li>
 </ul>
-<a href='#qualifying-reserved-words' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='qualifying-reserved-words'>Qualifying reserved words</h4>
+<h4 id='qualifying-reserved-words' class='heading'>Qualifying reserved words</h4>
 
 <p>Some words, such as <code>description</code>, collide with reserved Cocoa names
 and may not be used as attribute names in Core Data entities. When
@@ -354,7 +350,7 @@ words.</p>
 
 <p>Currently, JSONCache only supports qualifying the reserved word
 <code>description</code>. More words may be added in the future. </p>
-<a href='#date-conversion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='date-conversion'>Date conversion</h3>
+<h3 id='date-conversion' class='heading'>Date conversion</h3>
 
 <p>JSONCache supports the following JSON date formats:</p>
 
@@ -365,10 +361,10 @@ words.</p>
 <code>966947280.0</code></li>
 </ul>
 
-<p>Use the <code>JSONCache.dateFormat</code> configuration parameter to tell
+<p>Use the <code><a href="Structs/JSONCache.html#/s:9JSONCacheAAV10dateFormatAB04DateC0OvpZ">JSONCache.dateFormat</a></code> configuration parameter to tell
 JSONCache which format to expect and/or produce.</p>
-<a href='#relationship-mapping' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='relationship-mapping'>Relationship mapping</h3>
-<a href='#how-to' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='how-to'>How to &hellip;</h4>
+<h3 id='relationship-mapping' class='heading'>Relationship mapping</h3>
+<h4 id='how-to' class='heading'>How to &hellip;</h4>
 
 <p>In order for JSONCache to automatically map a 1:1 or a 1:N
 relationship, you essentially only need to tell it one thing: The
@@ -393,7 +389,7 @@ named <code>JC.isIdentifier</code> and setting it to <code>true</code>.</em></p>
 
 <p>The primary key must be unique within an entity, but not across
 entities.</p>
-<a href='#but-how' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='but-how'>But how &hellip;?</h4>
+<h4 id='but-how' class='heading'>But how &hellip;?</h4>
 
 <p>When JSONCache instantiates or updates an <code>NSManagedObject</code> instance
 from a JSON dictionary, it does so by inspecting the
@@ -417,21 +413,21 @@ next item.</p>
 
 <p><strong>Band</strong></p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"formed"</span><span class="p">:</span><span class="w"> </span><span class="mi">1974</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"disbanded"</span><span class="p">:</span><span class="w"> </span><span class="mi">1991</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"hiatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1982-1989"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initially a glam-inspired group [...]"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"other_names"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rain Tree Crow"</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"formed"</span><span class="p">:</span><span class="w"> </span><span class="mi">1974</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"disbanded"</span><span class="p">:</span><span class="w"> </span><span class="mi">1991</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"hiatus"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1982-1989"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initially a glam-inspired group [...]"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"other_names"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rain Tree Crow"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p><strong>Album</strong></p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tin Drum"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"band"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1981-11-13T00:00:00Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Virgin"</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tin Drum"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"band"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Japan"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1981-11-13T00:00:00Z"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Virgin"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -450,32 +446,27 @@ JSONCache has all the information it needs. It looks up a <code>Band</code>
 object whose <code>name</code> value is the same as the <code>band</code> value in the
 <code>Album</code> dictionary for the <em>Tin Drum</em> album (i.e., &lsquo;Japan&rsquo;), and
 finally hooks up the relationship.</p>
-<a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation'>Installation</h2>
+<h2 id='installation' class='heading'>Installation</h2>
 
 <p>You can install JSONCache using either
 <a href="http://cocoapods.org/">CocoaPods</a> or
 <a href="https://github.com/Carthage/Carthage">Carthage</a>.</p>
-<a href='#cocoapods' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='cocoapods'>CocoaPods</h3>
+<h3 id='cocoapods' class='heading'>CocoaPods</h3>
 <pre class="highlight plaintext"><code>pod 'JSONCache'
 </code></pre>
-<a href='#carthage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='carthage'>Carthage</h3>
+<h3 id='carthage' class='heading'>Carthage</h3>
 <pre class="highlight plaintext"><code>github "andersblehr/JSONCache" ~&gt; 1.0
 </code></pre>
-<a href='#dependencies' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='dependencies'>Dependencies</h3>
+<h3 id='compatibility' class='heading'>Compatibility</h3>
 
 <ul>
-<li><a href="https://github.com/antitypical/Result">antitypical/Result</a></li>
-</ul>
-<a href='#compatibility' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='compatibility'>Compatibility</h3>
-
-<ul>
-<li>Swift 4.x</li>
+<li>Swift 5.x</li>
 <li>macOS 10.12 or later</li>
 <li>iOS 10.0 or later</li>
 <li>watchOS 3.0 or later</li>
 <li>tvOS 10.0 or later</li>
 </ul>
-<a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
+<h2 id='license' class='heading'>License</h2>
 
 <p>JSONCache is released under the MIT license. See the
 <a href="LICENSE">LICENSE</a> file for details.</p>
@@ -483,8 +474,8 @@ finally hooks up the relationship.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://andersblehr.co" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2017-10-21)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2019 <a class="link" href="https://andersblehr.co" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-03-30)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
