@@ -17,7 +17,7 @@ public extension Date {
     ///   - value: The JSON value from which to create a `Date` instance. The
     ///     `JSONCache.dateFormat` setting governs how the value is interpreted.
     
-    public init(fromJSONValue value: Any) {
+    init(fromJSONValue value: Any) {
         
         switch JSONCache.dateFormat {
         case .iso8601WithSeparators, .iso8601WithoutSeparators:
@@ -42,7 +42,7 @@ public extension Date {
     /// 
     /// - Returns: A JSON serializable value representing this `Date` instance.
     
-    public func toJSONValue() -> Any {
+    func toJSONValue() -> Any {
         
         switch JSONCache.dateFormat {
         case .iso8601WithSeparators, .iso8601WithoutSeparators:

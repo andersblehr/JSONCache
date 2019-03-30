@@ -13,7 +13,7 @@ import Foundation
 public extension NSEntityDescription {
     
     /// The name of the identifier (primary key) attribute of this entity.
-    public var identifierName: String? {
+    var identifierName: String? {
         
         for (attributeName, attribute) in self.attributesByName {
             if attributeName == "id" || attribute.isIdentifier {

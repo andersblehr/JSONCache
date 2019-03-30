@@ -8,8 +8,6 @@
 
 import XCTest
 
-import Result
-
 
 @testable import JSONCache
 class JSONCacheTests: XCTestCase {

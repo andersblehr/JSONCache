@@ -9,8 +9,6 @@
 import CoreData
 import Foundation
 
-import Result
-
 
 /// Enum describing the set of errors that may be returned by JSONCache methods
 public enum JSONCacheError: Error {

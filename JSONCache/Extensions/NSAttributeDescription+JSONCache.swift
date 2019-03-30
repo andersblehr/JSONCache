@@ -14,7 +14,7 @@ public extension NSAttributeDescription {
     
     /// `true` if this attribute is the identifier (primary key) of the entity
     /// to which it belongs; `false` otherwise.
-    public var isIdentifier: Bool {
+    var isIdentifier: Bool {
         
         if let identifierFlag = self.userInfo!["JC.isIdentifier"] as? String {
             return ["true", "yes"].contains(identifierFlag.lowercased())

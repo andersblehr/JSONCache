@@ -22,10 +22,6 @@ consumes, caches and produces JSON data.
   from any `struct` that adopts the `JSONifiable` protocol.
 - Operates on background threads to avoid interfering with your app's
   responsiveness.
-- Both synchronous and asynchronous methods return instances of
-  [Result](https://github.com/antitypical/Result), the go-to
-  implementation for Swift of a functional pattern that puts emphasis
-  on the semantics of success or failure.
 
 Read the [API documentation](https://andersblehr.github.io/JSONCache) for the complete picture.
 
@@ -380,14 +376,9 @@ pod 'JSONCache'
 github "andersblehr/JSONCache" ~> 1.0
 ```
 
-### Dependencies
-
-- [antitypical/Result](https://github.com/antitypical/Result)
-
-
 ### Compatibility
 
-- Swift 4.x
+- Swift 5.x
 - macOS 10.12 or later
 - iOS 10.0 or later
 - watchOS 3.0 or later

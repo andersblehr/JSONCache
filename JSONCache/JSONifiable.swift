@@ -26,7 +26,7 @@ public extension JSONifiable {
     /// that represents the `struct`
     /// 
     /// - Returns: A JSON serializable dictionary representing the `struct`
-    public func toJSONDictionary() -> [String: Any] {
+    func toJSONDictionary() -> [String: Any] {
         
         var dictionary = [String: Any]()
         let isStruct = !(type(of:self) is AnyClass)
@@ -47,7 +47,7 @@ public extension JSONifiable {
     /// Serialize the type to a pretty-printed JSON string
     /// 
     /// - Returns: A pretty-printed JSON string representing the type
-    public func toJSONString() -> String {
+    func toJSONString() -> String {
         
         let dict = self.toJSONDictionary()
         let data = try! JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)

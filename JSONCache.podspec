@@ -18,6 +18,5 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/andersblehr/JSONCache.git", :tag => "#{s.version}" }
   s.source_files  = "JSONCache/**/*.{h,swift}"
-  s.dependency 'Result', '~> 4.0.0'
   s.requires_arc = true
 end
