@@ -1,8 +1,5 @@
 language: objective-c
 osx_image: xcode10.1
 
-install:
-  - carthage bootstrap
-
 script:
   - ./test.sh
