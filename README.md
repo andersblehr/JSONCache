@@ -41,7 +41,6 @@ Read the [API documentation](https://andersblehr.github.io/JSONCache) for the co
 - [Installation](#installation)
   - [CocoaPods](#cocoapods)
   - [Carthage](#carthage)
-  - [Dependencies](#dependencies)
   - [Compatibility](#compatibility)
 - [License](#license)
 
