@@ -152,7 +152,7 @@ extension ViewController: UITableViewDataSource {
             
             cell = tableView.dequeueReusableCell(withIdentifier: "album")
             cell.textLabel!.text = album.name!
-            cell.detailTextLabel!.text = "\(dateFormatter.string(from: album.released as! Date)) (\(album.label!))\(album.releasedAs != nil ? ". Released as \(album.releasedAs!)" : "")"
+            cell.detailTextLabel!.text = "\(dateFormatter.string(from: album.released!)) (\(album.label!))\(album.releasedAs != nil ? ". Released as \(album.releasedAs!)" : "")"
             cell.isUserInteractionEnabled = false
         }
         
@@ -206,6 +206,6 @@ class SelfSizingTableView: UITableView {
         
         self.layoutIfNeeded()
         
-        return CGSize(width: UIViewNoIntrinsicMetric, height: contentSize.height)
+        return CGSize(width: UIView.noIntrinsicMetric, height: contentSize.height)
     }
 }
