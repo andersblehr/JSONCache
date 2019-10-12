@@ -23,6 +23,8 @@ public enum JSONCacheError: Error {
     case noSuchEntity(String)
     /// The wrapped error ocurred during a Core Data operation.
     case coreDataError(Error)
+    /// The application is in a bad state
+    case badStateError(String)
 }
 
 /// JSONCache is a thin layer on top of Core Data that seamlessly consumes, caches
@@ -93,19 +95,16 @@ public struct JSONCache {
             DispatchQueue.main.async { completion(Result.success(())) }
             return
         }
-        
-        let persistentStoreType = inMemory ? NSInMemoryStoreType : NSSQLiteStoreType
-        
         guard let managedObjectModelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
             DispatchQueue.main.async { completion(Result.failure(JSONCacheError.modelNotFound(modelName))) }
             return
         }
-        
         guard let managedObjectModel = NSManagedObjectModel(contentsOf: managedObjectModelURL) else {
             DispatchQueue.main.async { completion(Result.failure(JSONCacheError.modelInitializationError(managedObjectModelURL))) }
             return
         }
         
+        let persistentStoreType = inMemory ? NSInMemoryStoreType : NSSQLiteStoreType
         let persistentStoreDescription = NSPersistentStoreDescription()
         persistentStoreDescription.type = persistentStoreType
         
@@ -123,6 +122,30 @@ public struct JSONCache {
             
             DispatchQueue.main.async { completion(Result.success(())) }
         }
+    }
+
+    
+    /// Boostrap the Core Data stack and return a `Result<Void, JSONCacheError>`
+    /// instance describing the result. Must be called before invoking any other
+    /// methods.
+    ///
+    /// - Parameters:
+    ///   - modelName: The name of the managed object model to use.
+    ///   - inMemory: `true` if the persistent store should be in memory only.
+    ///     Defaults to `false` if not given, in which case the persistent store
+    ///     is of SQLLite type.
+    ///   - bundle: The `Bundle` instance to use to look up the managed object
+    ///     model. Defaults to `Bundle.main` if not given.
+    ///   - completion: A closure to be executed when bootstrapping is complete.
+    
+    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = .main) -> FutureResult<Void, JSONCacheError> {
+        
+        let futureResult = FutureResult<Void, JSONCacheError>()
+        bootstrap(withModelName: modelName, inMemory: inMemory, bundle: bundle) { asyncResult in
+            futureResult.resolve(result: asyncResult)
+        }
+        
+        return futureResult
     }
     
     
@@ -178,44 +201,49 @@ public struct JSONCache {
         backgroundContext.parent = mainContext
         backgroundContext.perform {
             
-            for (entityName, dictionaries) in stagedDictionariesByEntityName {
-                for dictionary in dictionaries {
-                    let identifierName = NSEntityDescription.entity(forEntityName: entityName, in: backgroundContext)!.identifierName!
-                    let objectId = dictionary[identifierName] as! AnyHashable
-                    
-                    switch fetchObject(ofType: entityName, withId: objectId, in: backgroundContext) {
-                    case .success(var object):
-                        if object == nil {
-                            object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: backgroundContext)
-                            objectsByEntityAndId["\(entityName).\(objectId)"] = object
-                            dictionariesByEntityAndId["\(entityName).\(objectId)"] = dictionary
-                        }
+            stagedDictionariesByEntityName.forEach { (entityName, dictionaries) in
+                dictionaries.forEach { dictionary in
+                    if let identifierName = NSEntityDescription.entity(forEntityName: entityName, in: backgroundContext)?.identifierName,
+                        let objectId = dictionary[identifierName] as? AnyHashable {
                         
-                        object!.setAttributes(fromDictionary: dictionary)
-                    case .failure(let error):
-                        DispatchQueue.main.async { completion(Result.failure(error)) }
+                        switch fetchObject(ofType: entityName, withId: objectId, in: backgroundContext) {
+                        case .success(var object):
+                            if object == nil {
+                                object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: backgroundContext)
+                                objectsByEntityAndId["\(entityName).\(objectId)"] = object
+                                dictionariesByEntityAndId["\(entityName).\(objectId)"] = dictionary
+                            }
+                            
+                            object!.setAttributes(fromDictionary: dictionary)
+                        case .failure(let error):
+                            DispatchQueue.main.async { completion(Result.failure(error)) }
+                        }
+                    } else {
+                        DispatchQueue.main.async { completion(Result.failure(.badStateError("Bad state: No such entity"))) }
                     }
                 }
             }
             
-            for (objectEntityAndId, object) in objectsByEntityAndId {
-                for (relationshipName, relationship) in object.entity.relationshipsByName {
+            objectsByEntityAndId.forEach { (objectEntityAndId, object) in
+                object.entity.relationshipsByName.forEach { (relationshipName, relationship) in
                     if !relationship.isToMany {
-                        let dictionary = dictionariesByEntityAndId[objectEntityAndId]!
-                        let destinationId = dictionary[relationshipName] as! AnyHashable
-                        let destinationEntityName = relationship.destinationEntity!.name!
+                        if let destinationId = dictionariesByEntityAndId[objectEntityAndId]?[relationshipName] as? AnyHashable,
+                            let destinationEntityName = relationship.destinationEntity?.name {
                         
-                        if let destinationObject = objectsByEntityAndId["\(destinationEntityName).\(destinationId)"] {
-                            object.setValue(destinationObject, forKey: relationshipName)
-                        } else {
-                            switch fetchObject(ofType: destinationEntityName, withId: destinationId, in: backgroundContext) {
-                            case .success(let destinationObject):
-                                if let destinationObject = destinationObject {
-                                    object.setValue(destinationObject, forKey: relationshipName)
+                            if let destinationObject = objectsByEntityAndId["\(destinationEntityName).\(destinationId)"] {
+                                object.setValue(destinationObject, forKey: relationshipName)
+                            } else {
+                                switch fetchObject(ofType: destinationEntityName, withId: destinationId, in: backgroundContext) {
+                                case .success(let destinationObject):
+                                    if let destinationObject = destinationObject {
+                                        object.setValue(destinationObject, forKey: relationshipName)
+                                    }
+                                case .failure(let error):
+                                    DispatchQueue.main.async { completion(Result.failure(error)) }
                                 }
-                            case .failure(let error):
-                                DispatchQueue.main.async { completion(Result.failure(error)) }
                             }
+                        } else {
+                            DispatchQueue.main.async { completion(Result.failure(.badStateError("Bad state: No such entity"))) }
                         }
                     }
                 }
@@ -239,6 +267,20 @@ public struct JSONCache {
                 DispatchQueue.main.async { completion(Result.failure(error)) }
             }
         }
+    }
+    
+    
+    /// Load the staged JSON dictionaries into Core Data on a background thread,
+    /// and return a `Result<Void, JSONCacheError>` instance describing the result.
+    
+    public static func applyChanges() -> FutureResult<Void, JSONCacheError> {
+        
+        let futureResult = FutureResult<Void, JSONCacheError>()
+        applyChanges() { result in
+            futureResult.resolve(result: result)
+        }
+        
+        return futureResult
     }
     
     
@@ -280,14 +322,14 @@ public struct JSONCache {
     ///   the fetched object can be retrieved if the fetch operation completed
     ///   successfully.
     
-    public static func fetchObject<ResultType: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable, in context: NSManagedObjectContext? = mainContext) -> Result<ResultType?, JSONCacheError> {
+    public static func fetchObject<T: NSManagedObject>(ofType entityName: String, withId identifier: AnyHashable, in context: NSManagedObjectContext? = mainContext) -> Result<T?, JSONCacheError> {
         
         guard context != nil else {
             return Result.failure(JSONCacheError.managedObjectContextNotAvailable)
         }
         
         if let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!) {
-            let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
+            let fetchRequest = NSFetchRequest<T>(entityName: entityName)
             fetchRequest.predicate = NSPredicate(format: "%K == %@", entity.identifierName!, identifier as CVarArg)
             
             do {
@@ -315,14 +357,14 @@ public struct JSONCache {
     ///   the fetched objects can be retrieved if the fetch operation completed
     ///   successfully.
     
-    public static func fetchObjects<ResultType: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable], in context: NSManagedObjectContext? = mainContext) -> Result<[ResultType], JSONCacheError> {
+    public static func fetchObjects<T: NSManagedObject>(ofType entityName: String, withIds identifiers: [AnyHashable], in context: NSManagedObjectContext? = mainContext) -> Result<[T], JSONCacheError> {
         
         guard context != nil else {
             return Result.failure(JSONCacheError.managedObjectContextNotAvailable)
         }
         
         if let entity = NSEntityDescription.entity(forEntityName: entityName, in: context!) {
-            let fetchRequest = NSFetchRequest<ResultType>(entityName: entityName)
+            let fetchRequest = NSFetchRequest<T>(entityName: entityName)
             fetchRequest.predicate = NSPredicate(format: "%K IN %@", entity.identifierName!, identifiers)
             
             do {

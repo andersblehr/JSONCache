@@ -95,7 +95,7 @@ class JSONCacheTests: XCTestCase {
     }
     
     
-    func testJSONGeneration() {
+    func testJSONGenerationAsync() {
         
         struct BandInfo: JSONifiable {
             var name: String
@@ -115,11 +115,11 @@ class JSONCacheTests: XCTestCase {
         
         let jsonFromManagedObjectExpectation = self.expectation(description: "JSON dictionary from NSManagedObject")
         
-        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle) { (result) in
+        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle) { result in
             
             switch result {
             case .success:
-                self.loadJSONTestData { (result) in
+                self.loadJSONTestDataAsync { result in
                     
                     switch result {
                     case .success:
@@ -152,15 +152,64 @@ class JSONCacheTests: XCTestCase {
     }
     
     
+    func testJSONGenerationFuture() {
+        
+        struct BandInfo: JSONifiable {
+            var name: String
+            var bandDescription: String
+            var formed: Int
+            var disbanded: Int?
+            var hiatus: Int?
+            var otherNames: String?
+        }
+        
+        let u2Dictionary = BandInfo(name: "U2", bandDescription: "Dublin boys", formed: 1976, disbanded: nil, hiatus: nil, otherNames: "Passengers").toJSONDictionary()
+        XCTAssert(JSONSerialization.isValidJSONObject(u2Dictionary))
+        XCTAssertEqual(u2Dictionary["name"] as! String, "U2")
+        XCTAssertEqual(u2Dictionary["description"] as! String, "Dublin boys")
+        XCTAssertEqual(u2Dictionary["formed"] as! Int, 1976)
+        XCTAssertEqual(u2Dictionary["other_names"] as! String, "Passengers")
+        
+        let jsonFromManagedObjectExpectation = self.expectation(description: "JSON dictionary from NSManagedObject")
+        
+        let futureResult: FutureResult<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle)
+            .flatMap { self.loadJSONTestDataFuture() }
+            .map { JSONCache.fetchObject(ofType: "Album", withId: "Rain Tree Crow") }
+            .map { rainTreeCrow in
+                XCTAssertNotNil(rainTreeCrow)
+                let rainTreeCrowDictionary = rainTreeCrow!.toJSONDictionary()
+                XCTAssert(JSONSerialization.isValidJSONObject(rainTreeCrowDictionary))
+                XCTAssertEqual(rainTreeCrowDictionary["name"] as! String, "Rain Tree Crow")
+                XCTAssertEqual(rainTreeCrowDictionary["band"] as! String, "Japan")
+                XCTAssertEqual(rainTreeCrowDictionary["released"] as! String, "1991-04-08T00:00:00Z")
+                XCTAssertEqual(rainTreeCrowDictionary["label"] as! String, "Virgin")
+                XCTAssertEqual(rainTreeCrowDictionary["released_as"] as! String, "Rain Tree Crow")
+        
+                return Result.success(())
+            }
+        
+        futureResult.observe { result in
+            switch result {
+            case .success:
+                jsonFromManagedObjectExpectation.fulfill()
+            case .failure(_):
+                XCTFail()
+            }
+        }
+        
+        self.waitForExpectations(timeout: 5.0)
+    }
+    
+    
     func testJSONLoading() {
         
         let expectation = self.expectation(description: "JSON loading")
         
-        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle) { (result) in
+        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle) { result in
             
             switch result {
             case .success:
-                self.loadJSONTestData { (result) in
+                self.loadJSONTestDataAsync { result in
                     
                     switch result {
                     case .success:
@@ -193,52 +242,40 @@ class JSONCacheTests: XCTestCase {
         
         let expectation = self.expectation(description: "JSON merging")
         
-        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle) { (result: Result) in
+        let futureResult: FutureResult<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle)
+            .flatMap { self.loadJSONTestDataFuture() }
+            .map { JSONCache.fetchObject(ofType: "Band", withId: "Japan") }
+            .flatMap { japan in
+                XCTAssertNotNil(japan)
+                let japan = japan as! Band
+                XCTAssertEqual(japan.name!, "Japan")
+                XCTAssertEqual(japan.albums!.count, 7)
+
+                JSONCache.stageChanges(withDictionary: [
+                    "name": "Assemblage",
+                    "band": "Japan",
+                    "released": "1981-09-01T00:00:00Z",
+                    "label": "Hansa"
+                ], forEntityWithName: "Album")
+
+                return JSONCache.applyChanges()
+            }
+            .map { JSONCache.fetchObject(ofType: "Album", withId: "Assemblage") }
+            .map { assemblage in
+                XCTAssertNotNil(assemblage)
+                let assemblage = assemblage as! Album
+                XCTAssertEqual(assemblage.name, "Assemblage")
+                XCTAssertEqual(assemblage.band!.name, "Japan")
+
+                return .success(())
+            }
             
+        futureResult.observe { result in
             switch result {
             case .success:
-                self.loadJSONTestData { (result) in
-                    
-                    switch result {
-                    case .success:
-                        switch JSONCache.fetchObject(ofType: "Band", withId: "Japan") {
-                        case .success(let japan):
-                            let japan = japan as! Band
-                            XCTAssertEqual(japan.name!, "Japan")
-                            XCTAssertEqual(japan.albums!.count, 7)
-                            
-                            let newAlbum = ["name": "Assemblage", "band": "Japan", "released": "1981-09-01T00:00:00Z", "label": "Hansa"]
-                            
-                            JSONCache.stageChanges(withDictionary: newAlbum, forEntityWithName: "Album")
-                            JSONCache.applyChanges { (result) in
-                                
-                                switch result {
-                                case .success:
-                                    switch JSONCache.fetchObject(ofType: "Album", withId: "Assemblage") {
-                                    case .success(let assemblage):
-                                        XCTAssertNotNil(assemblage)
-                                        let assemblage = assemblage as! Album
-                                        XCTAssertEqual(assemblage.name, "Assemblage")
-                                        XCTAssertEqual(assemblage.band!.name, "Japan")
-                                        XCTAssertEqual(japan.albums!.count, 8)
-                                        
-                                        expectation.fulfill()
-                                    case .failure(let error):
-                                        XCTFail("Fetching 'Assemblage' failed with error \(error)")
-                                    }
-                                case .failure(let error):
-                                    XCTFail("Loading 'Assemblage' JSON failed with error: \(error)")
-                                }
-                            }
-                        case .failure(let error):
-                            XCTFail("Fetching 'Japan' failed with error \(error)")
-                        }
-                    case .failure(let error):
-                        XCTFail("Loading JSON failed with error: \(error)")
-                    }
-                }
-            case .failure(let error):
-                XCTFail("Bootstrap failed with error: \(error)")
+                expectation.fulfill()
+            case .failure(_):
+                XCTFail()
             }
         }
         
@@ -251,11 +288,11 @@ class JSONCacheTests: XCTestCase {
         let fetchSingleObjectExpectation = self.expectation(description: "Fetch single object by id")
         let fetchMultipleObjectsExpectation = self.expectation(description: "Fetch multiple objects by id")
         
-        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle) { (result) in
+        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle) { result in
             
             switch result {
             case .success:
-                self.loadJSONTestData { (result) in
+                self.loadJSONTestDataAsync { result in
                     
                     switch result {
                     case .success:
@@ -274,8 +311,8 @@ class JSONCacheTests: XCTestCase {
                         
                         switch JSONCache.fetchObjects(ofType: "Musician", withIds: ["Bryan Ferry", "Brian Eno", "David Sylvian", "Mick Karn", "Phil Manzanera", "Steve Jansen"]) {
                         case .success(let musicians):
-                            XCTAssert(musicians.filter({ ($0 as! Musician).name == "Bryan Ferry" }).count == 1)
                             XCTAssert(musicians.filter({ ($0 as! Musician).name == "Brian Eno" }).count == 1)
+                            XCTAssert(musicians.filter({ ($0 as! Musician).name == "Bryan Ferry" }).count == 1)
                             XCTAssert(musicians.filter({ ($0 as! Musician).name == "David Sylvian" }).count == 1)
                             XCTAssert(musicians.filter({ ($0 as! Musician).name == "Mick Karn" }).count == 1)
                             XCTAssert(musicians.filter({ ($0 as! Musician).name == "Phil Manzanera" }).count == 1)
@@ -302,7 +339,7 @@ class JSONCacheTests: XCTestCase {
         
         let modelNotFoundExpectation = self.expectation(description: "Model file does not exist")
         
-        JSONCache.bootstrap(withModelName: "NoModel", inMemory: inMemory, bundle: bundle) { (result) in
+        JSONCache.bootstrap(withModelName: "NoModel", inMemory: inMemory, bundle: bundle) { result in
             
             switch result {
             case .success:
@@ -312,7 +349,7 @@ class JSONCacheTests: XCTestCase {
                 case .modelNotFound:
                     modelNotFoundExpectation.fulfill()
                     
-                    JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: self.inMemory, bundle: self.bundle){ (result) in
+                    JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: self.inMemory, bundle: self.bundle) { result in
                         
                         switch result {
                         case .success:
@@ -354,13 +391,13 @@ class JSONCacheTests: XCTestCase {
     
     // MARK: - Shared methods
     
-    func loadJSONTestData(completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
+    func loadJSONTestDataAsync(completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
         
         JSONCache.stageChanges(withDictionaries: self.bands, forEntityWithName: "Band")
         JSONCache.stageChanges(withDictionaries: self.musicians, forEntityWithName: "Musician")
         JSONCache.stageChanges(withDictionaries: self.bandMembers, forEntityWithName: "BandMember")
         JSONCache.stageChanges(withDictionaries: self.albums, forEntityWithName: "Album")
-        JSONCache.applyChanges { (result) in
+        JSONCache.applyChanges { result in
             
             switch result {
             case .success:
@@ -369,5 +406,20 @@ class JSONCacheTests: XCTestCase {
                 DispatchQueue.main.async { completion(Result.failure(error)) }
             }
         }
+    }
+    
+    func loadJSONTestDataFuture() -> FutureResult<Void, JSONCacheError> {
+        
+        JSONCache.stageChanges(withDictionaries: self.bands, forEntityWithName: "Band")
+        JSONCache.stageChanges(withDictionaries: self.musicians, forEntityWithName: "Musician")
+        JSONCache.stageChanges(withDictionaries: self.bandMembers, forEntityWithName: "BandMember")
+        JSONCache.stageChanges(withDictionaries: self.albums, forEntityWithName: "Album")
+        
+        let futureResult = FutureResult<Void, JSONCacheError>()
+        JSONCache.applyChanges().observe { result in
+            futureResult.resolve(result: result)
+        }
+        
+        return futureResult
     }
 }
