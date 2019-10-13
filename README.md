@@ -205,7 +205,7 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
 }
 ```
 
-> **NOTE:** I created the `JSONifiable` protocol before `Codable` came along, and the documentation reflects this. I have not yet tried using JSONCache with `Codable`, but from what I understand, it should work just fine. However, you may have to write a bit of extra code to get the `fromJSONDictionary` / `toJSONDictionary` duality that JSONCache offers for free. That said, I'm open to replacing `JSONifiable` with `Codable` in a future release if and when I realise that it makes better sense.
+> _**NOTE:** I created the `JSONifiable` protocol before `Codable` came along, and the documentation reflects this. I have not yet tried using JSONCache with `Codable`, but from what I understand, it should work just fine. However, you may have to write a bit of extra code to get the `fromJSONDictionary` / `toJSONDictionary` duality that JSONCache offers for free. That said, I'm open to replacing `JSONifiable` with `Codable` in a future release if and when I realise that it makes better sense._
 
 ### Avoiding the pyramid of doom
 
