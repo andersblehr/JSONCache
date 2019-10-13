@@ -29,6 +29,14 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -364,6 +372,88 @@ bootstrapping completed successfully.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:9JSONCacheAAV9bootstrap13withModelName8inMemory6bundleAA13ResultPromiseCyytAA0A5ErrorOGSS_SbSo8NSBundleCtFZ"></a>
+                    <a name="//apple_ref/swift/Method/bootstrap(withModelName:inMemory:bundle:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:9JSONCacheAAV9bootstrap13withModelName8inMemory6bundleAA13ResultPromiseCyytAA0A5ErrorOGSS_SbSo8NSBundleCtFZ">bootstrap(withModelName:inMemory:bundle:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Boostrap the Core Data stack and return a <code>ResultPromise&lt;Void,
+JSONCacheError&gt;</code> instance that you should <code>await()</code> to obtain the result.
+Must be called before invoking any other <code>JSONCache</code> methods that
+interact with Core Data.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">bootstrap</span><span class="p">(</span><span class="n">withModelName</span> <span class="nv">modelName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">inMemory</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kt">Bundle</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Enums/JSONCacheError.html">JSONCacheError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>modelName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the managed object model to use.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>inMemory</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>true</code> if the persistent store should be in memory only.
+Defaults to <code>false</code> if not given, in which case the persistent store
+is of SQLLite type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>bundle</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>Bundle</code> instance to use to look up the managed object
+model. Defaults to <code>Bundle.main</code> if not given.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A <code>ResultPromise&lt;Void, JSONCacheError&gt;</code> instance that when
+fulfilled will contain a <code>Result&lt;Void, JSONCacheError&gt;</code> instance
+describing the result.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -553,6 +643,41 @@ dictionaries were successfully loaded into Core Data.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:9JSONCacheAAV12applyChangesAA13ResultPromiseCyytAA0A5ErrorOGyFZ"></a>
+                    <a name="//apple_ref/swift/Method/applyChanges()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:9JSONCacheAAV12applyChangesAA13ResultPromiseCyytAA0A5ErrorOGyFZ">applyChanges()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Load the staged JSON dictionaries into Core Data on a background thread,
+and return a <code>ResultPromise&lt;Void, JSONCacheError&gt;</code> instance that you
+should <code>await()</code> to obtain the result.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">applyChanges</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Enums/JSONCacheError.html">JSONCacheError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A <code>ResultPromise&lt;Void, JSONCacheError&gt;</code> instance that when
+fulfilled will contain a <code>Result&lt;Void, JSONCacheError&gt;</code> instance
+describing the result.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -637,7 +762,7 @@ inspected to determine if the save operation completed successfully.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">fetchObject</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ofType</span> <span class="nv">entityName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">withId</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">AnyHashable</span><span class="p">,</span> <span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">?</span> <span class="o">=</span> <span class="n"><a href="../Structs/JSONCache.html#/s:9JSONCacheAAV11mainContextSo015NSManagedObjectC0CSgvpZ">mainContext</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">?,</span> <span class="kt"><a href="../Enums/JSONCacheError.html">JSONCacheError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">ResultType</span> <span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">fetchObject</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ofType</span> <span class="nv">entityName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">withId</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">AnyHashable</span><span class="p">,</span> <span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">?</span> <span class="o">=</span> <span class="n"><a href="../Structs/JSONCache.html#/s:9JSONCacheAAV11mainContextSo015NSManagedObjectC0CSgvpZ">mainContext</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">?,</span> <span class="kt"><a href="../Enums/JSONCacheError.html">JSONCacheError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
 
                         </div>
                       </div>
@@ -716,7 +841,7 @@ successfully.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">fetchObjects</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ofType</span> <span class="nv">entityName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">withIds</span> <span class="nv">identifiers</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span><span class="p">],</span> <span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">?</span> <span class="o">=</span> <span class="n"><a href="../Structs/JSONCache.html#/s:9JSONCacheAAV11mainContextSo015NSManagedObjectC0CSgvpZ">mainContext</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Enums/JSONCacheError.html">JSONCacheError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">ResultType</span> <span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">fetchObjects</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ofType</span> <span class="nv">entityName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">withIds</span> <span class="nv">identifiers</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span><span class="p">],</span> <span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">?</span> <span class="o">=</span> <span class="n"><a href="../Structs/JSONCache.html#/s:9JSONCacheAAV11mainContextSo015NSManagedObjectC0CSgvpZ">mainContext</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">T</span><span class="p">],</span> <span class="kt"><a href="../Enums/JSONCacheError.html">JSONCacheError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
 
                         </div>
                       </div>
@@ -780,8 +905,8 @@ successfully.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://andersblehr.co" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-03-30)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2019 <a class="link" href="https://twitter.com/andersblehr" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-10-13)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

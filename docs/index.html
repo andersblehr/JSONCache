@@ -28,6 +28,14 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -126,6 +134,7 @@ responsiveness.</li>
 <ul>
 <li><a href="#consuming-json">Consuming JSON</a></li>
 <li><a href="#producing-json">Producing JSON</a></li>
+<li><a href="#avoiding-the-pyramid-of-doom">Avoiding the pyramid of doom</a></li>
 </ul></li>
 <li><a href="#but-do-tell">But do tell</a>
 
@@ -258,7 +267,7 @@ generate JSON directly from <code>NSManagedObject</code> instances:</p>
     <span class="kt">ServerProxy</span><span class="o">.</span><span class="nf">update</span><span class="p">(</span><span class="nv">band</span><span class="p">:</span> <span class="n">japan</span><span class="o">.</span><span class="nf">toJSONDictionary</span><span class="p">())</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
       <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
       <span class="k">case</span> <span class="o">.</span><span class="nv">success</span><span class="p">:</span>
-        <span class="k">switch</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+        <span class="k">switch</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span> <span class="p">{</span>
           <span class="k">case</span> <span class="o">.</span><span class="nv">success</span><span class="p">:</span>
             <span class="nf">print</span><span class="p">(</span><span class="s">"Japan as Rain Tree Crow all nicely tucked in"</span><span class="p">)</span>
           <span class="k">case</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="k">let</span> <span class="nv">error</span><span class="p">):</span>
@@ -303,6 +312,39 @@ any <code>struct</code> that adopts the <code><a href="Protocols/JSONifiable.htm
     <span class="p">}</span>
   <span class="k">case</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="k">let</span> <span class="nv">error</span><span class="p">):</span>
     <span class="nf">print</span><span class="p">(</span><span class="s">"An error occurred: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='avoiding-the-pyramid-of-doom' class='heading'>Avoiding the pyramid of doom</h3>
+
+<p>As is seen in the examples above, the asynchronous nature of backend calls and
+many Core Data operations can result in quite an indented
+<a href="https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)">pyramid of doom</a>.
+To avoid this, work is in progress to support a more fluid sequencing of
+operations.</p>
+
+<p>First out is <code><a href="Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a></code>,  a minimal
+<a href="https://en.wikipedia.org/wiki/Futures_and_promises"><code>Promise</code></a> implementation
+that wraps a <code>Result</code> instance. It supports the <code>fulfil</code>, <code>await</code>, <code>map</code> and
+ <code>flatMap</code> combinators, facilitating a fluid sequencing of computations that
+ produce either a <code>Result</code> (<code>map</code>) or a <code><a href="Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a></code> (<code>flatMap</code>). (The usual
+ <code>reject</code> combinator is redundant here, as failure is handled by the embedded
+ <code>Result</code>.)</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">bootstrap</span><span class="p">(</span><span class="nv">withModelName</span><span class="p">:</span> <span class="s">"Bands"</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">fetchObject</span><span class="p">(</span><span class="nv">ofType</span><span class="p">:</span> <span class="s">"Band"</span><span class="p">,</span> <span class="nv">withId</span><span class="p">:</span> <span class="s">"Japan"</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">object</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="nv">japan</span> <span class="o">=</span> <span class="n">object</span> <span class="k">as!</span> <span class="kt">Band</span>
+        <span class="n">japan</span><span class="o">.</span><span class="n">otherNames</span> <span class="o">=</span> <span class="s">"Rain Tree Crow"</span>
+        <span class="k">return</span> <span class="kt">ServerProxy</span><span class="o">.</span><span class="nf">update</span><span class="p">(</span><span class="nv">band</span><span class="p">:</span> <span class="n">japan</span><span class="o">.</span><span class="nf">toJSONDictionary</span><span class="p">())</span>
+    <span class="p">}</span>
+    <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span> <span class="p">}</span>
+
+<span class="n">promise</span><span class="o">.</span><span class="n">await</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">success</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Japan as Rain Tree Crow all nicely tucked in"</span><span class="p">)</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="k">let</span> <span class="nv">error</span><span class="p">):</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"An error occurred: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 <h2 id='but-do-tell' class='heading'>But do tell</h2>
@@ -473,8 +515,8 @@ finally hooks up the relationship.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://andersblehr.co" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-03-30)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2019 <a class="link" href="https://twitter.com/andersblehr" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-10-13)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
