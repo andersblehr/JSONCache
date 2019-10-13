@@ -26,7 +26,7 @@ public class ResultPromise<T, E: Error> {
     ///
     /// - Parameters:
     ///   - result: A `Result<T, E>` that describes the result.
-    func fulfil(with result: Result<T, E>) {
+    public func fulfil(with result: Result<T, E>) {
         self.result = result
     }
     
@@ -37,7 +37,7 @@ public class ResultPromise<T, E: Error> {
        - observer: A closure that takes a `Result` instance and returns
          nothing.
      */
-    func await(with observer: @escaping (Result<T, E>) -> Void) {
+    public func await(with observer: @escaping (Result<T, E>) -> Void) {
         observers.append(observer)
         result.map(observer)
     }
@@ -52,7 +52,7 @@ public class ResultPromise<T, E: Error> {
        `Result<U, E>` is the result of `flatMap`'ing `f` over the
        `Result<T, E>` embedded in this instance.
      */
-    func map<U>(_ f: (@escaping (T) -> Result<U, E>)) -> ResultPromise<U, E> {
+    public func map<U>(_ f: (@escaping (T) -> Result<U, E>)) -> ResultPromise<U, E> {
         let promise = ResultPromise<U, E>()
         await { result in
             promise.fulfil(with: result.flatMap(f))
@@ -69,7 +69,7 @@ public class ResultPromise<T, E: Error> {
         - f: A closure `(T) -> Result<U, E>`.
      - Returns: A new `ResultPromise<U, E>` instance.
      */
-    func flatMap<U>(_ f: (@escaping (T) -> ResultPromise<U, E>)) -> ResultPromise<U, E> {
+    public func flatMap<U>(_ f: (@escaping (T) -> ResultPromise<U, E>)) -> ResultPromise<U, E> {
         let promise = ResultPromise<U, E>()
         await { result in
             switch result {
