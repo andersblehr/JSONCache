@@ -221,16 +221,10 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
 As is seen in the examples above, the asynchronous nature of backend calls and
 many Core Data operations can result in quite an indented
 [pyramid of doom](https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)).
-To avoid this, work is in progress to support a more fluid sequencing of
-operations.
-
-First out is [`ResultPromise`](https://andersblehr.co/JSONCache/Classes/ResultPromise.html),
-a minimal [`Promise`](https://en.wikipedia.org/wiki/Futures_and_promises)
-implementation that wraps a `Result` instance. It supports the `fulfil`,
-`await`, `map` and `flatMap` combinators, facilitating a fluid sequencing of
-computations that produce either a `Result` (`map`) or a `ResultPromise`
-(`flatMap`). (The usual `reject` combinator is redundant here, as failure is
-handled by the embedded `Result`.)
+To avoid this, overloaded `bootstrap()` and `applyChanges()` implementations
+are available that return a [`ResultPromise`](https://andersblehr.co/JSONCache/Classes/ResultPromise.html)
+instead of taking a closure, thus facilitating fluid sequencing of computations
+that produce either a `Result` (`map`) or a `ResultPromise` (`flatMap`):
 
  ```swift
 let promise = JSONCache.bootstrap(withModelName: "Bands")
