@@ -31,7 +31,7 @@
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a>
+                <a href="Classes/ResultPromise.html">ResultPromise</a>
               </li>
             </ul>
           </li>
@@ -322,11 +322,11 @@ many Core Data operations can result in quite an indented
 To avoid this, work is in progress to support a more fluid sequencing of
 operations.</p>
 
-<p>First out is <code><a href="Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a></code>,  a minimal
+<p>First out is <code><a href="Classes/ResultPromise.html">ResultPromise</a></code>,  a minimal
 <a href="https://en.wikipedia.org/wiki/Futures_and_promises"><code>Promise</code></a> implementation
 that wraps a <code>Result</code> instance. It supports the <code>fulfil</code>, <code>await</code>, <code>map</code> and
  <code>flatMap</code> combinators, facilitating a fluid sequencing of computations that
- produce either a <code>Result</code> (<code>map</code>) or a <code><a href="Classes.html#/s:9JSONCache13ResultPromiseC">ResultPromise</a></code> (<code>flatMap</code>). (The usual
+ produce either a <code>Result</code> (<code>map</code>) or a <code><a href="Classes/ResultPromise.html">ResultPromise</a></code> (<code>flatMap</code>). (The usual
  <code>reject</code> combinator is redundant here, as failure is handled by the embedded
  <code>Result</code>.)</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">bootstrap</span><span class="p">(</span><span class="nv">withModelName</span><span class="p">:</span> <span class="s">"Bands"</span><span class="p">)</span>
