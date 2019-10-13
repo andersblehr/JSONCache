@@ -23,7 +23,7 @@ public enum JSONCacheError: Error {
     case noSuchEntity(String)
     /// The wrapped error ocurred during a Core Data operation.
     case coreDataError(Error)
-    /// The application is in a bad state
+    /// The application is in a bad state.
     case badStateError(String)
 }
 
@@ -124,28 +124,31 @@ public struct JSONCache {
         }
     }
 
+    /**
+     Boostrap the Core Data stack and return a `ResultPromise<Void,
+     JSONCacheError>` instance that you should `await()` to obtain the result.
+     Must be called before invoking any other `JSONCache` methods that
+     interact with Core Data.
     
-    /// Boostrap the Core Data stack and return a `Result<Void, JSONCacheError>`
-    /// instance describing the result. Must be called before invoking any other
-    /// methods.
-    ///
-    /// - Parameters:
-    ///   - modelName: The name of the managed object model to use.
-    ///   - inMemory: `true` if the persistent store should be in memory only.
-    ///     Defaults to `false` if not given, in which case the persistent store
-    ///     is of SQLLite type.
-    ///   - bundle: The `Bundle` instance to use to look up the managed object
-    ///     model. Defaults to `Bundle.main` if not given.
-    ///   - completion: A closure to be executed when bootstrapping is complete.
-    
-    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = .main) -> FutureResult<Void, JSONCacheError> {
+     - Parameters:
+       - modelName: The name of the managed object model to use.
+       - inMemory: `true` if the persistent store should be in memory only.
+         Defaults to `false` if not given, in which case the persistent store
+         is of SQLLite type.
+       - bundle: The `Bundle` instance to use to look up the managed object
+         model. Defaults to `Bundle.main` if not given.
+     - Returns: A `ResultPromise<Void, JSONCacheError>` instance that when
+       fulfilled will contain a `Result<Void, JSONCacheError>` instance
+       describing the result.
+     */
+    public static func bootstrap(withModelName modelName: String, inMemory: Bool = false, bundle: Bundle = .main) -> ResultPromise<Void, JSONCacheError> {
         
-        let futureResult = FutureResult<Void, JSONCacheError>()
-        bootstrap(withModelName: modelName, inMemory: inMemory, bundle: bundle) { asyncResult in
-            futureResult.resolve(result: asyncResult)
+        let promise = ResultPromise<Void, JSONCacheError>()
+        bootstrap(withModelName: modelName, inMemory: inMemory, bundle: bundle) { result in
+            promise.fulfil(with: result)
         }
         
-        return futureResult
+        return promise
     }
     
     
@@ -269,18 +272,23 @@ public struct JSONCache {
         }
     }
     
+    /**
+     Load the staged JSON dictionaries into Core Data on a background thread,
+     and return a `ResultPromise<Void, JSONCacheError>` instance that you
+     should `await()` to obtain the result.
     
-    /// Load the staged JSON dictionaries into Core Data on a background thread,
-    /// and return a `Result<Void, JSONCacheError>` instance describing the result.
-    
-    public static func applyChanges() -> FutureResult<Void, JSONCacheError> {
+     - Returns: A `ResultPromise<Void, JSONCacheError>` instance that when
+       fulfilled will contain a `Result<Void, JSONCacheError>` instance
+       describing the result.
+     */
+    public static func applyChanges() -> ResultPromise<Void, JSONCacheError> {
         
-        let futureResult = FutureResult<Void, JSONCacheError>()
+        let promise = ResultPromise<Void, JSONCacheError>()
         applyChanges() { result in
-            futureResult.resolve(result: result)
+            promise.fulfil(with: result)
         }
         
-        return futureResult
+        return promise
     }
     
     

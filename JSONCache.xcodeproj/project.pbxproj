@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5C5E78E91E858A66004A0A6F /* JSONCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA96C491E7EBF300086BA87 /* JSONCache.framework */; };
 		5C5E78EA1E858A66004A0A6F /* JSONCache.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA96C491E7EBF300086BA87 /* JSONCache.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5C950A722351CEA5006B96E4 /* FutureResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C950A712351CEA4006B96E4 /* FutureResult.swift */; };
+		5C950A722351CEA5006B96E4 /* ResultPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C950A712351CEA4006B96E4 /* ResultPromise.swift */; };
 		5CA96C531E7EBF300086BA87 /* JSONCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA96C491E7EBF300086BA87 /* JSONCache.framework */; };
 		5CA96C581E7EBF300086BA87 /* JSONCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA96C571E7EBF300086BA87 /* JSONCacheTests.swift */; };
 		5CA96C5A1E7EBF300086BA87 /* JSONCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA96C4C1E7EBF300086BA87 /* JSONCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -68,7 +68,7 @@
 		5C5226571E85282700ACA1DB /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
 		5C5226591E85282B00ACA1DB /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/tvOS/Result.framework; sourceTree = "<group>"; };
 		5C52265B1E85283100ACA1DB /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/watchOS/Result.framework; sourceTree = "<group>"; };
-		5C950A712351CEA4006B96E4 /* FutureResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureResult.swift; sourceTree = "<group>"; };
+		5C950A712351CEA4006B96E4 /* ResultPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPromise.swift; sourceTree = "<group>"; };
 		5CA96C491E7EBF300086BA87 /* JSONCache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSONCache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA96C4C1E7EBF300086BA87 /* JSONCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONCache.h; sourceTree = "<group>"; };
 		5CA96C4D1E7EBF300086BA87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				5CA96C691E7EC0640086BA87 /* Extensions */,
-				5C950A712351CEA4006B96E4 /* FutureResult.swift */,
+				5C950A712351CEA4006B96E4 /* ResultPromise.swift */,
 				5CA96C4C1E7EBF300086BA87 /* JSONCache.h */,
 				5CA96C631E7EBFDA0086BA87 /* JSONCache.swift */,
 				5CA96C651E7EC0200086BA87 /* JSONConverter.swift */,
@@ -359,7 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CA96C731E7EC0EC0086BA87 /* NSManagedObject+JSONCache.swift in Sources */,
-				5C950A722351CEA5006B96E4 /* FutureResult.swift in Sources */,
+				5C950A722351CEA5006B96E4 /* ResultPromise.swift in Sources */,
 				5CA96C6D1E7EC09C0086BA87 /* DateFormatter+JSONCache.swift in Sources */,
 				5CA96C6F1E7EC0B90086BA87 /* NSAttributeDescription+JSONCache.swift in Sources */,
 				5CA96C661E7EC0200086BA87 /* JSONConverter.swift in Sources */,

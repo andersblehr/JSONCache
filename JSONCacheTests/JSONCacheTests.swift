@@ -119,7 +119,7 @@ class JSONCacheTests: XCTestCase {
             
             switch result {
             case .success:
-                self.loadJSONTestDataAsync { result in
+                self.loadJSONTestData().await { result in
                     
                     switch result {
                     case .success:
@@ -170,10 +170,9 @@ class JSONCacheTests: XCTestCase {
         XCTAssertEqual(u2Dictionary["formed"] as! Int, 1976)
         XCTAssertEqual(u2Dictionary["other_names"] as! String, "Passengers")
         
-        let jsonFromManagedObjectExpectation = self.expectation(description: "JSON dictionary from NSManagedObject")
-        
-        let futureResult: FutureResult<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle)
-            .flatMap { self.loadJSONTestDataFuture() }
+        let expectation = self.expectation(description: "JSON dictionary from NSManagedObject")
+        let promise: ResultPromise<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle)
+            .flatMap { self.loadJSONTestData() }
             .map { JSONCache.fetchObject(ofType: "Album", withId: "Rain Tree Crow") }
             .map { rainTreeCrow in
                 XCTAssertNotNil(rainTreeCrow)
@@ -188,10 +187,10 @@ class JSONCacheTests: XCTestCase {
                 return Result.success(())
             }
         
-        futureResult.observe { result in
+        promise.await { result in
             switch result {
             case .success:
-                jsonFromManagedObjectExpectation.fulfill()
+                expectation.fulfill()
             case .failure(_):
                 XCTFail()
             }
@@ -209,7 +208,7 @@ class JSONCacheTests: XCTestCase {
             
             switch result {
             case .success:
-                self.loadJSONTestDataAsync { result in
+                self.loadJSONTestData().await { result in
                     
                     switch result {
                     case .success:
@@ -241,9 +240,8 @@ class JSONCacheTests: XCTestCase {
     func testJSONMerging() {
         
         let expectation = self.expectation(description: "JSON merging")
-        
-        let futureResult: FutureResult<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle)
-            .flatMap { self.loadJSONTestDataFuture() }
+        let promise: ResultPromise<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle)
+            .flatMap { self.loadJSONTestData() }
             .map { JSONCache.fetchObject(ofType: "Band", withId: "Japan") }
             .flatMap { japan in
                 XCTAssertNotNil(japan)
@@ -270,7 +268,7 @@ class JSONCacheTests: XCTestCase {
                 return .success(())
             }
             
-        futureResult.observe { result in
+        promise.await { result in
             switch result {
             case .success:
                 expectation.fulfill()
@@ -292,7 +290,7 @@ class JSONCacheTests: XCTestCase {
             
             switch result {
             case .success:
-                self.loadJSONTestDataAsync { result in
+                self.loadJSONTestData().await { result in
                     
                     switch result {
                     case .success:
@@ -391,35 +389,13 @@ class JSONCacheTests: XCTestCase {
     
     // MARK: - Shared methods
     
-    func loadJSONTestDataAsync(completion: @escaping (_ result: Result<Void, JSONCacheError>) -> Void) {
-        
-        JSONCache.stageChanges(withDictionaries: self.bands, forEntityWithName: "Band")
-        JSONCache.stageChanges(withDictionaries: self.musicians, forEntityWithName: "Musician")
-        JSONCache.stageChanges(withDictionaries: self.bandMembers, forEntityWithName: "BandMember")
-        JSONCache.stageChanges(withDictionaries: self.albums, forEntityWithName: "Album")
-        JSONCache.applyChanges { result in
-            
-            switch result {
-            case .success:
-                DispatchQueue.main.async { completion(Result.success(())) }
-            case .failure(let error):
-                DispatchQueue.main.async { completion(Result.failure(error)) }
-            }
-        }
-    }
-    
-    func loadJSONTestDataFuture() -> FutureResult<Void, JSONCacheError> {
+    func loadJSONTestData() -> ResultPromise<Void, JSONCacheError> {
         
         JSONCache.stageChanges(withDictionaries: self.bands, forEntityWithName: "Band")
         JSONCache.stageChanges(withDictionaries: self.musicians, forEntityWithName: "Musician")
         JSONCache.stageChanges(withDictionaries: self.bandMembers, forEntityWithName: "BandMember")
         JSONCache.stageChanges(withDictionaries: self.albums, forEntityWithName: "Album")
         
-        let futureResult = FutureResult<Void, JSONCacheError>()
-        JSONCache.applyChanges().observe { result in
-            futureResult.resolve(result: result)
-        }
-        
-        return futureResult
+        return JSONCache.applyChanges()
     }
 }

@@ -30,6 +30,7 @@ Read the [API documentation](https://andersblehr.github.io/JSONCache) for the co
 - [Show, don't tell](#show-dont-tell)
   - [Consuming JSON](#consuming-json)
   - [Producing JSON](#producing-json)
+  - [Avoiding the pyramid of doom](#avoiding-the-pyramid-of-doom)
 - [But do tell](#but-do-tell)
   - [Key conversion](#key-conversion)
     - [Case conversion](#case-conversion)
@@ -110,10 +111,10 @@ let bands = jsonObject["bands"] as! [[String: Any]]
 let bandMembers = jsonObject["band_members"] as! [[String: Any]]
 let musicians = jsonObject["musicians"] as! [[String: Any]]
 let albums = jsonObject["albums"] as! [[String: Any]]
-        
+
 JSONCache.casing = .snake_case
 JSONCache.dateFormat = .iso8601WithSeparators
-        
+
 JSONCache.bootstrap(withModelName: "Bands") { result in
   switch result {
   case .success:
@@ -161,11 +162,11 @@ switch JSONCache.fetchObject(ofType: "Band", withId: "Japan") {
   case .success(let japan):
     var japan = japan as! Band
     japan.otherNames = "Rain Tree Crow"
-    
+
     ServerProxy.update(band: japan.toJSONDictionary()) { result in
       switch result {
       case .success:
-        switch JSONCache.save() { result in
+        switch JSONCache.save() {
           case .success:
             print("Japan as Rain Tree Crow all nicely tucked in")
           case .failure(let error):
@@ -203,7 +204,7 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
   case .success:
     u2 = NSEntityDescription.insertNewObject(forEntityName: "Band" into: JSONCache.mainContext)!
     u2.setAttributes(fromDictionary: u2Info)
-    
+
     switch JSONCache.save() { result in
     case .success:
       print("U2 all nicely tucked in")
@@ -214,6 +215,42 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
     print("An error occurred: \(error)")
 }
 ```
+
+### Avoiding the pyramid of doom
+
+As is seen in the examples above, the asynchronous nature of backend calls and
+many Core Data operations can result in quite an indented
+[pyramid of doom](https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)).
+To avoid this, work is in progress to support a more fluid sequencing of
+operations.
+
+First out is `ResultPromise`,  a minimal
+[`Promise`](https://en.wikipedia.org/wiki/Futures_and_promises) implementation
+that wraps a `Result` instance. It supports the `fulfil`, `await`, `map` and
+ `flatMap` combinators, facilitating a fluid sequencing of computations that
+ produce either a `Result` (`map`) or a `ResultPromise` (`flatMap`). (The usual
+ `reject` combinator is redundant here, as failure is handled by the embedded
+ `Result`.)
+
+ ```swift
+let promise = JSONCache.bootstrap(withModelName: "Bands")
+    .map { JSONCache.fetchObject(ofType: "Band", withId: "Japan") }
+    .flatMap { object in
+        let japan = object as! Band
+        japan.otherNames = "Rain Tree Crow"
+        return ServerProxy.update(band: japan.toJSONDictionary())
+    }
+    .map { JSONCache.save() }
+
+promise.await { result in
+    switch result {
+    case .success:
+        print("Japan as Rain Tree Crow all nicely tucked in")
+    case .failure(let error):
+        print("An error occurred: \(error)")
+    }
+}
+ ```
 
 ## But do tell
 
@@ -282,7 +319,7 @@ this in either of two ways:
 2. Create a User Info key named `JC.isIdentifier` for the primary key
    attribute and assign it the value `true` or `YES` (or `TRUE` or
    `yes`; both are case insensitive). (See Figure 2.)
-   
+
 ![](images/identifier-1.png)
 
 _Figure 1: Marking an entity's primary key by naming it `id`._
@@ -296,7 +333,7 @@ The primary key must be unique within an entity, but not across
 entities.
 
 #### But how ...?
-   
+
 When JSONCache instantiates or updates an `NSManagedObject` instance
 from a JSON dictionary, it does so by inspecting the
 `NSAttributeDescription`s of the `NSEntityDescription` that describes
