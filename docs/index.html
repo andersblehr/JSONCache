@@ -109,20 +109,14 @@
 
 <!-- [![CocoaDocs](https://img.shields.io/cocoapods/metrics/doc-percent/JSONCache.svg)](http://cocoadocs.org/docsets/JSONCache) -->
 
-<p>JSONCache is a thin layer on top of Core Data that seamlessly
-consumes, caches and produces JSON data.</p>
+<p>JSONCache is a thin layer on top of Core Data that seamlessly consumes, caches and produces JSON data.</p>
 
 <ul>
-<li>Automatically creates Core Data objects from JSON data, or merges
-JSON data into objects that already exist.</li>
-<li>Automatically maps 1:1 and 1:N relationships based on inferred
-knowledge of your Core Data model.</li>
-<li>If necessary, automatically maps between <code>snake_case</code> in JSON key
-names and <code>camelCase</code> in Core Data attribute names.</li>
-<li>Generates JSON on demand, both from <code>NSManagedObject</code> instances, and
-from any <code>struct</code> that adopts the <code><a href="Protocols/JSONifiable.html">JSONifiable</a></code> protocol.</li>
-<li>Operates on background threads to avoid interfering with your app&rsquo;s
-responsiveness.</li>
+<li>Automatically creates Core Data objects from JSON data, or merges JSON data into objects that already exist.</li>
+<li>Automatically maps 1:1 and 1:N relationships based on inferred knowledge of your Core Data model.</li>
+<li>If necessary, automatically maps between <code>snake_case</code> in JSON key names and <code>camelCase</code> in Core Data attribute names.</li>
+<li>Generates JSON on demand, both from <code>NSManagedObject</code> instances, and from any <code>struct</code> that adopts the <code><a href="Protocols/JSONifiable.html">JSONifiable</a></code> protocol.</li>
+<li>Operates on background threads to avoid interfering with your app&rsquo;s responsiveness.</li>
 </ul>
 
 <p>Read the <a href="https://andersblehr.github.io/JSONCache">API documentation</a> for the complete picture.</p>
@@ -206,8 +200,7 @@ responsiveness.</li>
 
 <p><img src="images/model.png" alt=""></p>
 
-<p>And with only a few lines of code, the JSON data is safely persisted
-in Core Data on your device, relationships and all:</p>
+<p>And with only a few lines of code, the JSON data is safely persisted in Core Data on your device, relationships and all:</p>
 <pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">JSONCache</span>
 
 <span class="o">...</span>
@@ -282,11 +275,7 @@ generate JSON directly from <code>NSManagedObject</code> instances:</p>
 <span class="p">}</span>
 </code></pre>
 
-<p>To create and persist new objects to the backend, you can either
-create the <code>NSManagedObject</code> instance first and then use it to
-generate JSON for the backend, or if you prefer to wait until the
-record is safely persisted on the backend, you can generate JSON from
-any <code>struct</code> that adopts the <code><a href="Protocols/JSONifiable.html">JSONifiable</a></code> protocol:</p>
+<p>To create and persist new objects to the backend, you can either create the <code>NSManagedObject</code> instance first and then use it to generate JSON for the backend, or if you prefer to wait until the record is safely persisted on the backend, you can generate JSON from any <code>struct</code> that adopts the <code><a href="Protocols/JSONifiable.html">JSONifiable</a></code> protocol:</p>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">BandInfo</span><span class="p">:</span> <span class="kt">JSONifiable</span> <span class="p">{</span>
   <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
   <span class="k">var</span> <span class="nv">bandDescription</span><span class="p">:</span> <span class="kt">String</span>
@@ -314,21 +303,14 @@ any <code>struct</code> that adopts the <code><a href="Protocols/JSONifiable.htm
     <span class="nf">print</span><span class="p">(</span><span class="s">"An error occurred: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
+
+<blockquote>
+<p><strong>NOTE:</strong> I created the <code><a href="Protocols/JSONifiable.html">JSONifiable</a></code> protocol before <code>Codable</code> came along, and the documentation reflects this. I have not yet tried using JSONCache with <code>Codable</code>, but from what I understand, it should work just fine. However, you may have to write a bit of extra code to get the <code>fromJSONDictionary</code> / <code>toJSONDictionary</code> duality that JSONCache offers for free. That said, I&rsquo;m open to replacing <code><a href="Protocols/JSONifiable.html">JSONifiable</a></code> with <code>Codable</code> in a future release if and when I realise that it makes better sense.</p>
+</blockquote>
 <h3 id='avoiding-the-pyramid-of-doom' class='heading'>Avoiding the pyramid of doom</h3>
 
-<p>As is seen in the examples above, the asynchronous nature of backend calls and
-many Core Data operations can result in quite an indented
-<a href="https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)">pyramid of doom</a>.
-To avoid this, work is in progress to support a more fluid sequencing of
-operations.</p>
-
-<p>First out is <code><a href="Classes/ResultPromise.html">ResultPromise</a></code>,  a minimal
-<a href="https://en.wikipedia.org/wiki/Futures_and_promises"><code>Promise</code></a> implementation
-that wraps a <code>Result</code> instance. It supports the <code>fulfil</code>, <code>await</code>, <code>map</code> and
- <code>flatMap</code> combinators, facilitating a fluid sequencing of computations that
- produce either a <code>Result</code> (<code>map</code>) or a <code><a href="Classes/ResultPromise.html">ResultPromise</a></code> (<code>flatMap</code>). (The usual
- <code>reject</code> combinator is redundant here, as failure is handled by the embedded
- <code>Result</code>.)</p>
+<p>As is seen in the examples above, the asynchronous nature of backend calls and many Core Data operations can result in quite an indented <a href="https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)">pyramid of doom</a>. To avoid this, overloaded <code>bootstrap()</code> and <code>applyChanges()</code> implementations are available that return a <a href="https://andersblehr.co/JSONCache/Classes/ResultPromise.html"><code><a href="Classes/ResultPromise.html">ResultPromise</a></code></a> instead of taking a closure, thus facilitating fluid sequencing of computations
+that produce either a <code>Result</code> (<code>map</code>) or a <code><a href="Classes/ResultPromise.html">ResultPromise</a></code> (<code>flatMap</code>):</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">bootstrap</span><span class="p">(</span><span class="nv">withModelName</span><span class="p">:</span> <span class="s">"Bands"</span><span class="p">)</span>
     <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">fetchObject</span><span class="p">(</span><span class="nv">ofType</span><span class="p">:</span> <span class="s">"Band"</span><span class="p">,</span> <span class="nv">withId</span><span class="p">:</span> <span class="s">"Japan"</span><span class="p">)</span> <span class="p">}</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">object</span> <span class="k">in</span>
@@ -350,9 +332,7 @@ that wraps a <code>Result</code> instance. It supports the <code>fulfil</code>, 
 <h2 id='but-do-tell' class='heading'>But do tell</h2>
 <h3 id='key-conversion' class='heading'>Key conversion</h3>
 
-<p>When consuming JSON, JSON keys are converted to Core Data entity
-attribute names. Conversely, when producing JSON, Core Data entity
-attribute names (or <code>struct</code> properties) are converted to JSON keys.</p>
+<p>When consuming JSON, JSON keys are converted to Core Data entity attribute names. Conversely, when producing JSON, Core Data entity attribute names (or <code>struct</code> properties) are converted to JSON keys.</p>
 
 <p>Key conversion consists of two steps:</p>
 
@@ -362,9 +342,7 @@ attribute names (or <code>struct</code> properties) are converted to JSON keys.<
 </ol>
 <h4 id='case-conversion' class='heading'>Case conversion</h4>
 
-<p>The <code><a href="Structs/JSONCache.html#/s:9JSONCacheAAV6casingAB6CasingOvpZ">JSONCache.casing</a></code> configuration parameter tells JSONCache whether
-the JSON data uses <code>.snake_case</code> or <code>.camelCase</code> in key names. Case
-conversion is only done if the JSON casing is <code>.snake_case</code>:</p>
+<p>The <code><a href="Structs/JSONCache.html#/s:9JSONCacheAAV6casingAB6CasingOvpZ">JSONCache.casing</a></code> configuration parameter tells JSONCache whether the JSON data uses <code>.snake_case</code> or <code>.camelCase</code> in key names. Case conversion is only done if the JSON casing is <code>.snake_case</code>:</p>
 
 <ul>
 <li><code>attribute_name</code> becomes <code>attributeName</code> when consuming JSON.</li>
@@ -372,25 +350,16 @@ conversion is only done if the JSON casing is <code>.snake_case</code>:</p>
 </ul>
 <h4 id='qualifying-reserved-words' class='heading'>Qualifying reserved words</h4>
 
-<p>Some words, such as <code>description</code>, collide with reserved Cocoa names
-and may not be used as attribute names in Core Data entities. When
-reserved words are received as keys in JSON data, they are
-qualified. Specifically, the name of the Core Data entity that will
-hold the data is prefixed onto the reserved word. If for instance the
-entity name is <code>EntityName</code>:</p>
+<p>Some words, such as <code>description</code>, collide with reserved Cocoa names and may not be used as attribute names in Core Data entities. When reserved words are received as keys in JSON data, they are qualified. Specifically, the name of the Core Data entity that will hold the data is prefixed onto the reserved word. If for instance the entity name is <code>EntityName</code>:</p>
 
 <ul>
 <li><code>description</code> becomes <code>entityNameDescription</code> when consuming JSON.</li>
 <li><code>entityNameDescription</code> becomes <code>description</code> when producing JSON.</li>
 </ul>
 
-<p>JSONCache only supports qualifying (prefixing) reserved words with the
-name of the corresponding entity. Thus, care must be taken when naming
-Core Data entity attributes whose JSON counterparts represent reserved
-words.</p>
+<p>JSONCache only supports qualifying (prefixing) reserved words with the name of the corresponding entity. Thus, care must be taken when naming Core Data entity attributes whose JSON counterparts represent reserved words.</p>
 
-<p>Currently, JSONCache only supports qualifying the reserved word
-<code>description</code>. More words may be added in the future. </p>
+<p>Currently, JSONCache only supports qualifying the reserved word <code>description</code>. More words may be added in the future. </p>
 <h3 id='date-conversion' class='heading'>Date conversion</h3>
 
 <p>JSONCache supports the following JSON date formats:</p>
@@ -402,21 +371,15 @@ words.</p>
 <code>966947280.0</code></li>
 </ul>
 
-<p>Use the <code><a href="Structs/JSONCache.html#/s:9JSONCacheAAV10dateFormatAB04DateC0OvpZ">JSONCache.dateFormat</a></code> configuration parameter to tell
-JSONCache which format to expect and/or produce.</p>
+<p>Use the <code><a href="Structs/JSONCache.html#/s:9JSONCacheAAV10dateFormatAB04DateC0OvpZ">JSONCache.dateFormat</a></code> configuration parameter to tell JSONCache which format to expect and/or produce.</p>
 <h3 id='relationship-mapping' class='heading'>Relationship mapping</h3>
 <h4 id='how-to' class='heading'>How to &hellip;</h4>
 
-<p>In order for JSONCache to automatically map a 1:1 or a 1:N
-relationship, you essentially only need to tell it one thing: The
-primary key of the object on the &lsquo;1: end&rsquo; of the relationship. You do
-this in either of two ways:</p>
+<p>In order for JSONCache to automatically map a 1:1 or a 1:N relationship, you essentially only need to tell it one thing: The primary key of the object on the &lsquo;1: end&rsquo; of the relationship. You do this in either of two ways:</p>
 
 <ol>
 <li>Use the name <code>id</code> for the primary key. (See Figure 1.)</li>
-<li>Create a User Info key named <code>JC.isIdentifier</code> for the primary key
-attribute and assign it the value <code>true</code> or <code>YES</code> (or <code>TRUE</code> or
-<code>yes</code>; both are case insensitive). (See Figure 2.)</li>
+<li>Create a User Info key named <code>JC.isIdentifier</code> for the primary key attribute and assign it the value <code>true</code> or <code>YES</code> (or <code>TRUE</code> or <code>yes</code>; both are case insensitive). (See Figure 2.)</li>
 </ol>
 
 <p><img src="images/identifier-1.png" alt=""></p>
@@ -425,30 +388,15 @@ attribute and assign it the value <code>true</code> or <code>YES</code> (or <cod
 
 <p><img src="images/identifier-2.png" alt=""></p>
 
-<p><em>Figure 2: Marking an entity&rsquo;s primary key by creating a User Info key
-named <code>JC.isIdentifier</code> and setting it to <code>true</code>.</em></p>
+<p><em>Figure 2: Marking an entity&rsquo;s primary key by creating a User Info key named <code>JC.isIdentifier</code> and setting it to <code>true</code>.</em></p>
 
-<p>The primary key must be unique within an entity, but not across
-entities.</p>
+<p>The primary key must be unique within an entity, but not across entities.</p>
 <h4 id='but-how' class='heading'>But how &hellip;?</h4>
 
-<p>When JSONCache instantiates or updates an <code>NSManagedObject</code> instance
-from a JSON dictionary, it does so by inspecting the
-<code>NSAttributeDescription</code>s of the <code>NSEntityDescription</code> that describes
-the underlying entity, and assigns each attribute the corresponding
-value from the JSON dictionary.</p>
+<p>When JSONCache instantiates or updates an <code>NSManagedObject</code> instance from a JSON dictionary, it does so by inspecting the
+<code>NSAttributeDescription</code>s of the <code>NSEntityDescription</code> that describes the underlying entity, and assigns each attribute the corresponding value from the JSON dictionary.</p>
 
-<p>In a second pass, JSONCache inspects the <code>NSRelationshipDescription</code>s
-of the entity, and for each relationship that is <em>not</em> <code>toMany</code>, it
-looks up the <code>NSEntityDescription</code> of the destination object. Through
-a JSONCache extension method on <code>NSEntityDescription</code>, it obtains the
-primary key of the destination entity. It already knows the primary
-key <em>value</em> of the destination object from the JSON dictionary, so now
-it has all the information it needs in order to look it up, either in
-the set of new objects created from the JSON data, or in Core Data if
-it already has been persisted. Once it has a reference to the
-destination object, it hooks up the relationship and moves on to the
-next item.</p>
+<p>In a second pass, JSONCache inspects the <code>NSRelationshipDescription</code>s of the entity, and for each relationship that is <em>not</em> <code>toMany</code>, it looks up the <code>NSEntityDescription</code> of the destination object. Through a JSONCache extension method on <code>NSEntityDescription</code>, it obtains the primary key of the destination entity. It already knows the primary key <em>value</em> of the destination object from the JSON dictionary, so now it has all the information it needs in order to look it up, either in the set of new objects created from the JSON data, or in Core Data if it already has been persisted. Once it has a reference to the destination object, it hooks up the relationship and moves on to the next item.</p>
 
 <p>Consider the following JSON records:</p>
 
@@ -472,26 +420,11 @@ next item.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>JSONCache first creates two <code>NSManagedObject</code> instances, one for the
-band Japan, and one for the <em>Tin Drum</em> album, each holding all the
-attributes from the corresponding JSON record. Then, in the second
-pass, JSONCache looks at relationships. The <code>Band</code> entity participates
-in 2 relationships, <code>albums</code> and <code>members</code> (see the ER diagram above),
-both of which are <code>toMany</code>, so it does nothing. The <code>Album</code> entity
-participates in 1 relationship, <code>band</code>, which is <em>not</em>
-<code>toMany</code>. Through the <code>NSRelationshipDescription</code> describing the
-<code>band</code> relationship, JSONCache finds that the destination entity is of
-type <code>Band</code>, and through the <code>NSEntityDescription</code> describing the
-destination entity, it finds that it has the primary key <code>name</code>. Now
-JSONCache has all the information it needs. It looks up a <code>Band</code>
-object whose <code>name</code> value is the same as the <code>band</code> value in the
-<code>Album</code> dictionary for the <em>Tin Drum</em> album (i.e., &lsquo;Japan&rsquo;), and
-finally hooks up the relationship.</p>
+<p>JSONCache first creates two <code>NSManagedObject</code> instances, one for the band Japan, and one for the <em>Tin Drum</em> album, each holding all the attributes from the corresponding JSON record. Then, in the second pass, JSONCache looks at relationships. The <code>Band</code> entity participates in 2 relationships, <code>albums</code> and <code>members</code> (see the ER diagram above), both of which are <code>toMany</code>, so it does nothing. The <code>Album</code> entity participates in 1 relationship, <code>band</code>, which is <em>not</em>
+<code>toMany</code>. Through the <code>NSRelationshipDescription</code> describing the <code>band</code> relationship, JSONCache finds that the destination entity is of type <code>Band</code>, and through the <code>NSEntityDescription</code> describing the destination entity, it finds that it has the primary key <code>name</code>. Now JSONCache has all the information it needs. It looks up a <code>Band</code> object whose <code>name</code> value is the same as the <code>band</code> value in the <code>Album</code> dictionary for the <em>Tin Drum</em> album (i.e., &lsquo;Japan&rsquo;), and finally hooks up the relationship.</p>
 <h2 id='installation' class='heading'>Installation</h2>
 
-<p>You can install JSONCache using either
-<a href="http://cocoapods.org/">CocoaPods</a> or
-<a href="https://github.com/Carthage/Carthage">Carthage</a>.</p>
+<p>You can install JSONCache using either <a href="http://cocoapods.org/">CocoaPods</a> or <a href="https://github.com/Carthage/Carthage">Carthage</a>.</p>
 <h3 id='cocoapods' class='heading'>CocoaPods</h3>
 <pre class="highlight plaintext"><code>pod 'JSONCache'
 </code></pre>

@@ -1,4 +1,5 @@
 #!/bin/sh
+# Cf. https://www.jessesquires.com/blog/swift-documentation-part-2/
 
 jazzy \
     --author 'Anders Blehr' \
@@ -7,4 +8,4 @@ jazzy \
     --module 'JSONCache' \
     --source-directory . \
     --readme 'README.md' \
-    --output docs/ \
+    --output docs/
