@@ -44,27 +44,23 @@ class ViewController: UIViewController {
         JSONCache.casing = .snake_case
         JSONCache.dateFormat = .iso8601WithSeparators
         
-        JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: true) { (result) in
-            
-            switch result {
-            case .success:
+        let promise: ResultPromise<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: true)
+            .thenAsync {
                 JSONCache.stageChanges(withDictionaries: bands, forEntityWithName: "Band")
                 JSONCache.stageChanges(withDictionaries: bandMembers, forEntityWithName: "BandMember")
                 JSONCache.stageChanges(withDictionaries: musicians, forEntityWithName: "Musician")
                 JSONCache.stageChanges(withDictionaries: albums, forEntityWithName: "Album")
-                JSONCache.applyChanges { (result) in
-                    
-                    switch result {
-                    case .success:
-                        do {
-                            try self.bandResultsController.performFetch()
-                            self.bandTableView.reloadData()
-                        } catch {
-                            print("An error occurred: \(error)")
-                        }
-                    case .failure(let error):
-                        print("An error occurred: \(error)")
-                    }
+                return JSONCache.applyChanges()
+            }
+
+        promise.await { result in
+            switch result {
+            case .success:
+                do {
+                    try self.bandResultsController.performFetch()
+                    self.bandTableView.reloadData()
+                } catch {
+                    print("An error occurred: \(error)")
                 }
             case .failure(let error):
                 print("An error occurred: \(error)")
