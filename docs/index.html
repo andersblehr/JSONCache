@@ -309,16 +309,15 @@ generate JSON directly from <code>NSManagedObject</code> instances:</p>
 </blockquote>
 <h3 id='avoiding-the-pyramid-of-doom' class='heading'>Avoiding the pyramid of doom</h3>
 
-<p>As is seen in the examples above, the asynchronous nature of backend calls and many Core Data operations can result in quite an indented <a href="https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)">pyramid of doom</a>. To avoid this, overloaded <code>bootstrap()</code> and <code>applyChanges()</code> implementations are available that return a <a href="https://andersblehr.co/JSONCache/Classes/ResultPromise.html"><code><a href="Classes/ResultPromise.html">ResultPromise</a></code></a> instead of taking a closure, thus facilitating fluid sequencing of computations
-that produce either a <code>Result</code> (<code>map</code>) or a <code><a href="Classes/ResultPromise.html">ResultPromise</a></code> (<code>flatMap</code>):</p>
+<p>As is seen in the examples above, the asynchronous nature of backend calls and many Core Data operations can result in quite an indented <a href="https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)">pyramid of doom</a>. To avoid this, overloaded <code>bootstrap()</code> and <code>applyChanges()</code> implementations are available that return a <a href="https://andersblehr.co/JSONCache/Classes/ResultPromise.html"><code><a href="Classes/ResultPromise.html">ResultPromise</a></code></a> instead of taking a closure, thus facilitating fluid sequencing of computations that produce either a <code>Result</code> (<code>then</code>) or a <code><a href="Classes/ResultPromise.html">ResultPromise</a></code> (<code>thenAsync</code>):</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">promise</span> <span class="o">=</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">bootstrap</span><span class="p">(</span><span class="nv">withModelName</span><span class="p">:</span> <span class="s">"Bands"</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">fetchObject</span><span class="p">(</span><span class="nv">ofType</span><span class="p">:</span> <span class="s">"Band"</span><span class="p">,</span> <span class="nv">withId</span><span class="p">:</span> <span class="s">"Japan"</span><span class="p">)</span> <span class="p">}</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">object</span> <span class="k">in</span>
+    <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">fetchObject</span><span class="p">(</span><span class="nv">ofType</span><span class="p">:</span> <span class="s">"Band"</span><span class="p">,</span> <span class="nv">withId</span><span class="p">:</span> <span class="s">"Japan"</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">thenAsync</span> <span class="p">{</span> <span class="n">object</span> <span class="k">in</span>
         <span class="k">let</span> <span class="nv">japan</span> <span class="o">=</span> <span class="n">object</span> <span class="k">as!</span> <span class="kt">Band</span>
         <span class="n">japan</span><span class="o">.</span><span class="n">otherNames</span> <span class="o">=</span> <span class="s">"Rain Tree Crow"</span>
         <span class="k">return</span> <span class="kt">ServerProxy</span><span class="o">.</span><span class="nf">update</span><span class="p">(</span><span class="nv">band</span><span class="p">:</span> <span class="n">japan</span><span class="o">.</span><span class="nf">toJSONDictionary</span><span class="p">())</span>
     <span class="p">}</span>
-    <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">then</span> <span class="p">{</span> <span class="kt">JSONCache</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span> <span class="p">}</span>
 
 <span class="n">promise</span><span class="o">.</span><span class="n">await</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
     <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
@@ -448,7 +447,7 @@ that produce either a <code>Result</code> (<code>map</code>) or a <code><a href=
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://twitter.com/andersblehr" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-10-13)</p>
+          <p>&copy; 2019 <a class="link" href="https://twitter.com/andersblehr" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-10-14)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -209,18 +209,17 @@ ServerProxy.save(band: u2Info.toJSONDictionary()) { result in
 
 ### Avoiding the pyramid of doom
 
-As is seen in the examples above, the asynchronous nature of backend calls and many Core Data operations can result in quite an indented [pyramid of doom](https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)). To avoid this, overloaded `bootstrap()` and `applyChanges()` implementations are available that return a [`ResultPromise`](https://andersblehr.co/JSONCache/Classes/ResultPromise.html) instead of taking a closure, thus facilitating fluid sequencing of computations
-that produce either a `Result` (`map`) or a `ResultPromise` (`flatMap`):
+As is seen in the examples above, the asynchronous nature of backend calls and many Core Data operations can result in quite an indented [pyramid of doom](https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming)). To avoid this, overloaded `bootstrap()` and `applyChanges()` implementations are available that return a [`ResultPromise`](https://andersblehr.co/JSONCache/Classes/ResultPromise.html) instead of taking a closure, thus facilitating fluid sequencing of computations that produce either a `Result` (`then`) or a `ResultPromise` (`thenAsync`):
 
  ```swift
 let promise = JSONCache.bootstrap(withModelName: "Bands")
-    .map { JSONCache.fetchObject(ofType: "Band", withId: "Japan") }
-    .flatMap { object in
+    .then { JSONCache.fetchObject(ofType: "Band", withId: "Japan") }
+    .thenAsync { object in
         let japan = object as! Band
         japan.otherNames = "Rain Tree Crow"
         return ServerProxy.update(band: japan.toJSONDictionary())
     }
-    .map { JSONCache.save() }
+    .then { JSONCache.save() }
 
 promise.await { result in
     switch result {

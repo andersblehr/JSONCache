@@ -172,9 +172,9 @@ class JSONCacheTests: XCTestCase {
         
         let expectation = self.expectation(description: "JSON dictionary from NSManagedObject")
         let promise: ResultPromise<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle)
-            .flatMap { self.loadJSONTestData() }
-            .map { JSONCache.fetchObject(ofType: "Album", withId: "Rain Tree Crow") }
-            .map { rainTreeCrow in
+            .thenAsync { self.loadJSONTestData() }
+            .then { JSONCache.fetchObject(ofType: "Album", withId: "Rain Tree Crow") }
+            .then { rainTreeCrow in
                 XCTAssertNotNil(rainTreeCrow)
                 let rainTreeCrowDictionary = rainTreeCrow!.toJSONDictionary()
                 XCTAssert(JSONSerialization.isValidJSONObject(rainTreeCrowDictionary))
@@ -241,9 +241,9 @@ class JSONCacheTests: XCTestCase {
         
         let expectation = self.expectation(description: "JSON merging")
         let promise: ResultPromise<Void, JSONCacheError> = JSONCache.bootstrap(withModelName: "JSONCacheTests", inMemory: inMemory, bundle: bundle)
-            .flatMap { self.loadJSONTestData() }
-            .map { JSONCache.fetchObject(ofType: "Band", withId: "Japan") }
-            .flatMap { japan in
+            .thenAsync { self.loadJSONTestData() }
+            .then { JSONCache.fetchObject(ofType: "Band", withId: "Japan") }
+            .thenAsync { japan in
                 XCTAssertNotNil(japan)
                 let japan = japan as! Band
                 XCTAssertEqual(japan.name!, "Japan")
@@ -258,8 +258,8 @@ class JSONCacheTests: XCTestCase {
 
                 return JSONCache.applyChanges()
             }
-            .map { JSONCache.fetchObject(ofType: "Album", withId: "Assemblage") }
-            .map { assemblage in
+            .then { JSONCache.fetchObject(ofType: "Album", withId: "Assemblage") }
+            .then { assemblage in
                 XCTAssertNotNil(assemblage)
                 let assemblage = assemblage as! Album
                 XCTAssertEqual(assemblage.name, "Assemblage")

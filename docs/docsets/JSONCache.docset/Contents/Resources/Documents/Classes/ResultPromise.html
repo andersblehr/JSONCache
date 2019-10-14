@@ -211,9 +211,9 @@ nothing.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9JSONCache13ResultPromiseC3mapyACyqd__q_Gs0B0Oyqd__q_GxclF"></a>
-                    <a name="//apple_ref/swift/Method/map(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9JSONCache13ResultPromiseC3mapyACyqd__q_Gs0B0Oyqd__q_GxclF">map(_:)</a>
+                    <a name="/s:9JSONCache13ResultPromiseC4thenyACyqd__q_Gs0B0Oyqd__q_GxclF"></a>
+                    <a name="//apple_ref/swift/Method/then(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:9JSONCache13ResultPromiseC4thenyACyqd__q_Gs0B0Oyqd__q_GxclF">then(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -229,7 +229,7 @@ the embedded <code>Result</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">map</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">f</span><span class="p">:</span> <span class="p">(</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">E</span><span class="o">&gt;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kt">ResultPromise</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">E</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">then</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">f</span><span class="p">:</span> <span class="p">(</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">E</span><span class="o">&gt;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kt">ResultPromise</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">E</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -264,9 +264,9 @@ the embedded <code>Result</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:9JSONCache13ResultPromiseC7flatMapyACyqd__q_GAExclF"></a>
-                    <a name="//apple_ref/swift/Method/flatMap(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:9JSONCache13ResultPromiseC7flatMapyACyqd__q_GAExclF">flatMap(_:)</a>
+                    <a name="/s:9JSONCache13ResultPromiseC9thenAsyncyACyqd__q_GAExclF"></a>
+                    <a name="//apple_ref/swift/Method/thenAsync(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:9JSONCache13ResultPromiseC9thenAsyncyACyqd__q_GAExclF">thenAsync(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -282,7 +282,7 @@ value contained in the embedded <code>Result</code> instance.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">flatMap</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">f</span><span class="p">:</span> <span class="p">(</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResultPromise</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">E</span><span class="o">&gt;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kt">ResultPromise</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">E</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">thenAsync</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">f</span><span class="p">:</span> <span class="p">(</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ResultPromise</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">E</span><span class="o">&gt;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kt">ResultPromise</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">E</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -317,7 +317,7 @@ value contained in the embedded <code>Result</code> instance.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://twitter.com/andersblehr" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-10-13)</p>
+          <p>&copy; 2019 <a class="link" href="https://twitter.com/andersblehr" target="_blank" rel="external">Anders Blehr</a>. All rights reserved. (Last updated: 2019-10-14)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

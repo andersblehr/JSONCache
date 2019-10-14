@@ -52,7 +52,7 @@ public class ResultPromise<T, E: Error> {
        `Result<U, E>` is the result of `flatMap`'ing `f` over the
        `Result<T, E>` embedded in this instance.
      */
-    public func map<U>(_ f: (@escaping (T) -> Result<U, E>)) -> ResultPromise<U, E> {
+    public func then<U>(_ f: (@escaping (T) -> Result<U, E>)) -> ResultPromise<U, E> {
         let promise = ResultPromise<U, E>()
         await { result in
             promise.fulfil(with: result.flatMap(f))
@@ -69,7 +69,7 @@ public class ResultPromise<T, E: Error> {
         - f: A closure `(T) -> Result<U, E>`.
      - Returns: A new `ResultPromise<U, E>` instance.
      */
-    public func flatMap<U>(_ f: (@escaping (T) -> ResultPromise<U, E>)) -> ResultPromise<U, E> {
+    public func thenAsync<U>(_ f: (@escaping (T) -> ResultPromise<U, E>)) -> ResultPromise<U, E> {
         let promise = ResultPromise<U, E>()
         await { result in
             switch result {
