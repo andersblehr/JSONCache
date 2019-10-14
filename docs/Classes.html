@@ -118,9 +118,9 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p><code>ResultPromise</code> is a minimal <code>Promise</code> implementation that wraps a
-<code>Result&lt;T, E&gt;</code> instance. It supports the <code>fulfil</code>, <code>await</code>, <code>map</code> and
-<code>flatMap</code> combinators, facilitating a fluid sequencing of computations that
-produce either a <code>Result</code> (<code>map</code>) or a <code>ResultPromise</code> instance (<code>flatMap</code>).
+<code>Result&lt;T, E&gt;</code> instance. It supports the <code>fulfil</code>, <code>await</code>, <code>then</code> and
+<code>thenAsync</code> combinators, facilitating a fluid sequencing of computations that
+produce either a <code>Result</code> (<code>then</code>) or a <code>ResultPromise</code> instance (<code>thenAsync</code>).
 (The <code>reject</code> combinator is redundant, as failure is handled by the embedded
 <code>Result</code>.)</p>
 

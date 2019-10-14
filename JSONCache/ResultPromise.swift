@@ -10,9 +10,9 @@ import Foundation
 
 /**
  `ResultPromise` is a minimal `Promise` implementation that wraps a
- `Result<T, E>` instance. It supports the `fulfil`, `await`, `map` and
- `flatMap` combinators, facilitating a fluid sequencing of computations that
- produce either a `Result` (`map`) or a `ResultPromise` instance (`flatMap`).
+ `Result<T, E>` instance. It supports the `fulfil`, `await`, `then` and
+ `thenAsync` combinators, facilitating a fluid sequencing of computations that
+ produce either a `Result` (`then`) or a `ResultPromise` instance (`thenAsync`).
  (The `reject` combinator is redundant, as failure is handled by the embedded
  `Result`.)
  */
